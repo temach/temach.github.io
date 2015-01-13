@@ -28,7 +28,7 @@ Options:
 
 Behaivour notes:
 
-\li Check you push strategy. (It can be `simple`, or ...<can not remember>...). 
+\li Check you push strategy. (`simple` is the new default. Do `git help config | less` and grep for "simple"). 
     This affects your interaction with the remote. (And why people sometimes mistakenly use `git push --force`)
 
 \li By default, git-push pushes all branches, and `git-pull` only pulls the master. 
