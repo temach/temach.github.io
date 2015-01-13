@@ -22,7 +22,8 @@ git tag
 git daemon        # simple server for git repositories. Can probably be run at home.
 
 Options:
-\li almost all commands take `--dry-run` and `--interactive`
+\li almost all commands take `--dry-run` and `--interactive`. With `git commit -i` you can make 
+     commit in multiple stages a couple of files at a time. This can make commits more logical, and easier to revert.
 
 
 
