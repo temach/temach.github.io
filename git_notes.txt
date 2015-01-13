@@ -7,7 +7,7 @@ git reflog                    # that git operations you have done. Very useful!
 git grep                      # to search for string in files/commit messages
 git fetch and git merge instead of git pull
 git reset                     # moving pointers around.
-git reset --hard <targetcommit>       # will change to state at <targetcommit> and clean working directory of unneeded files.
+git reset --hard <targetcommit>       # will change to commit and clean uncommited/new files. Run `git status` to check! 
 git show                      # this can take a commit id or a tree like object.
 git fsck                      # inspect and verify git objects
 git branch -avv               # all branches and very verbose. Includes remotes.
