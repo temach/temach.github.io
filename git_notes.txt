@@ -1,0 +1,45 @@
+First thing to do is `man git`
+
+Most useful:
+git log --graph --decorate --all    # to view commit history and branches
+git check-ignore -v foo/bar.txt     # to test your gitignore file
+git reflog                    # that git operations you have done. Very useful!
+git grep                      # to search for string in files/commit messages
+git fetch and git merge instead of git pull
+git reset                     # moving pointers around.
+git reset --hard <targetcommit>       # will change to state at <targetcommit> and clean working directory of unneeded files.
+git show                      # this can take a commit id or a tree like object.
+git fsck                      # inspect and verify git objects
+git branch -avv               # all branches and very verbose. Includes remotes.
+git config                    # the corresponding file is .git/config
+
+Also useful:
+git clean     # removes untracked files (what about .gitignore'd files?)    
+git gc        # garbage collection, removes dangling commits
+git gui OR gitk OR git instaweb       # nicely manage your git (no command line)
+git stash
+git tag
+git daemon        # simple server for git repositories. Can probably be run at home.
+
+Options:
+\li almost all commands take `--dry-run` and `--interactive`
+
+
+
+Behaivour notes:
+
+\li Check you push strategy. (It can be `simple`, or ...<can not remember>...). 
+    This affects your interaction with the remote. (And why people sometimes mistakenly use `git push --force`)
+
+\li By default, git-push pushes all branches, and `git-pull` only pulls the master. 
+    (But somehow creates the remote branches like origin/foo and origin/bar ?)
+
+\li When you merge you say `git merge <takebranch> <intobranch>`  if the <intobranch> is none 
+    git assumes the current branch. So you merge __into__ the current branch.
+    
+\li HEAD points at current state. ORIG_HEAD points at previous state.
+    HEAD~3 == HEAD~~~ and HEAD^2 == HEAD^^ and weird stuff like HEAD~~^2~ also has meaning.
+    The tilde "~" is to go backwards. The caret "^" is to go across parents. 
+    So ~ goes primarily left/right and ^ goes primarily up/down.
+    
+\li a --bare repository is one with only read access. So to do any work you must clone it.
