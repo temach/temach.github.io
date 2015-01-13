@@ -11,7 +11,7 @@ git reset --hard <targetcommit>       # will change to commit and clean uncommit
 git show                      # this can take a commit id or a tree like object.
 git fsck                      # inspect and verify git objects
 git branch -avv               # all branches and very verbose. Includes remotes.
-git config                    # the corresponding file is .git/config
+git help config                    # see possible config options, the corresponding file is .git/config
 
 Also useful:
 git clean     # removes untracked files (what about .gitignore'd files?)    
