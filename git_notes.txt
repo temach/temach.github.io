@@ -13,7 +13,7 @@ git fsck                      # inspect and verify git objects
 git branch -avv               # all branches and very verbose. Includes remotes.
 git help config                    # see possible config options, the corresponding file is .git/config
 git commit --amend            # change the last commit. Correct the message/edit the files.
-git ls-files                  # to see what files you have in current stat (at this commit/branch)
+git ls-files                  # what files you have in current state (at this commit/branch). give "-r" for more info
 git diff <branchA>:<fileA> <branchB>:<fileB>                # diff between files, what to do to get from state A to B
 git branch --edit-description       # description for a branch, but stored only locally in .git/config (can not share)
 
