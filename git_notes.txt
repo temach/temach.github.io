@@ -14,6 +14,7 @@ git branch -avv               # all branches and very verbose. Includes remotes.
 git help config                    # see possible config options, the corresponding file is .git/config
 git commit --amend            # change the last commit. Correct the message/edit the files.
 git ls-files                  # to see what files you have in current stat (at this commit/branch)
+git diff <branchA>:<fileA> <branchB>:<fileB>                # difference between files
 
 Also useful:
 git clean     # removes untracked files (what about .gitignore'd files?)    
