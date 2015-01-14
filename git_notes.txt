@@ -12,6 +12,7 @@ git show                      # this can take a commit id or a tree like object.
 git fsck                      # inspect and verify git objects
 git branch -avv               # all branches and very verbose. Includes remotes.
 git help config                    # see possible config options, the corresponding file is .git/config
+git commit --amend            # change the last commit. Correct the message/edit the files.
 
 Also useful:
 git clean     # removes untracked files (what about .gitignore'd files?)    
