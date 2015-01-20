@@ -3,21 +3,23 @@ First thing to do is `man git`
 Most useful:
 git log --graph --decorate --all    # to view commit history and branches
 git check-ignore -v foo/bar.txt     # to test your gitignore file
-git reflog                    # that git operations you have done. Very useful!
-git grep                      # to search for string in files/commit messages
+git reflog <branchname>             # what git operations you have done. Very useful! (branch is optional)
+git grep                            # to search for string in files/commit messages
 git fetch and git merge instead of git pull
-git reset                     # moving pointers around.
+git reset                           # moving pointers around.
 git reset --hard <targetcommit>       # will change to commit and clean uncommited/new files. Run `git status` to check! 
 git show                      # this can take a commit id or a tree like object.
 git fsck                      # inspect and verify git objects
 git branch -avv               # all branches and very verbose. Includes remotes.
-git help config                    # see possible config options, the corresponding file is .git/config
+git help config               # see possible config options, the corresponding file is .git/config
 git commit --amend            # change the last commit. Correct the message/edit the files.
 git ls-files                  # what files you have in current state (at this commit/branch). give "-r" for more info
-git diff <branchA>:<fileA> <branchB>:<fileB>                # diff between files, what to do to get from state A to B
+git diff <branchA>:<fileA> <branchB>:<fileB>          # diff between files, what to do to get from state A to B
 git branch --edit-description       # description for a branch, but stored only locally in .git/config (can not share)
+git commit --no-ff                  # use this over plain git commit, it preserves history in nicer format
 
 Also useful:
+git mergetool                 # typically run after a merge with conflicts to do interactive conflict resolution
 git clean     # removes untracked files (what about .gitignore'd files?)    
 git gc        # garbage collection, removes dangling commits
 git gui OR gitk OR git instaweb       # nicely manage your git (no command line)
