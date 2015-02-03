@@ -1,0 +1,6 @@
+Customise spotlight search (add shortcuts for example):
+1) execute: defaults read
+2) search under "com.apple.spotlight" for "UserShortcuts"
+3) read defaults manpage and change "UserShortcuts" as you want.
+
+Actually spotlight caches your most common input and associates it with a path to a file/program.
