@@ -44,6 +44,10 @@ glEnable(GL_NORMALISE);
 
 glClearColor(0.5f, 0.78f, 1.0f, 1.0f);      // Nice blue color, note: last parameter is a 1.0. I dunno why.
 
+// now when you do glColor__() the material will be affected. Otherwise you would have to do glMaterial___()
+glEnable(GL_COLOR_MATERIAL);    
+
+
 Common for 3D:
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -83,7 +87,6 @@ a polygon (glBegin(GL_FACE), some points, glEnd()), it translates the polygon to
 multiplying each point with the with the MODELVIEW, and then translates it from 3D to 2D by multiplying 
 it with the PROJECT matrix, and that gives it the 2D points on screen, along with the depth (from the 
 screen 'camera'), which it uses to draw pixels.
-
 
 
 ------------------------------------------------------------------------------------------------------------
