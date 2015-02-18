@@ -68,8 +68,9 @@ no matter their face direction (great for debugging).
 then simply use `glOrtho(0, win_width, win_height, 0, -1, 1);` Likewise you can screw up your origin any way
 you like. The _near_ and _far_  (last 2 arguments) to glOrtho define clipping planes. Plane 1 is at distance 1
 forward from your screen. Plane 2 is at distance 1 backwards from your screen. Everything that you draw between
-these planes will be visible. If you use glVertex2i (as you should instead of glVertex2f) the shapes will be
-drawn at 0 ditance, so 0 is between -1 and 1, hence the shapes will be visible. 
+these planes will be visible (so if you glTranslate(0.0, 0.0, 0.9); all is ok, but glTranslate(0.0, 0.0, 1.1);
+then you shape will be invisible). If you use glVertex2i (as you should instead of glVertex2f) the shapes 
+will be drawn at 0 distance, as 0 is between -1 and 1, hence the shapes will be visible. 
 
 3) When you are in 2D mode after glOrtho(), it is MUCH more logical to use glVertex2i (NOT glVertex2f). Because
 this value is in pixels (its NOT in just 'opengl units'). So it will be clamped anyway! So use integers, its
