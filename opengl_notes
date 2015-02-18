@@ -16,7 +16,7 @@ A) Establish 3D projection with:
 // If you don't like glu library, then gluPerspective is open source, so just copy its body :)
 glMatrixMode(GL_PROJECTION);
 glLoadIdentity();
-glFrustum(0, 2, -1, 0.5, 1, 10);    // these are more or less sensible values.
+glFrustum(0, 2, -1, 0.5, 1, 10);    // these are more or less sensible values. Note: (near != 0)
 
 glMatrixMode(GL_MODELVIEW);
 glLoadIdentity();
