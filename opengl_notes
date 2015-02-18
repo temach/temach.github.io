@@ -2,9 +2,9 @@ Interesting links:
 http://www.marekknows.com/index.php
 http://nccastaff.bournemouth.ac.uk/jmacey/RobTheBloke/www/opengl_programming.html
 http://www.robots.ox.ac.uk/~gsibley/GLConsole/
-http://www.ee.oulu.fi/~kapu/cg_course/bigfiles/3_projct_4.pdf
+http://www.ee.oulu.fi/~kapu/cg_course/bigfiles/3_projct_4.pdf   #see this for glFrustrum and glOrtho math details
 
-
+----------------------------------------------------------------------------------------------------------
 Processes:
 Establish viewport with glViewport(). For example glViewport(0, 0, 400, 600);
 Then do whatever.
@@ -16,19 +16,18 @@ A) Establish 3D projection with:
 // If you don't like glu library, then gluPerspective is open source, so just copy its body :)
 glMatrixMode(GL_PROJECTION);
 glLoadIdentity();
-glFrustum(0,2,-1,.5,1,10);    // these are more or less sensible values.
+glFrustum(0, 2, -1, 0.5, 1, 10);    // these are more or less sensible values.
 
 glMatrixMode(GL_MODELVIEW);
 glLoadIdentity();
 
-B) Establish 2D projection with:
+B) Establish 2D projection with this (but remember to also glDisable() the 3D features that are useless in 2D):
 // if you want this projection only temporarily just push a matrix 
 // and pop it after all your 2D rendering is done:
-
 // glPushMatrix();
 glMatrixMode(GL_PROJECTION);
 glLoadIdentity();
-glOrtho(0.0, width, height, 0.0, -10.0, 10.0);
+glOrtho(0, width, 0, height, -1.0, 1.0);
 
 glMatrixMode(GL_MODELVIEW);
 glLoadIdentity();
@@ -39,9 +38,12 @@ glLoadIdentity();
 
 
 C) Give various settings:
+Thing that you want to glEnable and glDisable.
 
 
 
+
+--------------------------------------------------------------------------------------------------------
 Tips and Pitfalls:
 1) When you draw a polygon (or a quad or a triangle) the order in which you supply the vertices is important.
 Do you give them in clockwise or anti-clockwise order? This effect the direction of the polygon, if opengl 
@@ -62,7 +64,7 @@ this value is in pixels (its NOT in just 'opengl units'). So it will be clamped 
 better practice and you can avoid many wierd bugs.
 
 
-
+------------------------------------------------------------------------------------------------------------
 DEFINITIONS and COMMENTS:
 Viewport:
 glViewport() specifies that the objects should be drawn to which part of the window. So if you want to draw 
