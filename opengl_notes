@@ -38,8 +38,18 @@ glLoadIdentity();
 
 
 C) Give various settings:
-Thing that you want to glEnable and glDisable.
+// will normalise all the given normals vectors. This is important for lighting. This is expensive,
+// use it to check if your model has weird shading because of non unit normals.
+glEnable(GL_NORMALISE);
 
+glClearColor(0.5f, 0.78f, 1.0f, 1.0f);      // Nice blue color, note: last parameter is a 1.0. I dunno why.
+
+Common for 3D:
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+Common for 2D:
+    Disable the thing for 3D above except for GL_LIGHTING.
 
 
 
@@ -63,6 +73,7 @@ drawn at 0 ditance, so 0 is between -1 and 1, hence the shapes will be visible.
 this value is in pixels (its NOT in just 'opengl units'). So it will be clamped anyway! So use integers, its
 better practice and you can avoid many wierd bugs.
 
+4) Always remember the first thing to do is check glGetError() and interpret it!
 
 ------------------------------------------------------------------------------------------------------------
 DEFINITIONS and COMMENTS:
