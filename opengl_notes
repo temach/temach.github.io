@@ -77,6 +77,13 @@ better practice and you can avoid many wierd bugs.
 
 4) Always remember the first thing to do is check glGetError() and interpret it!
 
+5) OpenGL multiplies all positions and rotations through each matrix; so when for instance you draw 
+a polygon (glBegin(GL_FACE), some points, glEnd()), it translates the polygon to "world space" by 
+multiplying each point with the with the MODELVIEW, and then translates it from 3D to 2D by multiplying 
+it with the PROJECT matrix, and that gives it the 2D points on screen, along with the depth (from the 
+screen 'camera'), which it uses to draw pixels.
+
+
 
 ------------------------------------------------------------------------------------------------------------
 DEFINITIONS and COMMENTS:
