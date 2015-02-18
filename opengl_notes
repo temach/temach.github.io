@@ -21,6 +21,7 @@ glFrustum(0, 2, -1, 0.5, 1, 10);    // these are more or less sensible values.
 glMatrixMode(GL_MODELVIEW);
 glLoadIdentity();
 
+
 B) Establish 2D projection with this (but remember to also glDisable() the 3D features that are useless in 2D):
 // if you want this projection only temporarily just push a matrix 
 // and pop it after all your 2D rendering is done:
@@ -33,7 +34,6 @@ glMatrixMode(GL_MODELVIEW);
 glLoadIdentity();
 
 ..... // draw 2D stuff
-
 // glPopMatrix();
 
 
@@ -74,6 +74,7 @@ this value is in pixels (its NOT in just 'opengl units'). So it will be clamped 
 better practice and you can avoid many wierd bugs.
 
 4) Always remember the first thing to do is check glGetError() and interpret it!
+
 
 ------------------------------------------------------------------------------------------------------------
 DEFINITIONS and COMMENTS:
