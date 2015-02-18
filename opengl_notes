@@ -55,6 +55,8 @@ Common for 2D:
 
 --------------------------------------------------------------------------------------------------------
 Tips and Pitfalls:
+0) By default OpenGL camera is facing down the negative z axis. Positive Y is up and positive X is leftwards.
+
 1) When you draw a polygon (or a quad or a triangle) the order in which you supply the vertices is important.
 Do you give them in clockwise or anti-clockwise order? This effect the direction of the polygon, if opengl 
 decides that it is facing away from you, it will NOT be drawn. To control this see documentation to 
