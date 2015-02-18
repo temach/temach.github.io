@@ -6,3 +6,45 @@ http://www.robots.ox.ac.uk/~gsibley/GLConsole/
 
 Processes:
 Establish viewport with glViewport.
+
+
+Tips and Pitfalls:
+1) When you draw a polygon (or a quad or a triangle) the order in which you supply the vertices is important.
+Do you give them in clockwise or anti-clockwise order? This effect the direction of the polygon, if opengl 
+decides that it is facing away from you, it will NOT be drawn. To control this see documentation to 
+glFrontFace(). If you do glDisable(GL_CULL_FACE) then all polygons will be drawn, no matter their face direction.
+
+2) For 2D mode you can control where your (0,0) origin is. If you want bottom left corner (the default) use 
+`glOrtho(0, win_width, 0, win_height, -1, 1);` If you want the origin in top left corner like SDL (and pygame) do
+then simply use `glOrtho(0, win_width, win_height, 0, -1, 1);` Likewise you can screw up your origin any way
+you like. The _near_ and _far_  (last 2 arguments) to glOrtho define clipping planes. Plane 1 is at distance 1
+forward from your screen. Plane 2 is at distance 1 backwards from your screen. Everything that you draw between
+these planes will be visible. If you use glVertex2i (as you should instead of glVertex2f) the shapes will be
+drawn at 0 ditance, so 0 is between -1 and 1, hence the shapes will be visible. 
+
+3) When you are in 2D mode after glOrtho(), it is MUCH more logical to use glVertex2i (NOT glVertex2f). Because
+this value is in pixels (its NOT in just 'opengl units'). So it will be clamped anyway! So use integers, its
+better practice and you can avoid many wierd bugs.
+
+
+
+DEFINITIONS and COMMENTS:
+Viewport:
+glViewport() specifies that the objects should be drawn to which part of the window. So if you want to draw 
+to the whole window you must use the following function:
+glViewport( 0,0, gl_window_width, gl_window_height);
+If you want to draw to the lower left part of your GL window, then you can use the following function:
+glViewport( 0, 0, gl_window_width / 2, gl_window_height / 2 );
+and if you want to draw to the lower right part of your GL window, then you can use the following function:
+glViewport( gl_window_width / 2, 0, gl_window_width / 2, gl_window_height / 2 );
+for example, when you use the above code to draw to the lower part of your OpenGL window, the OpenGL assumes 
+that it's a window with width and heights of (width / 2, height /2 ) and its origin is at width / 2 and 0 
+relative to to the origin of the actual window which is (0,0). So you get smaller objects when you use smaller 
+viewports.( softwares such as 3DSMax and Maya use four independent viewports to draw the objects ).
+
+
+
+
+
+
+
