@@ -12,7 +12,8 @@ Tips and Pitfalls:
 1) When you draw a polygon (or a quad or a triangle) the order in which you supply the vertices is important.
 Do you give them in clockwise or anti-clockwise order? This effect the direction of the polygon, if opengl 
 decides that it is facing away from you, it will NOT be drawn. To control this see documentation to 
-glFrontFace(). If you do glDisable(GL_CULL_FACE) then all polygons will be drawn, no matter their face direction.
+glFrontFace() and options GL_CW and GL_CCW. If you do glDisable(GL_CULL_FACE) then all polygons will be drawn, 
+no matter their face direction (great for debugging).
 
 2) For 2D mode you can control where your (0,0) origin is. If you want bottom left corner (the default) use 
 `glOrtho(0, win_width, 0, win_height, -1, 1);` If you want the origin in top left corner like SDL (and pygame) do
