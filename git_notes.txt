@@ -29,6 +29,7 @@ git daemon                     # simple server for git repositories. Can probabl
 git help gitignore            # this is quite useful!
 git config color.ui true      # set git to use color when possible by default
 
+
 Options:
 \li almost all commands take `--dry-run` and `--interactive`. With interactive you can git commit in 
       multiple stages a couple of files at a time. This can make commits more logical, and easier to revert.
@@ -39,6 +40,9 @@ Behaivour notes:
 
 \li Check you push strategy. (`simple` is the new default. Do `git help config | less` and grep for "simple"). 
     This affects your interaction with the remote. (And why people sometimes mistakenly use `git push --force`)
+
+\li "git tag 1.0" will only create a "lightweight tag", just a pointer. On the other hand "git tag -a 1.0" or 
+    "git -s tag 1.0" will create an actual Tag Object (with date/time stamp, author info and so on)
 
 \li By default, git-push pushes all branches, and `git-pull` only pulls the master. 
     (But somehow creates the remote branches like origin/foo and origin/bar ?)
@@ -52,3 +56,10 @@ Behaivour notes:
     So ~ goes primarily left/right and ^ goes primarily up/down.
     
 \li a --bare repository is one with only read access. So to do any work you must clone it.
+
+
+Some extra resources:
+http://www.ndpsoftware.com/git-cheatsheet.html
+Youtube: Git for ages 4 and up. Really good explanation.
+Progit book by Scott Chacon is the deepest on git.
+http://gitolite.com/gcs.html    (great "git rebase" and "git cherry-pick" explanation and nice graphs)
