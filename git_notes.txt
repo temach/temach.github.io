@@ -2,7 +2,6 @@ First thing to do is `man git`
 
 Most useful:
 git log --graph --decorate --all    # to view commit history and branches
-git log --follow somefile.txt       # to view previous commits on somefile.txt, even if RENAMED. (git tracks content!) 
 git check-ignore -v foo/bar.txt     # to test your gitignore file
 git reflog <branchname>             # what git operations you have done. Very useful! (branch is optional)
 git grep                            # to search for string in files/commit messages
@@ -18,6 +17,8 @@ git ls-files                  # what files you have in current state (at this co
 git diff <branchA>:<fileA> <branchB>:<fileB>          # diff between files, what to do to get from state A to B
 git branch --edit-description       # description for a branch, but stored only locally in .git/config (can not share)
 git commit --no-ff                  # use this over plain git commit, it preserves history in nicer format
+git log --follow somefile.txt     # to view previous commits on somefile.txt, even if RENAMED. (git tracks content!)
+git log --find-renames somefile.txt       # similar to above. See manual.
 
 Also useful:
 git mergetool                 # typically run after a merge with conflicts to do interactive conflict resolution
