@@ -2,6 +2,7 @@ First thing to do is `man git`
 
 Most useful:
 git log --graph --decorate --all    # to view commit history and branches
+git log --follow somefile.txt       # to view previous commits on somefile.txt, even if RENAMED. (git tracks content!) 
 git check-ignore -v foo/bar.txt     # to test your gitignore file
 git reflog <branchname>             # what git operations you have done. Very useful! (branch is optional)
 git grep                            # to search for string in files/commit messages
