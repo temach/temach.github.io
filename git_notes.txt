@@ -29,7 +29,8 @@ git tag
 git daemon                     # simple server for git repositories. Can probably be run at home.
 git help gitignore            # this is quite useful!
 git config color.ui true      # set git to use color when possible by default
-
+git config --global push.default simple   # when you "git push origin master" only the current branch will go
+git push remotes/origin/master master    # full syntax to push current branch "master" to remote branch "master"
 
 Options:
 \li almost all commands take `--dry-run` and `--interactive`. With interactive you can git commit in 
