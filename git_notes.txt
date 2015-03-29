@@ -89,6 +89,13 @@ Host shortname
       Port 22                                   # port to try
 </code>
 
+\li SSH note: if you want to DIS-allow ssh to try all of your keys for each connection add this to the bottom
+    of your config file for ssh. Now only specified files will be tried.
+<code>
+Host *
+IdentitiesOnly yes
+</code>
+
 
 
 Some extra resources:
