@@ -20,6 +20,7 @@ git commit --no-ff                  # use this over plain git commit, it preserv
 git log --follow somefile.txt     # to view previous commits on somefile.txt, even if RENAMED. (git tracks content!)
 git log --find-renames somefile.txt       # similar to above. See manual.
 
+
 Also useful:
 git mergetool                 # typically run after a merge with conflicts to do interactive conflict resolution
 git clean     # removes untracked files (what about .gitignore'd files?)    
@@ -32,7 +33,9 @@ git help gitignore            # this is quite useful!
 git config color.ui true      # set git to use color when possible by default
 git config --global push.default simple   # when you "git push origin master" only the current branch will go
 git push remotes/origin/master master    # full syntax to push current branch "master" to remote branch "master"
-git push <remote> <branch>                
+git push <remote> <cur_branch>                
+git push <remote> HEAD                    # handy way to push your current branch
+
 
 Options:
 \li almost all commands take `--dry-run` and `--interactive`. With interactive you can git commit in 
@@ -61,6 +64,14 @@ Behaivour notes:
     
 \li a --bare repository is one with only read access. So to do any work you must clone it.
 
+\li "origin" and "master" are not special! See http://git-scm.com/book/en/v2/Git-Branching-Remote-Branches. 
+    "master" is the default branch created when you run `git init` and "origin" is the default created 
+    when you run `git clone`.
+
+\li Use `git clone ssh://username@some.server.com:12345/~/repository.git` where "12345" is the port, note the 
+    "~" which means we can use relative directory with absolute directory syntax. (Git also has ssh syntax 
+    for specifiying relative paths, but its better to use absolute syntax with "~" to get to home dir)
+   
 
 Some extra resources:
 http://www.ndpsoftware.com/git-cheatsheet.html
