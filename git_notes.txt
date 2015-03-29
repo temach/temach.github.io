@@ -77,8 +77,8 @@ Behaivour notes:
     ssh `-vvv` option. Also consider `export GIT_TRACE=1` which is slightly less verbose.
 
 \li If you want to use git over ssh, its a Really good idea to write something like this in your local ssh config
-    (instead of doing `git clone git@long.server.name.com:22/~/myrepo` and not seeing any debug, you now use
-    `git clone git@shortname`)
+    (instead of doing `git clone ssh://user@long.server.name.com:22/myrepo/path` and not seeing any debug, you use
+    `git clone ssh://shortname/myrepo/path` which does not even need a "user" since its in your ssh config file)
 <code>
 Host shortname
       LogLevel DEBUG3                           # to trouble shoot connection problems
