@@ -19,7 +19,8 @@ git branch --edit-description       # description for a branch, but stored only 
 git commit --no-ff                  # use this over plain git commit, it preserves history in nicer format
 git log --follow somefile.txt     # to view previous commits on somefile.txt, even if RENAMED. (git tracks content!)
 git log --find-renames somefile.txt       # similar to above. See manual.
-
+git add --patch <somefile>          # go through _each_ change in somefile and decide if you want to stage it
+git show <commit>:<filepath>   # see history of file. You can also redirect " >> old_vertion.txt" to get a copy.
 
 Also useful:
 git mergetool                 # typically run after a merge with conflicts to do interactive conflict resolution
@@ -103,4 +104,4 @@ http://www.ndpsoftware.com/git-cheatsheet.html
 Youtube: Git for ages 4 and up. Really good explanation.
 Progit book by Scott Chacon is the deepest on git.
 http://gitolite.com/gcs.html    (great "git rebase" and "git cherry-pick" explanation and nice graphs)
-http://2ndscale.com/rtomayko/2008/the-thing-about-git             (rebase and general tips)
+http://2ndscale.com/rtomayko/2008/the-thing-about-git  (great explanation of "git add --pach")
