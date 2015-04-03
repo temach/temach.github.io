@@ -103,3 +103,4 @@ http://www.ndpsoftware.com/git-cheatsheet.html
 Youtube: Git for ages 4 and up. Really good explanation.
 Progit book by Scott Chacon is the deepest on git.
 http://gitolite.com/gcs.html    (great "git rebase" and "git cherry-pick" explanation and nice graphs)
+http://2ndscale.com/rtomayko/2008/the-thing-about-git             (rebase and general tips)
