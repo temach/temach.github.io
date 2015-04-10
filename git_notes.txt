@@ -23,6 +23,7 @@ git add --patch <somefile>          # go through _each_ change in somefile and d
 git show <commit>:<filepath>   # see history of file. You can also redirect " >> old_vertion.txt" to get a copy.
 
 Also useful:
+git log -g                    # show normal log but add related lines from reflog for each action
 git mergetool                 # typically run after a merge with conflicts to do interactive conflict resolution
 git clean     # removes untracked files (what about .gitignore'd files?)    
 git gc        # garbage collection, removes dangling commits
