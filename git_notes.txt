@@ -44,7 +44,7 @@ git merge --no-ff --no-commit <branchname>      # if you dont want a commit to h
 grep -lr '<<<<<<<' . | xargs git checkout --ours    # simply resolve all conflics in in favour of "ours" branch
 git log -G'my pattern' -all         # search for string in all files: "to search for diffs that contain 'mystring' "
 git log -p -G'my pattern' -all      # search for string in all files and show relevant diffs: "search for commits that changed number of occurences of 'mystring' "
-git log -S'bar' -- foo.rb           # search for string in history of file foo.rb
+git log -G'bar' -- foo.rb           # search for string in history of file foo.rb
 
 Options:
 \li almost all commands take `--dry-run` and `--interactive`. With interactive you can git commit in 
