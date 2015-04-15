@@ -24,6 +24,7 @@ git reset --soft <commit>      # if you want to squash a couple of commits into 
 git push -u origin feature_branch_name        # to automatically set up tracking information (for merge/pull)
 git diff HEAD                 # diff from HEAD commit to your current working tree
 git diff --cached             # diff from HEAD to currently staged files (what is in the index)
+git diff --                   # diff from currently staged (from files in the index) to current working tree
 
 Also useful:
 git commit --no-ff                  # use over plain git commit, it preserves branch history in nicer format
