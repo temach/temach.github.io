@@ -23,6 +23,7 @@ git show <commit>:<filepath>   # see history of file. You can also redirect " >>
 git reset --soft <commit>      # if you want to squash a couple of commits into one, consider using this.
 git push -u origin feature_branch_name        # to automatically set up tracking information (for merge/pull)
 
+
 Also useful:
 git commit --no-ff                  # use over plain git commit, it preserves branch history in nicer format
 git log -g                    # show normal log but add related lines from reflog for all actions (nicer reflog)
@@ -43,6 +44,7 @@ git merge --no-ff --no-commit <branchname>      # if you dont want a commit to h
 grep -lr '<<<<<<<' . | xargs git checkout --ours    # simply resolve all conflics in in favour of "ours" branch
 git log -G'my pattern' -all         # search for string in all files: "looks for differences whose added or removed line matches the given regexp (string)"
 git log -p -G'my pattern' -all      # search for string in all files and show relevant diffs: "looks for differences that introduce or remove an instance of string"
+
 
 Options:
 \li almost all commands take `--dry-run` and `--interactive`. With interactive you can git commit in 
@@ -103,6 +105,9 @@ Host *
 IdentitiesOnly yes
 </code>
 
+\li After you have cloned a remote repo you might want to track it. This is optional, but is helpful 
+    if you are working on more than a quick fix: git remote add --track master origin 'git://github.com/smthng/codename.git'
+    This means that configuration is set up for easier work with the remote (e.g. git fetch and git push)
 
 
 Some extra resources:
