@@ -109,6 +109,7 @@ IdentitiesOnly yes
     if you are working on more than a quick fix: git remote add --track master origin 'git://github.com/smthng/codename.git'
     This means that configuration is set up for easier work with the remote (e.g. git fetch and git push)
 
+\li "Remotes" are like nicknames for the URLs of other repositories - "origin" is one, for example.
 
 Some extra resources:
 http://www.ndpsoftware.com/git-cheatsheet.html
