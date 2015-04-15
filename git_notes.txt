@@ -42,9 +42,9 @@ git push <remote> <cur_branch_name>
 git push <remote> HEAD                          # handy way to push your current branch
 git merge --no-ff --no-commit <branchname>      # if you dont want a commit to happen, this is the only way
 grep -lr '<<<<<<<' . | xargs git checkout --ours    # simply resolve all conflics in in favour of "ours" branch
-git log -G'my pattern' -all         # search for string in all files: "looks for differences whose added or removed line matches the given regexp (string)"
-git log -p -G'my pattern' -all      # search for string in all files and show relevant diffs: "looks for differences that introduce or remove an instance of string"
-
+git log -G'my pattern' -all         # search for string in all files: "to search for diffs that contain 'mystring' "
+git log -p -G'my pattern' -all      # search for string in all files and show relevant diffs: "search for commits that changed number of occurences of 'mystring' "
+git log -S'bar' -- foo.rb           # search for string in history of file foo.rb
 
 Options:
 \li almost all commands take `--dry-run` and `--interactive`. With interactive you can git commit in 
