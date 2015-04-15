@@ -1,0 +1,112 @@
+First thing to do is `man git`
+
+Most useful:
+git log --graph --decorate --all    # to view commit history and branches
+git check-ignore -v foo/bar.txt     # to test your gitignore file
+git reflog <branchname>             # what git operations you have done. Very useful! (branch is optional)
+git grep                            # to search for string in files/commit messages
+git fetch and git merge instead of git pull
+git reset                           # moving pointers around.
+git reset --hard <targetcommit>       # will change to commit and clean uncommited/new files. Run `git status` to check! 
+git show                      # this can take a commit id or a tree like object.
+git fsck                      # inspect and verify git objects
+git branch -avv               # all branches and very verbose. Includes remotes.
+git help config               # see possible config options, the corresponding file is .git/config
+git commit --amend            # change the last commit. Correct the message/edit the files.
+git ls-files                  # what files you have in current state (at this commit/branch). give "-r" for more info
+git diff <branchA>:<fileA> <branchB>:<fileB>          # diff between files, what to do to get from state A to B
+git branch --edit-description       # description for a branch, but stored only locally in .git/config (can not share)
+git log --follow somefile.txt     # to view previous commits on somefile.txt, even if RENAMED. (git tracks content!)
+git log --find-renames somefile.txt       # similar to above. See manual.
+git add --patch <somefile>          # go through _each_ change in somefile and decide if you want to stage it
+git show <commit>:<filepath>   # see history of file. You can also redirect " >> old_vertion.txt" to get a copy.
+git reset --soft <commit>      # if you want to squash a couple of commits into one, consider using this.
+git push -u origin feature_branch_name        # to automatically set up tracking information (for merge/pull)
+
+Also useful:
+git commit --no-ff                  # use over plain git commit, it preserves branch history in nicer format
+git log -g                    # show normal log but add related lines from reflog for all actions (nicer reflog)
+git mergetool                 # typically run after a merge with conflicts to do interactive conflict resolution
+git clean                                 # removes untracked files (what about .gitignore'd files?)    
+git gc                                    # garbage collection, removes dangling commits
+git gui OR gitk OR git instaweb           # nicely manage your git (no command line)
+git stash
+git tag
+git daemon                                # simple server for git repositories. Can probably be run at home.
+git help gitignore                        # this is quite useful!
+git config color.ui true                  # set git to use color when possible by default
+git config --global push.default simple   # when you "git push origin master" only the current branch will go
+git push remotes/origin/master master    # full syntax to push current branch "master" to remote branch "master"
+git push <remote> <cur_branch_name>                
+git push <remote> HEAD                          # handy way to push your current branch
+git merge --no-ff --no-commit <branchname>      # if you dont want a commit to happen, this is the only way
+grep -lr '<<<<<<<' . | xargs git checkout --ours    # simply resolve all conflics in in favour of "ours" branch
+
+
+Options:
+\li almost all commands take `--dry-run` and `--interactive`. With interactive you can git commit in 
+      multiple stages a couple of files at a time. This can make commits more logical, and easier to revert.
+
+
+
+Behaivour notes:
+
+\li Check you push strategy. (`simple` is the new default. Do `git help config | less` and grep for "simple"). 
+    This affects your interaction with the remote. (And why people sometimes mistakenly use `git push --force`)
+
+\li "git tag 1.0" will only create a "lightweight tag", just a pointer. On the other hand "git tag -a 1.0" or 
+    "git -s tag 1.0" will create an actual Tag Object (with date/time stamp, author info and so on)
+
+\li By default, git-push pushes all branches, and `git-pull` only pulls the master. 
+    (But somehow creates the remote branches like origin/foo and origin/bar ?)
+
+\li When you merge you say `git merge <takebranch> <intobranch>`  if the <intobranch> is none 
+    git assumes the current branch. So you merge __into__ the current branch.
+    
+\li HEAD points at current state. ORIG_HEAD points at previous state.
+    HEAD~3 == HEAD~~~ and HEAD^2 == HEAD^^ and weird stuff like HEAD~~^2~ also has meaning.
+    The tilde "~" is to go backwards. The caret "^" is to go across parents. 
+    So ~ goes primarily left/right and ^ goes primarily up/down.
+    
+\li a --bare repository is one with only read access. So to do any work you must clone it.
+
+\li "origin" and "master" are not special! See http://git-scm.com/book/en/v2/Git-Branching-Remote-Branches. 
+    "master" is the default branch created when you run `git init` and "origin" is the default created 
+    when you run `git clone`.
+
+\li Use `git clone ssh://username@some.server.com:12345/~/repository.git` where "12345" is the port, note the 
+    "~" which means we can use relative directory with absolute directory syntax. (Git also has ssh syntax 
+    for specifiying relative paths, but its better to use absolute syntax with "~" to get to home dir)
+
+\li Do `export GIT_CURL_VERBOSE=1` to set max verbosity during git clone. Also in your ssh config you can set 
+    "LogLevel DEBUG3" for particular git server host shich will debug ssh connection as if you gave the 
+    ssh `-vvv` option. Also consider `export GIT_TRACE=1` which is slightly less verbose.
+
+\li If you want to use git over ssh, its a Really good idea to write something like this in your local ssh config
+    (instead of doing `git clone ssh://user@long.server.name.com:22/myrepo/path` and not seeing any debug, you use
+    `git clone ssh://shortname/myrepo/path` which does not even need a "user" since its in your ssh config file)
+<code>
+Host shortname
+      LogLevel DEBUG3                           # to trouble shoot connection problems
+      HostName long.server.name.com             # of course the .com can be any domain
+      IdentityFile /Users/username/.ssh/some_git_key_rsa            # works like giving "-i" option to ssh.
+      IdentitiesOnly yes                        # prevent ssh from trying other identities to connect.
+      User git                                  # user on remote server as in  git clone user@remote.server.com
+      Port 22                                   # port to try
+</code>
+
+\li SSH note: if you want to DIS-allow ssh to try all of your keys for each connection add this to the bottom
+    of your config file for ssh. Now only specified files will be tried.
+<code>
+Host *
+IdentitiesOnly yes
+</code>
+
+
+
+Some extra resources:
+http://www.ndpsoftware.com/git-cheatsheet.html
+Youtube: Git for ages 4 and up. Really good explanation.
+Progit book by Scott Chacon is the deepest on git.
+http://gitolite.com/gcs.html    (great "git rebase" and "git cherry-pick" explanation and nice graphs)
+http://2ndscale.com/rtomayko/2008/the-thing-about-git  (great explanation of "git add --pach")
