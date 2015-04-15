@@ -16,7 +16,6 @@ git commit --amend            # change the last commit. Correct the message/edit
 git ls-files                  # what files you have in current state (at this commit/branch). give "-r" for more info
 git diff <branchA>:<fileA> <branchB>:<fileB>          # diff between files, what to do to get from state A to B
 git branch --edit-description       # description for a branch, but stored only locally in .git/config (can not share)
-git commit --no-ff                  # use this over plain git commit, it preserves history in nicer format
 git log --follow somefile.txt     # to view previous commits on somefile.txt, even if RENAMED. (git tracks content!)
 git log --find-renames somefile.txt       # similar to above. See manual.
 git add --patch <somefile>          # go through _each_ change in somefile and decide if you want to stage it
@@ -25,21 +24,23 @@ git reset --soft <commit>      # if you want to squash a couple of commits into 
 git push -u origin feature_branch_name        # to automatically set up tracking information (for merge/pull)
 
 Also useful:
-grep -lr '<<<<<<<' . | xargs git checkout --ours    # simply resolve all conflics in in favour of "ours" branch
-git log -g                    # show normal log but add related lines from reflog for each action
+git commit --no-ff                  # use over plain git commit, it preserves branch history in nicer format
+git log -g                    # show normal log but add related lines from reflog for all actions (nicer reflog)
 git mergetool                 # typically run after a merge with conflicts to do interactive conflict resolution
-git clean               # removes untracked files (what about .gitignore'd files?)    
-git gc                  # garbage collection, removes dangling commits
-git gui OR gitk OR git instaweb       # nicely manage your git (no command line)
+git clean                                 # removes untracked files (what about .gitignore'd files?)    
+git gc                                    # garbage collection, removes dangling commits
+git gui OR gitk OR git instaweb           # nicely manage your git (no command line)
 git stash
 git tag
-git daemon                     # simple server for git repositories. Can probably be run at home.
-git help gitignore            # this is quite useful!
-git config color.ui true      # set git to use color when possible by default
+git daemon                                # simple server for git repositories. Can probably be run at home.
+git help gitignore                        # this is quite useful!
+git config color.ui true                  # set git to use color when possible by default
 git config --global push.default simple   # when you "git push origin master" only the current branch will go
 git push remotes/origin/master master    # full syntax to push current branch "master" to remote branch "master"
 git push <remote> <cur_branch_name>                
-git push <remote> HEAD                    # handy way to push your current branch
+git push <remote> HEAD                          # handy way to push your current branch
+git merge --no-ff --no-commit <branchname>      # if you dont want a commit to happen, this is the only way
+grep -lr '<<<<<<<' . | xargs git checkout --ours    # simply resolve all conflics in in favour of "ours" branch
 
 
 Options:
