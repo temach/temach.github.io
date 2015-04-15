@@ -21,6 +21,7 @@ git log --follow somefile.txt     # to view previous commits on somefile.txt, ev
 git log --find-renames somefile.txt       # similar to above. See manual.
 git add --patch <somefile>          # go through _each_ change in somefile and decide if you want to stage it
 git show <commit>:<filepath>   # see history of file. You can also redirect " >> old_vertion.txt" to get a copy.
+git reset --soft <commit>      # if you want to squash a couple of commits into one, consider using this.
 
 Also useful:
 git log -g                    # show normal log but add related lines from reflog for each action
