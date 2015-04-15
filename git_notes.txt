@@ -22,6 +22,7 @@ git log --find-renames somefile.txt       # similar to above. See manual.
 git add --patch <somefile>          # go through _each_ change in somefile and decide if you want to stage it
 git show <commit>:<filepath>   # see history of file. You can also redirect " >> old_vertion.txt" to get a copy.
 git reset --soft <commit>      # if you want to squash a couple of commits into one, consider using this.
+git push -u origin feature_branch_name        # to automatically set up tracking information (for merge/pull)
 
 Also useful:
 grep -lr '<<<<<<<' . | xargs git checkout --ours    # simply resolve all conflics in in favour of "ours" branch
