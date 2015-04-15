@@ -22,7 +22,8 @@ git add --patch <somefile>          # go through _each_ change in somefile and d
 git show <commit>:<filepath>   # see history of file. You can also redirect " >> old_vertion.txt" to get a copy.
 git reset --soft <commit>      # if you want to squash a couple of commits into one, consider using this.
 git push -u origin feature_branch_name        # to automatically set up tracking information (for merge/pull)
-
+git diff HEAD                 # diff from HEAD commit to your current working tree
+git diff --cached             # diff from HEAD to currently staged files (what is in the index)
 
 Also useful:
 git commit --no-ff                  # use over plain git commit, it preserves branch history in nicer format
@@ -118,3 +119,4 @@ Progit book by Scott Chacon is the deepest on git.
 http://gitolite.com/gcs.html    (great "git rebase" and "git cherry-pick" explanation and nice graphs)
 http://2ndscale.com/rtomayko/2008/the-thing-about-git  (great explanation of "git add --pach")
 http://www.mail-archive.com/dri-devel@lists.sourceforge.net/msg39091.html     (interesting message from linus)
+http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged     (nice git diff picture!)
