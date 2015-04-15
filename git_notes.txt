@@ -24,10 +24,11 @@ git show <commit>:<filepath>   # see history of file. You can also redirect " >>
 git reset --soft <commit>      # if you want to squash a couple of commits into one, consider using this.
 
 Also useful:
+grep -lr '<<<<<<<' . | xargs git checkout --ours    # simply resolve all conflics in in favour of "ours" branch
 git log -g                    # show normal log but add related lines from reflog for each action
 git mergetool                 # typically run after a merge with conflicts to do interactive conflict resolution
-git clean     # removes untracked files (what about .gitignore'd files?)    
-git gc        # garbage collection, removes dangling commits
+git clean               # removes untracked files (what about .gitignore'd files?)    
+git gc                  # garbage collection, removes dangling commits
 git gui OR gitk OR git instaweb       # nicely manage your git (no command line)
 git stash
 git tag
@@ -36,7 +37,7 @@ git help gitignore            # this is quite useful!
 git config color.ui true      # set git to use color when possible by default
 git config --global push.default simple   # when you "git push origin master" only the current branch will go
 git push remotes/origin/master master    # full syntax to push current branch "master" to remote branch "master"
-git push <remote> <cur_branch>                
+git push <remote> <cur_branch_name>                
 git push <remote> HEAD                    # handy way to push your current branch
 
 
