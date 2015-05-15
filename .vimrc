@@ -1,5 +1,4 @@
 
-
 " Show where you are in the file, line and column and %
 set ruler
 
@@ -71,3 +70,19 @@ nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " Set the command window height to 2 lines, to avoid many cases of having to -press <Enter> to continue-
 set cmdheight=2
 
+" show location of cursor using a horizontal line. Not sure what this does?
+set cursorline
+
+set scrolloff=5               " keep at least 5 lines above/below cursor
+set sidescrolloff=5           " keep at least 5 lines left/right cursor
+
+set nocompatible              " vim, not vi
+
+set complete=.,w,b,u,U,t,i,d  " do lots of scanning on tab completion
+
+" Swap ; and :  Convenient. Semi-colon is a rare command. Colon is always!
+nnoremap ; :
+nnoremap : ;
+
+" Lookup ctags -tags- file up in the directory until one is found 
+set tags=tags;/
