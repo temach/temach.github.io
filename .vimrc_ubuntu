@@ -1,60 +1,237 @@
 
+" =========== Vim tips ===================
+" Complete previous = <C-P>
+" Complete next = <C-N>
+"
+" Goto old cursor location = <C-O>
+" Goto next cursor location = <C-I>
+" Use <C-O><C-O> to reopen closed file where you have been
+"
+" Press % when the cursor is on a quote, paren, bracket, or brace to find its
+" match, if the cursor is not over any of those it shifts to the right until
+" it hits one of them.
+"
+" q<letter> - records a macro.
+" and
+" @<same-letter> - plays it back.
+"
+" To sort items in a file.
+" :%!sort
+" To sort items in line range 3-5
+" :3,5!sort
+"
+" To comment select some line using CTRL+V then insert some char at the beginning of each
+" column useing 'I' (to insert before the selection) and then '#'.
+" also you can use 'A' (to append to selection)
+"
+" Use vim-bindings on the command line in bash: 'set -o vi' In other,
+" readline-using programs, hit control-alt-j to switch from emacs to vim bindings.
+"
+" Search first and then vim will re-use your search. For example:
+" /blue\(\d\+\)
+" :%s//red\1/
+" Is equivalent to:
+" :%s/blue\(\d\+\)/red\1/
+"
+" Short and useful:
+" sort selected rows                       :sort
+" search for word under cursor             *
+" format selected code                     =
+" convert selected text to uppercase       U
+" convert selected text to lowercase       u
+" invert case of selected text             ~
+" convert tabs to spaces                   :retab
+" start recording a macro                  qX (X = key to assign macro to)
+" stop recording a macro                   q
+" playback macro                           @X (X = key macro was assigned to)
+" replay previously played macro *         @@
+" auto-complete a word you are typing **   CTRL + n
+" bookmark current place in file           mX (X = key to assign bookmark to)
+" jump to bookmark                         `X (X = key bookmark was assigned
+"                                               ` = back tick/tilde key)
+" show all bookmarks                       :marks
+" close all other split screens            :only
+"
+" In normal mode you can use * and # to search for a word under the cursor.
+" * searches forward for the word, while # searches backwards.
 
+
+
+" ================ General ==================
 " Vim, not vi. To use advanced features, put this at the start of .vimrc
 set nocompatible
 
+" When opening new file vim will look for special commands in it and run them
+" We disable this ablity
+set nomodeline
 
-" Set t_ut to disable Background Color Erase. 
+" Sets how many lines of history VIM has to remember (default is 20)
+set history=300
+
+" Number of undo levels
+set undolevels=400
+
+" Disable showmarks plugin
+let showmarks_enable=0
+
+" Start pathogen plugin
+execute pathogen#infect()
+
+
+
+" =========== FILES =================
+" Help when typing commands (after colon in last line mode)
+set wildmenu
+
+" Ignore temporary object files when menu completion
+" set wildignore=*.o,*~,*.pyc,*/.DS_Store,*/.git/*,*/.svn/*,*/.hg/*
+
+" Lookup ctags -tags- file up in the directory until one is found
+set tags=tags;/
+
+" New awesome stuff: Persistent Undo!
+set undofile                " Save undo's after file closes
+set undodir=~/.vim/undo/    " where to save undo histories
+set undolevels=1000         " How many undos
+set undoreload=10000        " number of lines to save for undo
+
+" Enable filetype plugins
+filetype plugin on
+filetype indent on
+
+" set UTF-8 as standard encoding and en_US as standard language
+set encoding=utf8
+
+" Use unix as the standard file type (for line endings and so on)
+" Will be tried in order (unix first)
+set ffs=unix,mac,dos
+
+
+" Return to last edit position when opening files (You want this!)
+" autocmd BufReadPost *
+"     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+"     \   exe "normal! g`\"" |
+"     \ endif
+
+" The idea of 'viminfo' is to save info from one editing session for the next
+" by saving the data in an 'viminfo file'. So next time I start up Vim I can
+" use the search patterns from the search history and the commands from the
+" command line again. I can also load files again with a simple ':b bufname'.
+" And Vim also remember where the cursor was in the files I edited. See ':help
+" viminfo' for more info on Vim's 'viminfo'. :-}
+set viminfo=%,'50,\"100,:100,n~/.viminfo
+
+
+
+" =============== MOVEMENT =========================
+set scrolloff=5               " keep at least 5 lines above/below cursor
+set sidescrolloff=5           " keep at least 5 lines left/right cursor
+
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+
+" There are several commands which move the cursor within the line. When you
+" get to the start/end of a line then these commands will fail as you cannot
+" go on. However, many users expect the cursor to be moved onto the
+" previous/next line. Vim allows you to chose which commands will -wrap- the
+" cursor around the line borders. Here I allow the cursor left/right keys and
+" dis-allow using 'h','l' keys. Then h,l can only move within the line.
+set whichwrap=<,>
+
+" Moving lines and blocks up and down in normal/insert/visual modes
+" note: this maps to ALT + motion key
+" see http://vim.wikia.com/wiki/Moving_lines_up_or_down
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" To move between windows with CTRL + hjkl, instead of CTRL-W + hjkl
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+
+
+
+" =================== INTERFACE ========================
+" Show status line (info about which file you are on)
+set laststatus=2
+
+" Show where you are in the file, line and column and %
+set ruler
+
+" show line numbers "
+set number
+
+" Set the command window height to 2 lines, to avoid
+" many cases of having to -press <Enter> to continue-
+set cmdheight=2
+
+" show letter/numbers in right corner (command mode)"
+set showcmd
+
+" Highlight search result
+set hlsearch
+
+" Search for string as you type it. Like in a browser (not sure if this is
+" good idea)
+set incsearch
+
+" For regular expression (search and replace), turn on magic chars by default
+set magic
+
+" Highlight matching brace
+set showmatch
+" How many tenths of a second to blink when matching brackets
+set mat=1
+
+" Turn off error bells
+set noerrorbells
+set visualbell
+set t_vb=
+
+
+" ========================= COLORS AND FONTS ======================
+" tell vim to expect 256 colors (some terminals may not support so many colors?)
+set t_Co=256
+
+" Set t_ut to disable Background Color Erase.
 " Now vim should not try to use default terminal color for background
 " See http://sunaku.github.io/vim-256color-bce.html
 " Also see for more info related to background and colorschemes:
 " http://vim.1045645.n5.nabble.com/Background-color-does-not-change-td1172332.html
 set t_ut=
 
-" tell vim to expect 256 colors (some terminals may not support so many colors?)
-set t_Co=256
-
 " Tell vim that we are using dark background
 set background=dark
 
 " change to custom color scheme
-colorscheme vividchalk
+try
+    colorscheme vividchalk
+catch
+endtry
 
-" Not 100% what this does but seen it a couple ot times
-filetype plugin indent on
-syntax enable " on
+" Enable syntax highting. Check out 'syntax enable' vs 'syntax on'
+syntax enable
 
 " show location of cursor using a horizontal line.
 set cursorline
 
 " adjust color, 53 is perfect
 " hi CursorLine term=none cterm=none ctermbg=53
-hi CursorLine term=none cterm=none 
+hi CursorLine term=none cterm=none
 
 " Set bg color to work woth vividchalk colorscheme
 " otherwise terminal background remains dark purple and does not look nice
 highlight Normal ctermfg=grey ctermbg=black
 
 
-" Show where you are in the file, line and column and %
-set ruler
 
-" show letter/numbers in right corner (command mode)"
-set showcmd
-
-" Help when typing commands (after colon in last line mode)
-set wildmenu
-
-" Highlight search result
-set hlsearch
-
-" When opening new file vim will look for special commands in it and run them
-" We disable this ablity
-set nomodeline
-
-" show line numbers "
-set number
-
+" =========================== EDITING =============================
 " Spaces are better than a tab character
 set expandtab
 set smarttab
@@ -63,28 +240,39 @@ set smarttab
 set shiftwidth=4
 set softtabstop=4
 
-" Enable mouse support in console
-set mouse=a
-
-" Search for pattern as you type it
-set incsearch
-
-" This is totally awesome - remap jj to escape in insert mode.  You'll never type jj anyway, so it's great!
-inoremap jj <Esc>
-
-" Not sure why this line is here, it relates to the previous one (mapping jj to <Esc>)
-nnoremap JJJJ <Nop>
-
-" Number of undo levels
-set undolevels=1000
-" Backspace behaviour
-set backspace=indent,eol,start
-
-set showmatch	" Highlight matching brace
-
 " Indentation
 set autoindent
 set smartindent
+
+" Add a bit extra margin to the left for folded code
+" set foldcolumn=6
+
+" Enable mouse support in console if possible
+if has('mouse')
+    set mouse=a
+endif
+
+" do lots of scanning on tab completion,
+" consider adding '+= k' to scan in dictionary
+set complete=.,w,b,u,U,t,i,d
+
+
+
+" ===================== ALIASES AND SHORTCUTS =======================
+" Enter :sss to toggle and untoggle spell checking
+" SetupCommandAlias('sss', 'setlocal spell!')
+
+" Swap ; and :  Convenient. Semi-colon is a rare command. Colon is always!
+nnoremap ; :
+nnoremap : ;
+
+" This is totally awesome - remap jj to escape in insert mode.
+" You'll never type jj anyway, so it's great!
+inoremap jk <Esc>
+inoremap kj <Esc>
+
+" Not sure why this line is here, it relates to the previous one (mapping jj to <Esc>)
+nnoremap JJJJ <Nop>
 
 "This unsets the -last search pattern- register by hitting return
 nnoremap <CR> :noh<CR><CR>
@@ -92,20 +280,17 @@ nnoremap <CR> :noh<CR><CR>
 "Remove all trailing whitespace by pressing F5
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
-" Set the command window height to 2 lines, to avoid many cases of having to -press <Enter> to continue-
-set cmdheight=2
+" Hit F1 to write file to disk. <c-o> (CTRL + o) in insert mode temporary switches to
+" normal mode.
+noremap  <F1> :w<CR>
+inoremap <F1> <C-o>:w<CR>
 
-set scrolloff=5               " keep at least 5 lines above/below cursor
-set sidescrolloff=5           " keep at least 5 lines left/right cursor
 
-
-" do lots of scanning on tab completion
-set complete=.,w,b,u,U,t,i,d
-
-" Swap ; and :  Convenient. Semi-colon is a rare command. Colon is always!
-nnoremap ; :
-nnoremap : ;
-
-" Lookup ctags -tags- file up in the directory until one is found
-set tags=tags;/
+" =============================== FUNCTIONS ========================
+" Setup alias to use in colon mode (last-line mode)
+function! SetupCommandAlias(from, to)
+    exec 'cnoreabbrev <expr> '.a:from
+                \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+                \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfun
 
