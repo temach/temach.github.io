@@ -1,0 +1,104 @@
+
+
+" Vim, not vi. To use advanced features, put this at the start of .vimrc
+set nocompatible
+
+
+" tell vim to expect 256 colors (some terminals may not support so many colors?)
+set t_Co=256
+
+" Tell vim that we are using dark background
+set background=dark
+
+" change to custom color scheme
+colorscheme vividchalk
+
+" Not 100% what this does but seen it a couple ot times
+filetype plugin indent on
+syntax enable " on
+
+" show location of cursor using a horizontal line.
+set cursorline
+
+" adjust color, 53 is perfect
+" hi CursorLine term=none cterm=none ctermbg=53
+hi CursorLine term=none cterm=none 
+
+" Set bg color to work woth vividchalk colorscheme
+" otherwise terminal background remains dark purple and does not look nice
+highlight Normal ctermfg=grey ctermbg=black
+
+
+" Show where you are in the file, line and column and %
+set ruler
+
+" show letter/numbers in right corner (command mode)"
+set showcmd
+
+" Help when typing commands (after colon in last line mode)
+set wildmenu
+
+" Highlight search result
+set hlsearch
+
+" When opening new file vim will look for special commands in it and run them
+" We disable this ablity
+set nomodeline
+
+" show line numbers "
+set number
+
+" Spaces are better than a tab character
+set expandtab
+set smarttab
+
+" Who wants an 8 character tab?  Not me!
+set shiftwidth=4
+set softtabstop=4
+
+" Enable mouse support in console
+set mouse=a
+
+" Search for pattern as you type it
+set incsearch
+
+" This is totally awesome - remap jj to escape in insert mode.  You'll never type jj anyway, so it's great!
+inoremap jj <Esc>
+
+" Not sure why this line is here, it relates to the previous one (mapping jj to <Esc>)
+nnoremap JJJJ <Nop>
+
+" Number of undo levels
+set undolevels=1000
+" Backspace behaviour
+set backspace=indent,eol,start
+
+set showmatch	" Highlight matching brace
+
+" Indentation
+set autoindent
+set smartindent
+
+"This unsets the -last search pattern- register by hitting return
+nnoremap <CR> :noh<CR><CR>
+
+"Remove all trailing whitespace by pressing F5
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+
+" Set the command window height to 2 lines, to avoid many cases of having to -press <Enter> to continue-
+set cmdheight=2
+
+set scrolloff=5               " keep at least 5 lines above/below cursor
+set sidescrolloff=5           " keep at least 5 lines left/right cursor
+
+
+" do lots of scanning on tab completion
+set complete=.,w,b,u,U,t,i,d
+
+" Swap ; and :  Convenient. Semi-colon is a rare command. Colon is always!
+nnoremap ; :
+nnoremap : ;
+
+" Lookup ctags -tags- file up in the directory until one is found
+set tags=tags;/
+
