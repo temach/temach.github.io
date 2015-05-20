@@ -242,7 +242,20 @@ set softtabstop=4
 
 " Indentation
 set autoindent
-set smartindent
+set cindent        " This replaces 'smartindent' 
+
+" show invisible characters
+" but only show tabs and trailing whitespace
+set list                        
+set listchars=tab:>·,trail:·    
+
+" This is the way I like my quotation marks and various braces
+inoremap '' ''<Left>
+inoremap "" ""<Left>
+inoremap () ()<Left>
+inoremap <> <><Left>
+inoremap {} {}<Left>
+inoremap [] []<Left>
 
 " Add a bit extra margin to the left for folded code
 " set foldcolumn=6
