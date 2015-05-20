@@ -4,6 +4,13 @@
 set nocompatible
 
 
+" Set t_ut to disable Background Color Erase. 
+" Now vim should not try to use default terminal color for background
+" See http://sunaku.github.io/vim-256color-bce.html
+" Also see for more info related to background and colorschemes:
+" http://vim.1045645.n5.nabble.com/Background-color-does-not-change-td1172332.html
+set t_ut=
+
 " tell vim to expect 256 colors (some terminals may not support so many colors?)
 set t_Co=256
 
