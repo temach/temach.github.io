@@ -79,12 +79,101 @@ execute pathogen#infect()
 
 
 
+" =============================== FUNCTIONS ========================
+" Setup alias to use in colon mode (last-line mode)
+function! SetupCommandAlias(from, to)
+    exec 'cnoreabbrev <expr> '.a:from
+                \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+                \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfun
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+" My change to '| r ++edit # |' removed '++edit'
+" Use :diffoff to switch this off again
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+          \ | wincmd p | diffthis
+endif
+
+"CleverTab - tab to autocomplete is we are on text OR to move indent
+" Does not matter if this returns <c-n> or <c-p> since they both cycle through 
+" the list of suggestions (they just use different order/direction)
+function CleverTab()
+    if strpart( getline('.'), col('.')-2, 1) =~ '^\k$'
+        return "\<C-n>"
+    else
+        return "\<Tab>"
+    endif
+endfunction
+
+
+" =========================== EDITING =============================
+" EDITING setting have to be before FILE settings because file setting may change
+" values for tab expansion (if its a Makefile for example)
+
+" Spaces are better than a tab character
+set expandtab
+set smarttab
+
+" Who wants an 8 character tab?  Not me!
+set shiftwidth=4
+set softtabstop=4
+
+" Indentation
+set autoindent
+set cindent        " This replaces 'smartindent'
+
+" Always round tab indent to nearest shiftwidth
+" This applies to > and < shift commands
+set shiftround
+
+" show invisible characters
+" but only show tabs as '>·' and trailing whitespace as '·'
+set list
+set listchars=tab:>-,trail:·
+
+" This is the way I like my quotation marks and various braces
+" What's cool is if you have :paste mode enabled, this expansions
+" will NOT take place. So to insert just one bracket toggle paste mode.
+inoremap ' ''<Left>
+inoremap " ""<Left>
+inoremap ( ()<Left>
+inoremap < <><Left>
+inoremap { {}<Left>
+inoremap [ []<Left>
+
+" Add a bit extra margin to the left for folded code
+" set foldcolumn=6
+
+" Enable mouse support in console if possible
+if has('mouse')
+    set mouse=a
+endif
+
+" do lots of scanning on tab completion,
+" consider adding '+= k' to scan in dictionary
+set complete=.,w,b,u,U,t,i,d
+
+" tilde is the toggle case operator
+" Now '~' will be same as 'g~'
+" set tildeop " example: ~aw (dog -> DOG)
+
+" See :h formatoptions"
+if v:version > 703 || v:version == 703 && has("patch541")
+    set formatoptions+=j " Delete comment character when joining commented lines
+endif
+
+
+
 " =========== FILES =================
 " Help when typing commands (after colon in last line mode)
 set wildmenu
+set wildmode=list:longest,longest:full
 
 " Ignore temporary object files when menu completion
-" set wildignore=*.o,*~,*.pyc,*/.DS_Store,*/.git/*,*/.svn/*,*/.hg/*
+set wildignore=*.o,*~,*.pyc,*/.DS_Store,*/.git/*,*/.svn/*,*/.hg/*
 
 " Lookup ctags -tags- file up in the directory until one is found
 set tags=tags;/
@@ -94,6 +183,11 @@ set undofile                " Save undo's after file closes
 set undodir=~/.vim/undo/    " where to save undo histories
 set undolevels=1000         " How many undos
 set undoreload=10000        " number of lines to save for undo
+
+" Prevent backup files from cluttering up working directories
+" By removing '.' directory from preference and adding .vim/ directory as first
+set backupdir=~/.vim/backup,~/tmp,~/
+set directory=~/.vim/swap,~/tmp,/var/tmp,/tmp
 
 " Enable filetype plugins
 filetype plugin on
@@ -106,12 +200,13 @@ set encoding=utf8
 " Will be tried in order (unix first)
 set ffs=unix,mac,dos
 
-
-" Return to last edit position when opening files (You want this!)
-" autocmd BufReadPost *
-"     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-"     \   exe "normal! g`\"" |
-"     \ endif
+" When editing a file, always jump to the last cursor position
+if has("autocmd")
+  autocmd BufReadPost *
+  \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+  \   exe "normal g'\"" |
+  \ endif
+endif
 
 " The idea of 'viminfo' is to save info from one editing session for the next
 " by saving the data in an 'viminfo file'. So next time I start up Vim I can
@@ -119,13 +214,28 @@ set ffs=unix,mac,dos
 " command line again. I can also load files again with a simple ':b bufname'.
 " And Vim also remember where the cursor was in the files I edited. See ':help
 " viminfo' for more info on Vim's 'viminfo'. :-}
-set viminfo=%,'50,\"100,:100,n~/.viminfo
+set viminfo+=%
+set viminfo+='50
+set viminfo+=\"100
+set viminfo+=:100
+set viminfo+=s10
+set viminfo+=h
+set viminfo+=n~/.viminfo
 
+" Configure tabs for various file types. No change tabs to spaces in Makefiles
+autocmd FileType make setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+
+"Ensure vim is not recursively invoked (man-db does this)
+"when doing ctrl-[ on a man page reference
+augroup man
+    autocmd!
+    autocmd FileType man let $MANPAGER=""
+augroup END
 
 
 " =============== MOVEMENT =========================
-set scrolloff=5               " keep at least 5 lines above/below cursor
-set sidescrolloff=5           " keep at least 5 lines left/right cursor
+set scrolloff=7               " keep at least 5 lines above/below cursor
+set sidescrolloff=7           " keep at least 5 lines left/right cursor
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
@@ -153,8 +263,6 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
-
-
 
 
 " =================== INTERFACE ========================
@@ -189,6 +297,15 @@ set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=1
 
+" Speed up response to ESC key, default timeoutlen=1000
+set notimeout
+set ttimeout
+set timeoutlen=300
+
+" See :h completeopt"
+" This is to do with text completion menu.
+set completeopt=longest,menuone,preview
+
 " Turn off error bells
 set noerrorbells
 set visualbell
@@ -218,6 +335,11 @@ endtry
 " Enable syntax highting. Check out 'syntax enable' vs 'syntax on'
 syntax enable
 
+" When started in diff mode, I only want to see diff colours
+if &diff
+    syntax off
+endif
+
 " show location of cursor using a horizontal line.
 set cursorline
 
@@ -230,52 +352,16 @@ hi CursorLine term=none cterm=none
 highlight Normal ctermfg=grey ctermbg=black
 
 
-
-" =========================== EDITING =============================
-" Spaces are better than a tab character
-set expandtab
-set smarttab
-
-" Who wants an 8 character tab?  Not me!
-set shiftwidth=4
-set softtabstop=4
-
-" Indentation
-set autoindent
-set cindent        " This replaces 'smartindent' 
-
-" show invisible characters
-" but only show tabs and trailing whitespace
-set list                        
-set listchars=tab:>·,trail:·    
-
-" This is the way I like my quotation marks and various braces
-inoremap '' ''<Left>
-inoremap "" ""<Left>
-inoremap () ()<Left>
-inoremap <> <><Left>
-inoremap {} {}<Left>
-inoremap [] []<Left>
-
-" Add a bit extra margin to the left for folded code
-" set foldcolumn=6
-
-" Enable mouse support in console if possible
-if has('mouse')
-    set mouse=a
-endif
-
-" do lots of scanning on tab completion,
-" consider adding '+= k' to scan in dictionary
-set complete=.,w,b,u,U,t,i,d
-
-
-
 " ===================== ALIASES AND SHORTCUTS =======================
+" This is your own personal modifier key, as 'g' is Vim’s modifier key "
+" Default leader is '\'
+let mapleader = ","
+
 " Enter :sss to toggle and untoggle spell checking
 " SetupCommandAlias('sss', 'setlocal spell!')
 
-" Swap ; and :  Convenient. Semi-colon is a rare command. Colon is always!
+" Swap ; and :  Convenient. Also allow space to enter last-line mode.
+nnoremap <Space> :
 nnoremap ; :
 nnoremap : ;
 
@@ -298,12 +384,36 @@ nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 noremap  <F1> :w<CR>
 inoremap <F1> <C-o>:w<CR>
 
+" Create blank newlines and stay in normal mode
+nnoremap <silent> zj o<Esc>
+nnoremap <silent> zk O<Esc>
 
-" =============================== FUNCTIONS ========================
-" Setup alias to use in colon mode (last-line mode)
-function! SetupCommandAlias(from, to)
-    exec 'cnoreabbrev <expr> '.a:from
-                \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
-                \ .'? ("'.a:to.'") : ("'.a:from.'"))'
-endfun
+" After selecting something in visual mode and shifting, I still want that"
+" selection intact  So don't exit visual mode after shifting.
+vmap > >gv
+vmap < <gv
 
+
+" Allow CleverTab but only in insert mode
+inoremap <Tab> <C-R>=CleverTab()<CR>
+
+" copy filepath[:line[:col]] to clipboard
+" note: register '+' is the system clipboard
+nmap gyf :call setreg('+', expand('%:p'), 'v')<cr>
+nmap gyl :call setreg('+', expand('%:p').':'.line('.'), 'v')<cr>
+nmap gyc :call setreg('+', expand('%:p').':'.line('.').':'.col('.'), 'v')<cr>
+
+"<C-e> and <C-y> scroll the viewport a single line. Make them faster.
+nnoremap <C-e> 5<C-e>
+nnoremap <C-y> 5<C-y>
+vnoremap <C-e> 5<C-e>
+vnoremap <C-y> 5<C-y>
+
+"This is necessary to allow pasting from outside vim. It turns off auto stuff.
+"You can tell you are in paste mode when the ruler is not visible
+set pastetoggle=<F2>
+
+" Load local settings if they exist.
+if filereadable($HOME . "/.vimrc.local")
+    source ~/.vimrc.local
+endif
