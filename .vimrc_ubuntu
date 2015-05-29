@@ -170,7 +170,7 @@ endif
 " =========== FILES =================
 " Help when typing commands (after colon in last line mode)
 set wildmenu
-set wildmode=list:longest,longest:full
+set wildmode=longest:full,full
 
 " Ignore temporary object files when menu completion
 set wildignore=*.o,*~,*.pyc,*/.DS_Store,*/.git/*,*/.svn/*,*/.hg/*
