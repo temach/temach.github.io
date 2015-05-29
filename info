@@ -64,7 +64,7 @@ define  macroname             create a macro for quick access
 
 
 Don't quit debugging session! Execute `kill`, then `run` from the debugger. It will load the changed binary.
-
+Also the breakpoints don't disappear when you don't quit.
 
 
 Example making a macro of earlier printf command:
