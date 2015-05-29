@@ -1,11 +1,25 @@
+run arg1 arg2 arg3            will give arg1 arg2 and arg3 to your program as inputs
 
-Points:
-1. A breakpoint stops your program whenever a particular point in the program is reached.
-2. A watchpoint stops your program whenever the value of a variable or expression changes.
-3. A catchpoint stops your program whenever a particular event occurs.
+print varname                 print value of variable
+print (char) mydouble         typecast the variable before you print it
+print $52                     $34 refers to the result number 34, and plain $ refers to last result
+p &mychar                     print variable address
+print *(&mychar)              dereference works as well
+print myIntArray[3]           print the value of array element
+print myIntArray[3]@5         Print 5 elements of my array starting from the 3rd element.
+
+ptype varname                 print type of variable, function, struct, array, union. Includes field names!!!
+ptype myIntArray[3]           print the __type__ of array element
+
+where                               tells you where you are, what frame and other stuff
+backtrace                           shows the stack (bt = backtrace)
+frame 3                             to select which frame you want now 
+continue 50                         will execute continue 50 times
+
+set myvariable = 10.0               sets value of variable in your code
+p myvariable = 10.0                 does the same thing as set but is shorter. Better use this instead of set.
 
 ignore, enable, disable, clear, delete          for breakpoints
-ignore = conditional breakpoint
 delete                        with no args kills _all_ breakpoints
 clear funcname                remove all bp from inside function called funcname
 info breakpoints              see all breakpoints
@@ -15,31 +29,21 @@ break filename:linenumber     set break point in some file at some line. Note th
 break                         with no arg set bp on current line
 break .... if i==2            conditional bp, the ... is bp location and i==2 is the condition
 
+watch varname                 set watchpoint on variable
 
 
-run arg1 arg2 arg3            will give arg1 arg2 and arg3 to your program as inputs
 
-ptype varname                 print type of variable, function, struct, array, union. Includes field names!!!
-print varname                 print value of variable
 
-typecast the variable as you print it:
-print (char) mydouble                 (result like: random crap)
+Break points:
+1. A breakpoint stops your program whenever a particular point in the program is reached.
+2. A watchpoint stops your program whenever the value of a variable or expression changes.
+3. A catchpoint stops your program whenever a particular event occurs.
 
-$34 refers to the result number 34, and plain $ refers to last result:
-print $52
-
-Access array item's type and value:
-ptype myIntArray[3]                   (result like: int)
-print myIntArray[3]                   (result like: -345.0)
-
-Print 5 elements of my array starting from the 3rd element:
-print myIntArray[3]@5
-(result like: $42 = { 4.0, 232.0, -34.0, 43.0, 9.0 } )
+ignore on breakpoint is similar to setting a conditional breakpoint
 
 In gdb this two lines are equal even if mystruct is not a pointer:
 print myStruct.name
 print myStruct->name
-
 
 Print using a format specifier, FMT tell gdb how it should interpret the data found at variable's location:
 print /FMT variable
@@ -48,9 +52,19 @@ where FMT is one of:
 o	octal 		x	hex 		d	decimal		u	unsigned decimal
 t	binary		f	float		a	address		c	char 
 
+Breakpoint info looks like:
+Breakpoint 1 at 0x8048540: file program3.c, line 55.
+To list code around this breakpoint (bp with address 0x8048540) use:
+list *0x8048540
 
-
-
+So you are debugging a program and you are seeing lots of program output intermixed with debugger output.
+What to do? You need to separate the I/O of the debugger and the I/O of the program!
+How to do it: http://www.dirac.org/linux/gdb/07-Debugging_Ncurses_Programs.php
+Summary:
+  get two terminals
+  get their device files with `tty` or `whoami`
+  use gdb tty command to redirect the output of the debugged program to second terminal: tty /dev/pts/4
+  now in first terminal is just gdb output and in second terminal is program output
 
 
 
