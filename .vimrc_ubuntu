@@ -98,7 +98,7 @@ if !exists(":DiffOrig")
 endif
 
 "CleverTab - tab to autocomplete is we are on text OR to move indent
-" Does not matter if this returns <c-n> or <c-p> since they both cycle through 
+" Does not matter if this returns <c-n> or <c-p> since they both cycle through
 " the list of suggestions (they just use different order/direction)
 function CleverTab()
     if strpart( getline('.'), col('.')-2, 1) =~ '^\k$'
@@ -140,7 +140,7 @@ set listchars=tab:>-,trail:·
 inoremap ' ''<Left>
 inoremap " ""<Left>
 inoremap ( ()<Left>
-inoremap < <><Left>
+" inoremap < <><Left>
 inoremap { {}<Left>
 inoremap [ []<Left>
 
