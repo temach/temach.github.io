@@ -15,6 +15,7 @@ where                               tells you where you are, what frame and othe
 backtrace                           shows the stack (bt = backtrace)
 frame 3                             to select which frame you want now 
 continue 50                         will execute continue 50 times
+finish                        continues until the function returns. Shows the return value.
 
 set myvariable = 10.0               sets value of variable in your code
 p myvariable = 10.0                 does the same thing as set but is shorter. Better use this instead of set.
@@ -28,11 +29,31 @@ break +3                      set break point 3 lines above currnt line
 break filename:linenumber     set break point in some file at some line. Note the : as delimeter.
 break                         with no arg set bp on current line
 break .... if i==2            conditional bp, the ... is bp location and i==2 is the condition
+b 3 Z > 92                    tell gdb to stop at bp number 3 when Z is > 92. Note: the `if` can be omitted
 
+tbreak                        sets a temporaty breakpoint (it is removed after first stop)
+ignore 2 5                    ignore bp number 2 for 5 crossings.
 watch varname                 set watchpoint on variable
+rwatch varname                set a __read__ watchpoint, fires on read of variable.
+awatch varname                set all watchpoint (for both read and write)
 
+call myfuncname()             call my function, you format the function call according to language syntax.
 
+info frame                    frame information
+info locals                   values of all variables local to the function
+info args                     values of args passed to the function
 
+x                             examine memory (see `help x`)
+x /4c myvar                   examine myvar as 4 characters 
+x /3x myvar                   examine first 3*8 = 24 bytes as hex
+x /t myvar                    examine first 4 bytes = 32 bits as binary
+
+info registers                show values in the registers
+
+core filename                 read core dump file and start gdb from there
+
+nexti, stepi                  like next and step but at instuction level (assembley)
+disassemble funcname          see disassembled asm code for function
 
 Break points:
 1. A breakpoint stops your program whenever a particular point in the program is reached.
@@ -49,8 +70,11 @@ Print using a format specifier, FMT tell gdb how it should interpret the data fo
 print /FMT variable
 
 where FMT is one of:
-o	octal 		x	hex 		d	decimal		u	unsigned decimal
-t	binary		f	float		a	address		c	char 
+o (octal),   x (hex),     d (decimal),    u (unsigned decimal),
+t (binary),  f (float),   a (address),    i (instruction), 
+c (char),    s (string),  z (hex, zero padded on the left).
+  
+z FMT is better than x FMT, because z will show all the zeroes!
 
 Breakpoint info looks like:
 Breakpoint 1 at 0x8048540: file program3.c, line 55.
@@ -65,7 +89,6 @@ Summary:
   get their device files with `tty` or `whoami`
   use gdb tty command to redirect the output of the debugged program to second terminal: tty /dev/pts/4
   now in first terminal is just gdb output and in second terminal is program output
-
 
 
 
