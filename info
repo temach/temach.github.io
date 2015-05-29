@@ -8,6 +8,8 @@ print *(&mychar)              dereference works as well
 print myIntArray[3]           print the value of array element
 print myIntArray[3]@5         Print 5 elements of my array starting from the 3rd element.
 
+display varname               Print value of varname _everytime_ the program flow stops (on every break)!!
+
 ptype varname                 print type of variable, function, struct, array, union. Includes field names!!!
 ptype myIntArray[3]           print the __type__ of array element
 
