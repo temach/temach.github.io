@@ -36,6 +36,24 @@ Print 5 elements of my array starting from the 3rd element:
 print myIntArray[3]@5
 (result like: $42 = { 4.0, 232.0, -34.0, 43.0, 9.0 } )
 
+In gdb this two lines are equal even if mystruct is not a pointer:
+print myStruct.name
+print myStruct->name
+
+
+Print using a format specifier, FMT tell gdb how it should interpret the data found at variable's location:
+print /FMT variable
+
+where FMT is one of:
+o	octal 		x	hex 		d	decimal		u	unsigned decimal
+t	binary		f	float		a	address		c	char 
+
+
+
+
+
+
+
 
 Abbreviations
 bp = breakpoint
