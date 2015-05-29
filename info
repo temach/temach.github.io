@@ -19,7 +19,18 @@ break .... if i==2            conditional bp, the ... is bp location and i==2 is
 
 run arg1 arg2 arg3            will give arg1 arg2 and arg3 to your program as inputs
 
-ptype varname                 print the type of variable or function
+ptype varname                 print type of variable, function, struct, array, union. Includes field names!!!
+print varname                 print value of variable
+
+typecast the variable as you print it:
+print (char) mydouble
+
+$34 refers to the result number 34, and plain $ refers to last result:
+print $52
+
+Access array item's type and value:
+ptype myIntArray[3]
+print myIntArray[3]
 
 
 
