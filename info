@@ -8,6 +8,8 @@ print *(&mychar)              dereference works as well
 print myIntArray[3]           print the value of array element
 print myIntArray[3]@5         Print 5 elements of my array starting from the 3rd element.
 
+printf "X = %d, Y = %d\n",X,Y             Does exactly what you think. Actually you can also `call printf(..)`
+
 display varname               Print value of varname _everytime_ the program flow stops (on every break)!!
 
 ptype varname                 print type of variable, function, struct, array, union. Includes field names!!!
@@ -50,12 +52,28 @@ x /4c myvar                   examine myvar as 4 characters
 x /3x myvar                   examine first 3*8 = 24 bytes as hex
 x /t myvar                    examine first 4 bytes = 32 bits as binary
 
-info registers                show values in the registers
 
 core filename                 read core dump file and start gdb from there
-
+info registers                show values in the registers
 nexti, stepi                  like next and step but at instuction level (assembley)
 disassemble funcname          see disassembled asm code for function
+
+define  macroname             create a macro for quick access
+
+
+
+
+Don't quit debugging session! Execute `kill`, then `run` from the debugger. It will load the changed binary.
+
+
+
+Example making a macro of earlier printf command:
+(gdb) define pxy
+Type commands for definition of "pxy".
+End with a line saying just "end".
+>printf "%X = %d, Y = %d\n",X,Y
+>end
+
 
 Break points:
 1. A breakpoint stops your program whenever a particular point in the program is reached.
