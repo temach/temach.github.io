@@ -1,0 +1,31 @@
+
+Points:
+1. A breakpoint stops your program whenever a particular point in the program is reached.
+2. A watchpoint stops your program whenever the value of a variable or expression changes.
+3. A catchpoint stops your program whenever a particular event occurs.
+
+ignore, enable, disable, clear, delete          for breakpoints
+ignore = conditional breakpoint
+delete                        with no args kills _all_ breakpoints
+clear funcname                remove all bp from inside function called funcname
+info breakpoints              see all breakpoints
+
+break +3                      set break point 3 lines above currnt line
+break filename:linenumber     set break point in some file at some line. Note the : as delimeter.
+break                         with no arg set bp on current line
+break .... if i==2            conditional bp, the ... is bp location and i==2 is the condition
+
+
+
+run arg1 arg2 arg3            will give arg1 arg2 and arg3 to your program as inputs
+
+ptype varname                 print the type of variable or function
+
+
+
+
+Abbreviations
+bp = breakpoint
+
+br = break cmd
+pt = ptype cmd
