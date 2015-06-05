@@ -384,6 +384,10 @@ nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 noremap  <F1> :w<CR>
 inoremap <F1> <C-o>:w<CR>
 
+" press F7 to add semi-colon to end of line and return cursor to original
+" place.
+nnoremap <F7> $a;<Esc>
+
 " Create blank newlines and stay in normal mode
 nnoremap <silent> zj o<Esc>
 nnoremap <silent> zk O<Esc>
