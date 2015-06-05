@@ -37,7 +37,7 @@ b 3 Z > 92                    tell gdb to stop at bp number 3 when Z is > 92. No
 
 tbreak                        sets a temporaty breakpoint (it is removed after first stop)
 ignore 2 5                    ignore bp number 2 for 5 crossings.
-watch varname                 set watchpoint on variable
+watch varname                 set watchpoint on variable, (will break when variable get written into)
 rwatch varname                set a __read__ watchpoint, fires on read of variable.
 awatch varname                set all watchpoint (for both read and write)
 
@@ -65,6 +65,12 @@ define  macroname             create a macro for quick access
 
 Don't quit debugging session! Execute `kill`, then `run` from the debugger. It will load the changed binary.
 Also the breakpoints don't disappear when you don't quit.
+
+When you inspect a variable:
+(gdb) p myvar
+  $1 = 423
+(gdb)
+Now when you enter $1 gdb will substitute 423.
 
 
 Example making a macro of earlier printf command:
