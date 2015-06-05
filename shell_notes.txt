@@ -10,6 +10,7 @@ To find the name of program's instance and its class:
 3) click on the running program and look for line `WM_CLASS(STRING) = "prog_instance", "prog_class"`
 For example running `xprop` on "xterm" gives `WM_CLASS(STRING) = "xterm", "XTerm"`
 NOTE: when you write entry for .Xresources or .Xdefaults use EITHER prog_instance OR prog_class as first value
+Avoid blank spaces at the beginning and end of lines in the .Xresources file
 
 How to use X resources:
 http://kb.mit.edu/confluence/pages/viewpage.action?pageId=3907291     (quite good)
