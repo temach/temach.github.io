@@ -19,3 +19,7 @@ http://www.tldp.org/HOWTO/XWindow-User-HOWTO/moreconfig.html
 To set up fonts know about `fc-list` and it option `fc-list -v` to show everything.
 Especially interesting line is `fullname: "Some font"` which tells you how the font is called on this computer.
 `xfontsel` shows you all the X11 fonts and allows to set system wide font. (it goes into .Xresources)
+
+
+for xargs:
+http://www.thegeekstuff.com/2013/12/xargs-examples/       (quite good)
