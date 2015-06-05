@@ -1,1 +1,20 @@
 xev     # Inspect keyboard input/modifiers and mouse events
+
+.Xresources  
+File where programs can typically look for their settings. 
+For example rxvt and its clones look there and so do vim and emacs. 
+To use it properly you should know about `xrdb`, `xrdb -merge` and `listres`.
+To know the name of program's instance and its class:
+1) open the program
+2) in terminal start `xprop`
+3) click on the running program and look for line `WM_CLASS(STRING) = "prog_instance", "prog_class"`
+For example running `xprop` on "xterm" gives `WM_CLASS(STRING) = "xterm", "XTerm"`
+
+How to use X resources:
+http://kb.mit.edu/confluence/pages/viewpage.action?pageId=3907291     (quite good)
+http://www.tldp.org/HOWTO/XWindow-User-HOWTO/moreconfig.html
+
+
+To set up fonts know about `fc-list` and it option `fc-list -v` to show everything.
+Especially interesting line is `fullname: "Some font"` which tells you how the font is called on this computer.
+`xfontsel` shows you all the X11 fonts and allows to set system wide font. (it goes into .Xresources)
