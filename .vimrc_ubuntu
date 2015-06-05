@@ -367,11 +367,11 @@ nnoremap : ;
 
 " This is totally awesome - remap jj to escape in insert mode.
 " You'll never type jj anyway, so it's great!
-inoremap jk <Esc>
-inoremap kj <Esc>
-
-" Not sure why this line is here, it relates to the previous one (mapping jj to <Esc>)
-nnoremap JJJJ <Nop>
+" inoremap jk <Esc>
+" inoremap kj <Esc>
+" Actually a better idea: see http://vim.wikia.com/wiki/Map_caps_lock_to_escape_in_XWindows
+" to sum it up: just use ALT/META + normal_key OR swap CAPSLOCK with ESC (you
+" can swap them system wide which is freaking awesome!)
 
 "This unsets the -last search pattern- register by hitting return
 nnoremap <CR> :noh<CR><CR>
