@@ -27,3 +27,6 @@ http://www.thegeekstuff.com/2013/12/xargs-examples/       (quite good)
 
 
 To monitor unintended system changes: Tripwire (tells you when checksums for packages change)
+also: rkhunter and chkrootkit
+
+check integrity of installed packages: debsums
