@@ -30,3 +30,6 @@ To monitor unintended system changes: Tripwire (tells you when checksums for pac
 also: rkhunter and chkrootkit
 
 check integrity of installed packages: debsums
+
+You can use `dmesg --follow` to find name of a device (like: `/dev/ttyUSB0`) as you plug it in.
+
