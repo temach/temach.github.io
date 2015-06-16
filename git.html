@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="sitestyle.css" rel="stylesheet" type="text/css">
+
+    <title>Scrap Yard</title>
+</head>
+
+<body>
+    <div id="Menu">
+        <hr>
+        <a href="index.html" title="main">Main</a><br>
+        Various notes:<br>
+        <a href="shell.html">Bash shell</a><br>
+        <a href="macintosh.html">Mac os x</a><br>
+        <a href="opengl.html">OpenGl</a><br>
+        <a href="gdb.html">GDB</a><br>
+        <a href="ssh.html">SSH</a><br>
+        <a href="linux.html">Ubuntu/Linux</a><br>
+        <hr>
+    </div>
+
+    <div id="Content">
+        <div class="centered">
+            <h1>Git</h1>
+        </div><br>
+        <br>
+
+        <table border="1">
+            <tbody>
+                <tr>
+                    <td colspan="2">Most useful commands</td>
+                </tr>
+
+                <tr>
+                    <td>git log --graph --decorate --all</td>
+
+                    <td>to view commit history and branches</td>
+                </tr>
+
+                <tr>
+                    <td>git check-ignore -v foo/bar.txt</td>
+
+                    <td>to test your gitignore file</td>
+                </tr>
+
+                <tr>
+                    <td>git reflog branchname</td>
+
+                    <td>what git operations you have done. Very useful! (branch
+                    is optional)</td>
+                </tr>
+
+                <tr>
+                    <td>git grep</td>
+
+                    <td>to search for string in files/commit messages</td>
+                </tr>
+
+                <tr>
+                    <td>git reset</td>
+
+                    <td>moving pointers around.</td>
+                </tr>
+
+                <tr>
+                    <td>git reset --hard targetcommit</td>
+
+                    <td>will change to commit and clean uncommited/new files.
+                    Run `git status` to check!</td>
+                </tr>
+
+                <tr>
+                    <td>git show</td>
+
+                    <td>this can take a commit id or a tree like object.</td>
+                </tr>
+
+                <tr>
+                    <td>git fsck</td>
+
+                    <td>inspect and verify git objects</td>
+                </tr>
+
+                <tr>
+                    <td>git branch -avv</td>
+
+                    <td>all branches and very verbose. Includes remotes.</td>
+                </tr>
+
+                <tr>
+                    <td>git help config</td>
+
+                    <td>see possible config options, the corresponding file is
+                    .git/config</td>
+                </tr>
+
+                <tr>
+                    <td>git commit --amend</td>
+
+                    <td>change the last commit. Correct the message/edit the
+                    files.</td>
+                </tr>
+
+                <tr>
+                    <td>git ls-files</td>
+
+                    <td>what files you have in current state (at this
+                    commit/branch). give "-r" for more info</td>
+                </tr>
+
+                <tr>
+                    <td>git diff branchA:fileA branchB:fileB</td>
+
+                    <td>diff between files, what to do to get from state A to
+                    B</td>
+                </tr>
+
+                <tr>
+                    <td>git branch --edit-description</td>
+
+                    <td>description for a branch, but stored only locally in
+                    .git/config (can not share)</td>
+                </tr>
+
+                <tr>
+                    <td>git log --follow somefile.txt</td>
+
+                    <td>to view previous commits on somefile.txt, even if
+                    RENAMED. (git tracks content!)</td>
+                </tr>
+
+                <tr>
+                    <td>git log --find-renames somefile.txt</td>
+
+                    <td>similar to above. See manual.</td>
+                </tr>
+
+                <tr>
+                    <td>git add --patch somefile</td>
+
+                    <td>go through _each_ change in somefile and decide if you
+                    want to stage it</td>
+                </tr>
+
+                <tr>
+                    <td>git show commit:filepath</td>
+
+                    <td>see history of file. You can also use shell redirect to
+                    get a copy.</td>
+                </tr>
+
+                <tr>
+                    <td>git reset --soft commit</td>
+
+                    <td>if you want to squash a couple of commits into one,
+                    consider using this.</td>
+                </tr>
+
+                <tr>
+                    <td>git push -u origin feature_branch_name</td>
+
+                    <td>to automatically set up tracking information (for
+                    merge/pull)</td>
+                </tr>
+
+                <tr>
+                    <td>git diff HEAD</td>
+
+                    <td>diff from HEAD commit to your current working tree (how
+                    to go from HEAD to working tree)</td>
+                </tr>
+
+                <tr>
+                    <td>git diff --cached</td>
+
+                    <td>diff from HEAD to currently staged files (what is in
+                    the index) (how to go from HEAD to index)</td>
+                </tr>
+
+                <tr>
+                    <td>git diff --</td>
+
+                    <td>diff from currently staged (from files in the index) to
+                    current working tree (how to go from index to working
+                    tree)</td>
+                </tr>
+            </tbody>
+        </table><br>
+        <br>
+        <br>
+        <br>
+
+        <table border="1">
+            <tbody>
+                <tr>
+                    <td colspan="2">Also useful to know about</td>
+                </tr>
+
+                <tr>
+                    <td>git stash</td>
+
+                    <td>empty</td>
+                </tr>
+
+                <tr>
+                    <td>git tag</td>
+
+                    <td>empty</td>
+                </tr>
+
+                <tr>
+                    <td>git push remote_name cur_branch_name</td>
+
+                    <td>syntaxis to push branch called cur_branch_name to a
+                    remote repo. (eg: git push origin master)</td>
+                </tr>
+
+                <tr>
+                    <td>git commit --no-ff</td>
+
+                    <td>use over plain git commit, it preserves branch history
+                    in nicer format</td>
+                </tr>
+
+                <tr>
+                    <td>git log -g</td>
+
+                    <td>show normal log but add related lines from reflog for
+                    all actions (nicer reflog)</td>
+                </tr>
+
+                <tr>
+                    <td>git mergetool</td>
+
+                    <td>typically run after a merge with conflicts to do
+                    interactive conflict resolution</td>
+                </tr>
+
+                <tr>
+                    <td>git clean</td>
+
+                    <td>removes untracked files (what about .gitignore'd
+                    files?)</td>
+                </tr>
+
+                <tr>
+                    <td>git gc</td>
+
+                    <td>garbage collection, removes dangling commits</td>
+                </tr>
+
+                <tr>
+                    <td>git gui OR gitk OR git instaweb</td>
+
+                    <td>nicely manage your git (no command line)</td>
+                </tr>
+
+                <tr>
+                    <td>git daemon</td>
+
+                    <td>simple server for git repositories. Can probably be run
+                    at home.</td>
+                </tr>
+
+                <tr>
+                    <td>git help gitignore</td>
+
+                    <td>this is quite useful!</td>
+                </tr>
+
+                <tr>
+                    <td>git config color.ui true</td>
+
+                    <td>set git to use color when possible by default</td>
+                </tr>
+
+                <tr>
+                    <td>git config --global push.default simple</td>
+
+                    <td>when you "git push origin master" only the current
+                    branch will go</td>
+                </tr>
+
+                <tr>
+                    <td>git push remotes/origin/master master</td>
+
+                    <td>full syntax to push current branch "master" to remote
+                    branch "master"</td>
+                </tr>
+
+                <tr>
+                    <td>git push remote HEAD</td>
+
+                    <td>handy way to push your current branch</td>
+                </tr>
+
+                <tr>
+                    <td>git merge --no-ff --no-commit branchname</td>
+
+                    <td>if you dont want a commit to happen, this is the only
+                    way</td>
+                </tr>
+
+                <tr>
+                    <td>grep -lr '&lt;&lt;&lt;&lt;&lt;&lt;' . | xargs git
+                    checkout --ours</td>
+
+                    <td>simply resolve all conflics in in favour of "ours"
+                    branch</td>
+                </tr>
+
+                <tr>
+                    <td>git log -G'my pattern' -all</td>
+
+                    <td>search for string in all files: "to search for diffs
+                    that contain 'mystring' "</td>
+                </tr>
+
+                <tr>
+                    <td>git log -p -S'my pattern' -all</td>
+
+                    <td>search for string in all files and show relevant diffs:
+                    "search for commits that changed number of occurences of
+                    'mystring' "</td>
+                </tr>
+
+                <tr>
+                    <td>git log -G'bar' -- foo.rb</td>
+
+                    <td>search for string in history of file foo.rb</td>
+                </tr>
+            </tbody>
+        </table><br>
+        <br>
+        <br>
+
+        <table border="1">
+            <tbody>
+                <tr>
+                    <td colspan="2">Notes</td>
+                </tr>
+
+                <tr>
+                    <td>Use git fetch and merge instead of git pull</td>
+                </tr>
+            </tbody>
+        </table><br>
+        <br>
+        <br>
+
+        <table border="1">
+            <tbody>
+                <tr>
+                    <td>almost all commands take `--dry-run` and
+                    `--interactive`. With interactive you can git commit in
+                    multiple stages a couple of files at a time. This can make
+                    commits more logical, and easier to revert.</td>
+                </tr>
+
+                <tr>
+                    <td>Check you push strategy. (`simple` is the new default.
+                    Do `git help config | less` and grep for "simple"). This
+                    affects your interaction with the remote. (And why people
+                    sometimes mistakenly use `git push --force`)</td>
+                </tr>
+
+                <tr>
+                    <td>"git tag 1.0" will only create a "lightweight tag",
+                    just a pointer. On the other hand "git tag -a 1.0" or "git
+                    -s tag 1.0" will create an actual Tag Object (with
+                    date/time stamp, author info and so on)</td>
+                </tr>
+
+                <tr>
+                    <td>By default, git-push pushes all branches, and
+                    `git-pull` only pulls the master. (But somehow creates the
+                    remote branches like origin/foo and origin/bar ?)</td>
+                </tr>
+
+                <tr>
+                    <td>When you merge you say `git merge takebranch
+                    intobranch` if the intobranch is none git assumes the
+                    current branch. So you merge __into__ the current
+                    branch.</td>
+                </tr>
+
+                <tr>
+                    <td>HEAD points at current state. ORIG_HEAD points at
+                    previous state. HEAD~3 == HEAD~~~ and HEAD^2 == HEAD^^ and
+                    weird stuff like HEAD~~^2~ also has meaning. The tilde "~"
+                    is to go backwards. The caret "^" is to go across parents.
+                    So ~ goes primarily left/right and ^ goes primarily
+                    up/down.</td>
+                </tr>
+
+                <tr>
+                    <td>a --bare repository is one with only read access. So to
+                    do any work you must clone it.</td>
+                </tr>
+
+                <tr>
+                    <td>"origin" and "master" are not special! See
+                    http://git-scm.com/book/en/v2/Git-Branching-Remote-Branches.
+                    "master" is the default branch created when you run `git
+                    init` and "origin" is the default created when you run `git
+                    clone`.</td>
+                </tr>
+
+                <tr>
+                    <td>Use `git clone
+                    ssh://username@some.server.com:12345/~/repository.git`
+                    where "12345" is the port, note the "~" which means we can
+                    use relative directory with absolute directory syntax. (Git
+                    also has ssh syntax for specifiying relative paths, but its
+                    better to use absolute syntax with "~" to get to home
+                    dir)</td>
+                </tr>
+
+                <tr>
+                    <td>Do `export GIT_CURL_VERBOSE=1` to set max verbosity
+                    during git clone. Also in your ssh config you can set
+                    "LogLevel DEBUG3" for particular git server host shich will
+                    debug ssh connection as if you gave the ssh `-vvv` option.
+                    Also consider `export GIT_TRACE=1` which is slightly less
+                    verbose.</td>
+                </tr>
+
+                <tr>
+                    <td>If you want to use git over ssh, its a Really good idea
+                    to write something like this in your local ssh config
+                    (instead of doing `git clone
+                    ssh://user@long.server.name.com:22/myrepo/path` and not
+                    seeing any debug, you use `git clone
+                    ssh://shortname/myrepo/path` which does not even need a
+                    "user" since its in your ssh config file) <code>Host
+                    shortname LogLevel DEBUG3 # to trouble shoot connection
+                    problems HostName long.server.name.com # of course the .com
+                    can be any domain IdentityFile
+                    /Users/username/.ssh/some_git_key_rsa # works like giving
+                    "-i" option to ssh. IdentitiesOnly yes # prevent ssh from
+                    trying other identities to connect. User git # user on
+                    remote server as in git clone user@remote.server.com Port
+                    22 # port to try</code></td>
+                </tr>
+
+                <tr>
+                    <td>SSH note: if you want to DIS-allow ssh to try all of
+                    your keys for each connection add this to the bottom of
+                    your config file for ssh. Now only specified files will be
+                    tried. <code>Host * IdentitiesOnly yes</code></td>
+                </tr>
+
+                <tr>
+                    <td>After you have cloned a remote repo you might want to
+                    track it. This is optional, but is helpful if you are
+                    working on more than a quick fix: git remote add --track
+                    master origin 'git://github.com/smthng/codename.git' This
+                    means that configuration is set up for easier work with the
+                    remote (e.g. git fetch and git push)</td>
+                </tr>
+
+                <tr>
+                    <td>"Remotes" are like nicknames for the URLs of other
+                    repositories - "origin" is one, for example.</td>
+                </tr>
+            </tbody>
+        </table><br>
+        <br>
+        <br>
+
+        <h1>Extra resources</h1>
+
+        <table border="1">
+            <tbody>
+                <tr>
+                    <td>
+                        <a href=
+                        "http://www.ndpsoftware.com/git-cheatsheet.html">http://www.ndpsoftware.com/git-cheatsheet.html</a>
+                    </td>
+
+                    <td>Youtube: Git for ages 4 and up. Really good
+                    explanation. Progit book by Scott Chacon is the deepest on
+                    git.</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <a href=
+                        "http://gitolite.com/gcs.html">http://gitolite.com/gcs.html</a>
+                    </td>
+
+                    <td>(great "git rebase" and "git cherry-pick" explanation
+                    and nice graphs)</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <a href=
+                        "http://2ndscale.com/rtomayko/2008/the-thing-about-git">
+                        http://2ndscale.com/rtomayko/2008/the-thing-about-git</a>
+                    </td>
+
+                    <td>(great explanation of "git add --pach")</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <a href=
+                        "http://www.mail-archive.com/dri-devel@lists.sourceforge.net/msg39091.html">
+                        http://www.mail-archive.com/dri-devel@lists.sourceforge.net/msg39091.html</a>
+                    </td>
+
+                    <td>(interesting message from linus)</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <a href=
+                        "http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged">
+                        http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged</a>
+                    </td>
+
+                    <td>(nice git diff picture!)</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    
+<!--
+Local Variables:
+compile-command: "(cd ~/WWW/main; upload index.html)"
+End:
+-->
+</body>
+</html>
