@@ -21,7 +21,8 @@ frame 3                             to select which frame you want now
 continue 50                         will execute continue 50 times
 finish                        continues until the function returns. Shows the return value.
 
-set myvariable = 10.0               sets value of variable in your code
+set $myvariable = 10.0              sets value of variable just in gdb (just in the shell)
+set myvariable = 10.0               sets value of variable found in __source code__
 p myvariable = 10.0                 does the same thing as set but is shorter. Better use this instead of set.
 
 ignore, enable, disable, clear, delete          for breakpoints
