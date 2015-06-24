@@ -1,71 +1,7 @@
-run arg1 arg2 arg3            will give arg1 arg2 and arg3 to your program as inputs
-
-print varname                 print value of variable
-print (char) mydouble         typecast the variable before you print it
-print $52                     $34 refers to the result number 34, and plain $ refers to last result
-p &mychar                     print variable address
-print *(&mychar)              dereference works as well
-print myIntArray[3]           print the value of array element
-print myIntArray[3]@5         Print 5 elements of my array starting from the 3rd element.
-
-printf "X = %d, Y = %d\n",X,Y             Does exactly what you think. Actually you can also `call printf(..)`
-
-display varname               Print value of varname _everytime_ the program flow stops (on every break)!!
-
-ptype varname                 print type of variable, function, struct, array, union. Includes field names!!!
-ptype myIntArray[3]           print the __type__ of array element
-
-where                               tells you where you are, what frame and other stuff
-backtrace                           shows the stack (bt = backtrace)
-frame 3                             to select which frame you want now 
-continue 50                         will execute continue 50 times
-finish                        continues until the function returns. Shows the return value.
-
-set $myvariable = 10.0              sets value of variable just in gdb (just in the shell)
-set myvariable = 10.0               sets value of variable found in __source code__
-p myvariable = 10.0                 does the same thing as set but is shorter. Better use this instead of set.
-
-ignore, enable, disable, clear, delete          for breakpoints
-delete                        with no args kills _all_ breakpoints
-clear funcname                remove all bp from inside function called funcname
-info breakpoints              see all breakpoints
-
-break +3                      set break point 3 lines above currnt line
-break filename:linenumber     set break point in some file at some line. Note the : as delimeter.
-break                         with no arg set bp on current line
-break .... if i==2            conditional bp, the ... is bp location and i==2 is the condition
-b 3 Z > 92                    tell gdb to stop at bp number 3 when Z is > 92. Note: the `if` can be omitted
-
-tbreak                        sets a temporaty breakpoint (it is removed after first stop)
-ignore 2 5                    ignore bp number 2 for 5 crossings.
-watch varname                 set watchpoint on variable, (will break when variable get written into)
-rwatch varname                set a __read__ watchpoint, fires on read of variable.
-awatch varname                set all watchpoint (for both read and write)
-
-call myfuncname()             call my function, you format the function call according to language syntax.
-
-info frame                    frame information
-info locals                   values of all variables local to the function
-info args                     values of args passed to the function
-
-x                             examine memory (see `help x`)
-x /4c myvar                   examine myvar as 4 characters 
-x /3x myvar                   examine first 3*8 = 24 bytes as hex
-x /t myvar                    examine first 4 bytes = 32 bits as binary
-
-
-core filename                 read core dump file and start gdb from there
-info registers                show values in the registers
-nexti, stepi                  like next and step but at instuction level (assembley)
-disassemble funcname          see disassembled asm code for function
-
-define  macroname             create a macro for quick access
 
 
 
 
-Don't quit debugging session! Execute `kill`, then `run` from the debugger. It will load the changed binary.
-Also the breakpoints don't disappear when you don't quit.
 
 When you inspect a variable:
 (gdb) p myvar

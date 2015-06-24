@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="main.css" id="main-css" media="all" rel="stylesheet" type="text/css">
+    <link href="git.css" id="git-css" media="all" rel="stylesheet" type="text/css">
+    <title>Git Commands</title>
+</head>
+
+<body>
+    <div>
+
+    <div id="Menu">
+        <hr>
+        <ul>
+            <li><a href="index.html" title="main">Main</a><br></li>
+            <li><a href="git.html">Git</a><br></li>
+            <li><a href="shell.html">Bash shell</a><br></li>
+            <li><a href="macintosh.html">Mac os x</a><br></li>
+            <li><a href="opengl.html">OpenGl</a><br></li>
+            <li><a href="gdb.html">GDB</a><br></li>
+            <li><a href="ssh.html">SSH</a><br></li>
+            <li><a href="linux.html">Ubuntu/Linux</a><br></li>
+        </ul>
+        <hr>
+    </div>
+
+
+        <div>
+            <section>
+                <article>
+                    <header>
+                        <h1>GDB Commands</h1>
+
+                        <div>
+                            Posted on<i></i> <time>May 4, 2014</time>
+                        </div>
+                    </header>
+
+                    <div>
+                        <p>Below is a large list of GDB commands. Learn them. For fun.</p>
+
+                        <blockquote>
+                            <p>GDB is GNU debugger.</p> 
+                        </blockquote>
+
+                        <section>
+                            <h3>Start/Finish/Restart</h3>
+
+                            <dl>
+                                <dt><code class="codeline">run arg1 arg2 arg3</code></dt>
+                                <dd>Will pass arg1 arg2 and arg3 to your program as inputs.</dd>
+
+                                <dt><code class="codeline">core filename</code></dt>
+                                <dd>Read core dump file and start gdb from there.</dd>
+
+                                <dt><code class="codeline">kill && run</code></dt>
+                                <dd>This will reload the changed binary, but will not quit debugging session.
+                                So your breakponits and macros and gdb variables will not disappear.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Printing</h3>
+
+                            <dl>
+                                <dt><code class="codeline">print varname</code></dt>
+                                <dd>Prints value of var found in your source code.</dd>
+
+                                <dt><code class="codeline">print (char) mydouble</code></dt>
+                                <dd>You can typecast the value before you print it.</dd>
+
+                                <dt><code class="codeline">print *(&varname)</code></dt>
+                                <dt><code class="codeline">print &varname</code></dt>
+                                <dd>Deference and address taking for source variables works as expected.</dd>
+
+                                <dt><code class="codeline">print $34</code></dt>
+                                <dd>$34 refers to the result number 34, and plain $ refers to last result</dd>
+
+                                <dt><code class="codeline">print myIntArray[3]</code></dt>
+                                <dd>Print value of array element.</dd>
+
+                                <dt><code class="codeline">print myIntArray[3]@5</code></dt>
+                                <dd>Print 5 elements of my array starting at the 3rd element.</dd>
+
+                                <dt><code class="codeline">printf "X = %d, Y = %d\n",X,Y</code></dt>
+                                <dd>Formatted printing. Actually you can also do: 'call printf("X=%d, Y=%d\n",X,Y)'.</dd>
+
+                                <dt><code class="codeline">ptype varname</code></dt>
+                                <dd>Print type of variable, function, struct, array, union. Includes field names!!</dd>
+
+                                <dt><code class="codeline">ptype myIntArray[3]</code></dt>
+                                <dd>Print the type of array __element__.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Control flow</h3>
+
+                            <dl>
+                                <dt><code class="codeline">continue</code></dt>
+                                <dt><code class="codeline">continue 50</code></dt>
+                                <dd>Go until breakpoint is triggered.</dd>
+
+                                <dt><code class="codeline">next</code></dt>
+                                <dt><code class="codeline">next 50</code></dt>
+                                <dt><code class="codeline">nexti</code></dt>
+                                <dd>Go until you reach nest line. Repeat 50 times. With 'i' steps at instruction level.</dd>
+
+                                <dt><code class="codeline">step</code></dt>
+                                <dt><code class="codeline">step 30</code></dt>
+                                <dt><code class="codeline">stepi</code></dt>
+                                <dd>Go until the next instruction. Repeat 30 times. With 'i' steps at instruction level.</dd>
+
+                                <dt><code class="codeline">finish</code></dt>
+                                <dd>Continue until the function returns. gdb will show the returned value.</dd>
+
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Breakpoints</h3>
+
+                            <p>Obvious: ignore, enable, disable, clear, delete.</p>
+
+                            <dl>
+                                <dt><code class="codeline">ignore 2 5</code></dt>
+                                <dd>Ignore breakpoint number 2 for 5 crossings.</dd>
+
+                                <dt><code class="codeline">delete</code></dt>
+                                <dd>With no args kills _all_ breakpoints.</dd>
+
+                                <dt><code class="codeline">clear funcname</code></dt>
+                                <dd>Remove all bp from inside the function called funcname.</dd>
+
+                                <dt><code class="codeline">break</code></dt>
+                                <dd>Set bp on current line.</dd>
+
+                                <dt><code class="codeline">break +3</code></dt>
+                                <dd>Set break point 3 lines above current line.</dd>
+
+                                <dt><code class="codeline">break filename:linenumber</code></dt>
+                                <dd>Set bp in some file at line numeber. Note the ':' as delimiter.</dd>
+
+                                <dt><code class="codeline">break ... if i==2</code></dt>
+                                <dt><code class="codeline">break 3 myvar > 92</code></dt>
+                                <dd>Conditional break. The ... is bp location (func name, bp number) and i==2 is the condition.
+                                Tell gdb to stop at bp number 3 when myvar is > 92. Note that the if can be omitted.</dd>
+
+                                <dt><code class="codeline">tbreak</code></dt>
+                                <dd>Set a temporary breakponit (it is auto-removed after first stop).</dd>
+
+                                <dt><code class="codeline">watch varname</code></dt>
+                                <dd>Set watchpoint on variable (will break when variable get's written into).</dd>
+
+                                <dt><code class="codeline">rwatch varname</code></dt>
+                                <dd>Set a __read__ watchpoint (will break when variable is read).</dd>
+
+                                <dt><code class="codeline">awatch varname</code></dt>
+                                <dd>Set all watchpoint (break on both read or write of variable).</dd>
+
+                            </dl>
+
+                            <h4>Info</h4>
+
+                            <dl>
+                                <dt><code class="codeline">info breakpoints</code></dt>
+                                <dt><code class="codeline">info bp</code></dt>
+                                <dd>Show all bps.</dd>
+
+                                <dt><code class="codeline">info frame</code></dt>
+                                <dd>Frame information.</dd>
+
+                                <dt><code class="codeline">info locals</code></dt>
+                                <dd>Values of all variable local to the functions.</dd>
+
+                                <dt><code class="codeline">info args</code></dt>
+                                <dd>Show args passed to the function.</dd>
+
+                                <dt><code class="codeline">info registers</code></dt>
+                                <dd>Show the values in stored in registers.</dd>
+
+                            </dl>
+
+                            <h4>Other</h4>
+
+                            <dl>
+                                <dt><code class="codeline">display varname</code></dt>
+                                <dd>Print value of varname _everytime_ the program flow stops (on every break)!!</dd>
+
+                                <dt><code class="codeline">call myfunc()</code></dt>
+                                <dd>Call function and show result.</dd>
+
+                                <dt><code class="codeline">where</code></dt>
+                                <dd>Tells you where you are, what frame and other stuff.</dd>
+
+                                <dt><code class="codeline">backtrace</code></dt>
+                                <dd>Show the stack</dd>
+
+                                <dt><code class="codeline">frame 3</code></dt>
+                                <dd>Select which frame you want.</dd>
+
+                                <dt><code class="codeline">set $myvar = 10.0</code></dt>
+                                <dd>Set value of gdb _convenience_ variable.</dd>
+
+                                <dt><code class="codeline">set myvar = 10.0</code></dt>
+                                <dd>Sets the value of your _source code_ variable.</dd>
+
+                                <dt><code class="codeline">print myvar = 10.0</code></dt>
+                                <dd>Same effect as set for source code variables. Also echoes the actual 
+                                assigned value. BEtter use this than 'set'.</dd>
+
+                                <dt><code class="codeline">disassemble funcname</code></dt>
+                                <dd>See disassembled ams code for function.</dd>
+
+                                <dt><code class="codeline">define macroname</code></dt>
+                                <dd>Create a macro for quick access.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Examine memory</h3>
+
+                            <dl>
+                                <dt><code class="codeline">x /4c myvar</code></dt>
+                                <dd>examine myvar as 4 characters.</dd>
+
+                                <dt><code class="codeline">x /3x myvar</code></dt>
+                                <dd>examine first 3*8=24 bytes as hex.</dd>
+
+                                <dt><code class="codeline">x /t myvar</code></dt>
+                                <dd>examine first 4 bytes = 32 bits as binary.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Notes</h3>
+
+                            <ul type="circle">
+                                <li>
+                                    <code>
+                                    When you inspect a variable:
+                                    (gdb) p myvar
+                                    $1 = 423
+                                    (gdb)
+                                    Now when you enter $1 gdb will substitute 423.
+                                    </code>
+                                </li>
+                                <li>
+                                    <code>
+                                    Example making a macro of earlier printf command:
+                                    (gdb) define pxy
+                                    Type commands for definition of "pxy".
+                                    End with a line saying just "end".
+                                    >printf "%X = %d, Y = %d\n",X,Y
+                                    >end
+                                    </code>
+                                </li>
+
+                                <li>
+                                    In gdb this two lines are equal even if mystruct is not a pointer:
+                                    print myStruct.name
+                                    print myStruct->name
+                                </li>
+
+                                <li>
+                                    Check you push strategy. (`simple` is the new default.
+                                    Do `git help config | less` and grep for "simple"). This
+                                    affects your interaction with the remote. (And why people
+                                    sometimes mistakenly use `git push --force`)
+                                </li>
+
+                                <li>
+                                    "git tag 1.0" will only create a "lightweight tag",
+                                    just a pointer. On the other hand "git tag -a 1.0" or "git
+                                    -s tag 1.0" will create an actual Tag Object (with
+                                    date/time stamp, author info and so on)
+                                </li>
+
+                                <li>
+                                    By default, git-push pushes all branches, and
+                                    `git-pull` only pulls the master. (But somehow creates the
+                                    remote branches like origin/foo and origin/bar ?)
+                                </li>
+
+                                <li>
+                                    When you merge you say `git merge takebranch
+                                    intobranch` if the intobranch is none git assumes the
+                                    current branch. So you merge __into__ the current
+                                    branch.
+                                </li>
+
+                                <li>
+                                    HEAD points at current state. ORIG_HEAD points at
+                                    previous state. HEAD~3 == HEAD~~~ and HEAD^2 == HEAD^^ and
+                                    weird stuff like HEAD~~^2~ also has meaning. The tilde "~"
+                                    is to go backwards. The caret "^" is to go across parents.
+                                    So ~ goes primarily left/right and ^ goes primarily
+                                    up/down.
+                                </li>
+
+                                <li>
+                                    a --bare repository is one with only read access. So to
+                                    do any work you must clone it.
+                                </li>
+
+                                <li>
+                                    "origin" and "master" are not special! See
+                                    http://git-scm.com/book/en/v2/Git-Branching-Remote-Branches.
+                                    "master" is the default branch created when you run `git
+                                    init` and "origin" is the default created when you run `git
+                                    clone`.
+                                </li>
+
+                                <li>
+                                    Use `git clone
+                                    ssh://username@some.server.com:12345/~/repository.git`
+                                    where "12345" is the port, note the "~" which means we can
+                                    use relative directory with absolute directory syntax. (Git
+                                    also has ssh syntax for specifiying relative paths, but its
+                                    better to use absolute syntax with "~" to get to home
+                                    dir)
+                                </li>
+
+                                <li>
+                                    Do `export GIT_CURL_VERBOSE=1` to set max verbosity
+                                    during git clone. Also in your ssh config you can set
+                                    "LogLevel DEBUG3" for particular git server host shich will
+                                    debug ssh connection as if you gave the ssh `-vvv` option.
+                                    Also consider `export GIT_TRACE=1` which is slightly less
+                                    verbose.
+                                </li>
+
+                                <li>
+                                    If you want to use git over ssh, its a Really good idea
+                                    to write something like this in your local ssh config
+                                    (instead of doing `git clone
+                                    ssh://user@long.server.name.com:22/myrepo/path` and not
+                                    seeing any debug, you use `git clone
+                                    ssh://shortname/myrepo/path` which does not even need a
+                                    "user" since its in your ssh config file) <code>Host
+                                    shortname LogLevel DEBUG3 # to trouble shoot connection
+                                    problems HostName long.server.name.com # of course the .com
+                                    can be any domain IdentityFile
+                                    /Users/username/.ssh/some_git_key_rsa # works like giving
+                                    "-i" option to ssh. IdentitiesOnly yes # prevent ssh from
+                                    trying other identities to connect. User git # user on
+                                    remote server as in git clone user@remote.server.com Port
+                                    22 # port to try</code>
+                                </li>
+
+                                <li>
+                                    SSH note: if you want to DIS-allow ssh to try all of
+                                    your keys for each connection add this to the bottom of
+                                    your config file for ssh. Now only specified files will be
+                                    tried. <code>Host * IdentitiesOnly yes</code>
+                                </li>
+
+                                <li>
+                                    After you have cloned a remote repo you might want to
+                                    track it. This is optional, but is helpful if you are
+                                    working on more than a quick fix: git remote add --track
+                                    master origin 'git://github.com/smthng/codename.git' This
+                                    means that configuration is set up for easier work with the
+                                    remote (e.g. git fetch and git push)
+                                </li>
+
+                                <li>
+                                    "Remotes" are like nicknames for the URLs of other
+                                    repositories - "origin" is one, for example.
+                                </li>
+
+                                <li>
+                                   git show takes same formatting arguments as git diff-tree.
+                                </li>
+
+                                <li>
+                                   The --, the double hyphen is special to the bash shell. It means "end 
+                                   of cmd line flags" and tells git to NOT parse the text following it.
+                                   Its useful when some freako creates a file called like 'master' or '-f'.
+                                   Use this syntax if you have a branch or tag with the same name as a path given in path(s).
+                                </li>
+
+                                <li>
+                                    Be careful with how git deals with HARD and SOFT symbolic links.
+                                    The data referenced by the symlink is NOT stored in the repository.
+                                </li>
+                            </ul>
+                        </section>
+
+
+                        <section>
+                            <h3>Extra resources</h3>
+
+                            <ul type="disc">
+                                <li>
+                                    <dt><a href=
+                                    "http://www.ndpsoftware.com/git-cheatsheet.html">http://www.ndpsoftware.com/git-cheatsheet.html</a></dt>
+                                    Youtube: Git for ages 4 and up. Really good
+                                    explanation. Progit book by Scott Chacon is the deepest on
+                                    git.
+                                </li>
+
+                                <li>
+                                    <dt><a href=
+                                    "http://gitolite.com/gcs.html">http://gitolite.com/gcs.html</a></dt>
+                                    (great "git rebase" and "git cherry-pick" explanation
+                                    and nice graphs)
+                                </li>
+
+                                <li>
+                                    <dt><a href=
+                                    "http://2ndscale.com/rtomayko/2008/the-thing-about-git">
+                                    http://2ndscale.com/rtomayko/2008/the-thing-about-git</a></dt>
+                                    (great explanation of "git add --pach")
+                                </li>
+
+                                <li>
+                                    <dt><a href=
+                                    "http://www.mail-archive.com/dri-devel@lists.sourceforge.net/msg39091.html">
+                                    http://www.mail-archive.com/dri-devel@lists.sourceforge.net/msg39091.html</a></dt>
+                                    (interesting message from linus)
+                                </li>
+
+                                <li>
+                                    <dt><a href=
+                                    "http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged">
+                                    http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged</a></dt>
+                                    (nice git diff picture!)
+                                </li>
+
+                            </ul>
+                        </section>
+
+                    </div>
+                </article>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
