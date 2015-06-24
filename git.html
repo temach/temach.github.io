@@ -93,9 +93,11 @@
                                 <dd>Go through _each_ change in somefile and decide if you want to stage it</dd>
 
                                 <dt><code class="codeline">git rm file1 file2 ...</code></dt>
-                                <dt><code class="codeline">git rm --cached file1 file2 ...</code></dt>
                                 <dd>Remove file1, file2, etc. from index and filesystem (working tree).</dd>
-                                
+
+                                <dt><code class="codeline">git rm --cached file1 file2 ...</code></dt>
+                                <dd>This removes the file only from the index (cache/staging area).</dd>
+
                                 <dt><code class="codeline">git commit file1 file2 ... [-m msg]</code></dt>
                                 <dd>Commit changes. If '-m' not given will open program by $EDITOR env variable to write your commit msg.</dd>
 
@@ -178,6 +180,7 @@
 
                                 <dt><code class="codeline">git ls-files --others</code></dt>
                                 <dd>Show all UN-tracked files.</dd>
+
                             </dl>
 
                             <h4>Commit History</h4>
@@ -227,10 +230,13 @@
                                 <dd>Allows blame to go back in time. So blame for particular rev</dd>
 
                                 <dt><code class="codeline">git rev-list --all</code></dt>
-                                <dd>Show info (sha-1 and other) about all commits.</dd>
+                                <dd>Show info (hash, sha-1 and other) about all commits.</dd>
 
                                 <dt><code class="codeline">git rev-list rev1..rev2</code></dt>
                                 <dd>Show info for all commits between rev1 and rev2.</dd>
+
+                                <dt><code class="codeline">git cat-file -p rev</code></dt>
+                                <dd>Pretty print content of any git object.</dd>
 
                                 <dt><code class="codeline">git show rev</code></dt>
                                 <dd>Show the changeset (diff) introduced by a commit. Show what that commit did when it was made.</dd>
@@ -291,7 +297,7 @@
                             <h3>Branching</h3>
 
                             <dl>
-                                <dt><code class="codeline">git branch -vvar</code></dt>
+                                <dt><code class="codeline">git branch -vva</code></dt>
                                 <dd>List all local and remote branches.</dd>
 
                                 <dt><code class="codeline">git branch branchname</code></dt>
@@ -455,8 +461,9 @@
                             HEAD commit. (Internally git uses two commit objects to track a stash)</p>
 
                             <dl>
-                                <dt><code class="codeline">git stash save [msg]</code></dt>
-                                <dd>Save your local modifications to a new stash.</dd>
+                                <dt><code class="codeline">git stash [-u] save [msg]</code></dt>
+                                <dd>Save your local modifications to a new stash. With the -u option,
+                                untracked files will be saved as well. Normal git stash does NOT save untracked files.</dd>
 
                                 <dt><code class="codeline">git stash list</code></dt>
                                 <dd>List all current stashes.</dd>
@@ -506,6 +513,9 @@
                             <dl>
                                 <dt><code class="codeline">git remote add remotename url</code></dt>
                                 <dd>Adds a remote called remotename for the repository at url.</dd>
+
+                                <dt><code class="codeline">git remote -vv</code></dt>
+                                <dd>Show full names and full URLs of remotes.</dd>
 
                                 <dt><code class="codeline">git rm remote url</code></dt>
                                 <dd>Remove reference to remote repository named remote: all
@@ -698,6 +708,11 @@
                                    of cmd line flags" and tells git to NOT parse the text following it.
                                    Its useful when some freako creates a file called like 'master' or '-f'.
                                    Use this syntax if you have a branch or tag with the same name as a path given in path(s).
+                                </li>
+
+                                <li>
+                                    Be careful with how git deals with HARD and SOFT symbolic links.
+                                    The data referenced by the symlink is NOT stored in the repository.
                                 </li>
                             </ul>
                         </section>
