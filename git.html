@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="main.css" id="main-css" media="all" rel="stylesheet" type="text/css">
+    <link href="git.css" id="git-css" media="all" rel="stylesheet" type="text/css">
+    <title>Git Commands</title>
+</head>
+
+<body>
+    <div>
+
+    <div id="Menu">
+        <hr>
+        <ul>
+            <li><a href="index.html" title="main">Main</a><br></li>
+            <li><a href="shell.html">Bash shell</a><br></li>
+            <li><a href="macintosh.html">Mac os x</a><br></li>
+            <li><a href="opengl.html">OpenGl</a><br></li>
+            <li><a href="gdb.html">GDB</a><br></li>
+            <li><a href="ssh.html">SSH</a><br></li>
+            <li><a href="linux.html">Ubuntu/Linux</a><br></li>
+        </ul>
+        <hr>
+    </div>
+
+
+        <div>
+            <section>
+                <article>
+                    <header>
+                        <h1>Git Commands</h1>
+
+                        <div>
+                            Posted on<i></i> <time>May 4, 2014</time>
+                        </div>
+                    </header>
+
+                    <div>
+                        <p>Below is a large list of some useful commands for Git Version Control.
+                        You may not use them all in the same day, but you will most likely use them
+                        at least once and very often more than that. Git makes your life simple.
+                        Learn the commands.</p>
+
+                        <blockquote>
+                            <p>Some bla,bla,bla: “Git is a free &amp; open source, distributed version control system
+                            designed to handle everything from small to very large projects with
+                            speed and efficiency.” – Git Website</p>
+                        </blockquote>
+
+                        <section>
+                            <h3>Setup</h3>
+
+                            <dl>
+                                <dt><code class="codeline">git gui OR gitk OR git instaweb</code></dt>
+                                <dd>Manage your git without command line.</dd>
+
+                                <dt><code class="codeline">git clone url</code></dt>
+                                <dd>Clone repo specified by url. Similar to “checkout” in other version systems.</dd>
+
+                                <dt><code class="codeline">git init --bare</code></dt>
+                                <dd>Create git repo without a working tree. Good for repos that serve as mirrors.</dd>
+
+                                <dt><code class="codeline">git update-server-info</code></dt>
+                                <dd>Allow a git repository to act as a dumb server (for remote access).</dd>
+
+                                <dt><code class="codeline">git daemon</code></dt>
+                                <dd>simple server for git repositories. Can probably be run at home.</dd>
+
+                                <dt><code class="codeline">git check-ignore -v foo/bar.txt</code></dt> 
+                                <dd>Test your gitignore file</dd>
+
+                                <dt><code class="codeline">git help gitignore</code></dt>
+                                <dd>this is quite useful!</dd>
+
+                                <dt><code class="codeline">git help config</code></dt>
+                                <dd>see possible config options, the corresponding file is .git/config</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Adding/Deleting & Commiting</h3>
+
+                            <dl>
+                                <dt><code class="codeline">git add file1 file2 ...</code></dt>
+                                <dt><code class="codeline">git add dir</code></dt>
+                                <dt><code class="codeline">git add .</code></dt>
+
+                                <dd>Add files to index.</dd>
+
+                                <dt><code class="codeline">git add --patch somefile</code></dt>
+                                <dd>Go through _each_ change in somefile and decide if you want to stage it</dd>
+
+                                <dt><code class="codeline">git rm file1 file2 ...</code></dt>
+                                <dt><code class="codeline">git rm --cached file1 file2 ...</code></dt>
+                                <dd>Remove file1, file2, etc. from index and filesystem (working tree).</dd>
+                                
+                                <dt><code class="codeline">git commit file1 file2 ... [-m msg]</code></dt>
+                                <dd>Commit changes. If '-m' not given will open program by $EDITOR env variable to write your commit msg.</dd>
+
+                                <dt><code class="codeline">git commit --amend file1 file2 ... [-m msg]</code></dt>
+                                <dd>Re-commit previous commit, including file1, file2, etc., using previous commit message as default.</dd>
+
+                                <dt><code class="codeline">git commit --no-ff</code></dt>
+                                <dd>use over plain git commit, it preserves branch history in nicer format</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Sharing</h3>
+
+                            <dl>
+                                <dt><code class="codeline">git push [remote] [cur_branchname]</code></dt>
+                                <dd>Default remote name is 'origin'.  Check your push strategy (should be 'simple').
+                                If no branchname git will behaive according to push strategy.
+                                First time you push a new branch to remote, you have to be explicit.</dd>
+
+                                <dt><code class="codeline">git push -u origin feature_branch_name</code></dt>
+                                <dd>To set up tracking (upstream) information (for merge/pull)</dd>
+
+                                <dt><code class="codeline">git pull remote</code></dt>
+                                <dd>Is crap. Use git fetch and git merge to break up the process into solid steps.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Information</h3>
+
+                            <h4>Changes and Differences</h4>
+
+                            <p> Git diff has cool options: --name-only, --name-status, --status.</p>
+
+                            <dl>
+                                <dt><code class="codeline">git status</code></dt>
+                                <dd>Show files added to the index, files with changes, and untracked files.</dd>
+
+                                <dt><code class="codeline">git diff</code></dt>
+                                <dd>How to go from your current working tree to index (what is staged).</dd>
+
+                                <dt><code class="codeline">git diff HEAD</code></dt>
+                                <dd>How to go from HEAD to current working tree.</dd>
+
+                                <dt><code class="codeline">git diff --cached [commit]</code></dt>
+                                <dd>How to go from some commit to the current cached (what is in the index). By default the commit is HEAD.</dd>
+
+                                <dt><code class="codeline">git diff branchA:fileA branchB:fileB</code></dt>
+                                <dd>Show differences between working directory and revision rev,
+                                optionally limiting comparison to files found in one or more
+                                space-separated file paths or subdirectories given by path(s).</dd>
+
+                                <dt><code class="codeline">git diff rev1..rev2 [path(s)]</code></dt>
+                                <dd>Show differences between two revisions, rev1 and rev2,
+                                optionally limiting comparison to files found in one or more
+                                space-separated file paths or subdirectories given by path(s).</dd>
+
+                                <dt><code class="codeline">git diff rev1...rev2 [path(s)]</code></dt>
+                                <dd>Show differences between the last common ancestor of two
+                                revisions, rev1 and rev2, optionally limiting comparison to files
+                                found in one or more space-separated file paths or subdirectories
+                                given by path(s).</dd>
+                            </dl>
+
+                            <h4>File and Directory Contents</h4>
+
+                            <dl>
+                                <dt><code class="codeline">git show rev:file</code></dt>
+                                <dd>Show contents of file (specified relative to the project root) from revision rev.</dd>
+
+                                <dt><code class="codeline">git ls-tree -r --name-only --full-tree commit</code></dt>
+                                <dd>Show names of ALL the files present in git at some commit.</dd>
+
+                                <dt><code class="codeline">git show ---pretty="format:" --name-status commit</code></dt>
+                                <dd>Show the files modified by the commit. Also try '--status' instead of '--name-status' </dd>
+
+                                <dt><code class="codeline">git ls-files [-t]</code></dt>
+                                <dd>Show all tracked files (“-t” shows file status).</dd>
+
+                                <dt><code class="codeline">git ls-files --others</code></dt>
+                                <dd>Show all UN-tracked files.</dd>
+                            </dl>
+
+                            <h4>Commit History</h4>
+
+                            <dl>
+                                <dt><code class="codeline">git tag</code></dt>
+                                <dd>Know the difference between soft (lightweight) and hard (annotated) tag. Default is soft tag.</dd>
+
+                                <dt><code class="codeline">git log --graph --decorate --all</code></dt>
+                                <dd>View commit history and branches (also --abbrev-commit OR --oneline for an overview)</dd></dt>
+
+                                <dt><code class="codeline">git log [paths]</code></dt>
+                                <dd>Show recent commits, most recent on top. If you give space-separated paths only they are shown.
+                                Can give directory paths as well.</dd>
+
+                                <dt><code class="codeline">git log -p</code></dt>
+                                <dd>Show recent commits, most recent on top, with full diffs.</dd>
+
+                                <dt><code class="codeline">git log -g</code></dt>
+                                <dd>Show recent commits, most recent on top, walking the full
+                                reflog entries instead of the commit ancestry chain up to the
+                                current HEAD. By default, “git log” reports all commits only up to
+                                the current HEAD, even if HEAD has descendents on the current
+                                branch (as, for example, might happen if you ran “git reset rev” to
+                                move HEAD to a previous point in history). The “-g” option will
+                                report the full history. <em>Its like forcing git to look for history.</em></dd>
+
+                                <dt><code class="codeline">git log --stat [path(s)]</code></dt>
+                                <dd>Show recent commits, with stats.</dd>
+
+                                <dt><code class="codeline">git log --author=author</code></dt>
+                                <dd>Show recent commits, only by author.</dd>
+
+                                <dt><code class="codeline">git log --after="MMM DD YYYY"</code></dt>
+                                <dd>Show commits that occur after a certain date, e.g. “Jun 20 2008″.</dd>
+
+                                <dt><code class="codeline">git log --before="MMM DD YYYY"</code></dt>
+                                <dd>Show commits that occur before a certain date.</dd>
+
+                                <dt><code class="codeline">git whatchanged filepath</code></dt>
+                                <dd>Show only the commits which affected file listing the most recent first.</dd>
+
+                                <dt><code class="codeline">git blame filepath</code></dt>
+                                <dd>Show who authored each line in file.</dd>
+
+                                <dt><code class="codeline">git blame filepath rev</code></dt>
+                                <dd>Allows blame to go back in time. So blame for particular rev</dd>
+
+                                <dt><code class="codeline">git rev-list --all</code></dt>
+                                <dd>Show info (sha-1 and other) about all commits.</dd>
+
+                                <dt><code class="codeline">git rev-list rev1..rev2</code></dt>
+                                <dd>Show info for all commits between rev1 and rev2.</dd>
+
+                                <dt><code class="codeline">git show rev</code></dt>
+                                <dd>Show the changeset (diff) introduced by a commit. Show what that commit did when it was made.</dd>
+
+                                <dt><code class="codeline">git show rev path(s)</code></dt>
+                                <dd>Show the changeset (diff) introduced by a commit to certain filepaths.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Searching</h3>
+
+                            <h4>Searching for Content</h4>
+
+                            <dl>
+                                <dt><code class="codeline">git grep regexp</code></dt>
+                                <dd>Search working tree for text matching regular expression
+                                regexp.</dd>
+
+                                <dt><code class="codeline">git grep -e regexp1 [--or] -e regexp2</code></dt>
+                                <dd>Search working tree for lines of text matching regular
+                                expression regexp1 or regexp2.</dd>
+
+                                <dt><code class="codeline">git grep -e regexp1 --and -e regexp2</code></dt>
+                                <dd>Search working tree for lines of text matching regular
+                                expression regexp1 and regexp2, reporting file paths only.</dd>
+
+                                <dt><code class="codeline">git grep -l --all-match -e regexp1 -e regexp2</code></dt>
+                                <dd>Search working tree for files that have lines of text matching
+                                regular expression regexp1 and lines of text matching regular
+                                expression regexp2.</dd>
+
+                                <dt><code class="codeline">git grep regexp $(git rev-list --all)</code></dt>
+                                <dd>Search all revisions for text matching regular expression regexp.</dd>
+
+                                <dt><code class="codeline">git grep regexp $(git rev-list rev1..rev2)</code></dt>
+                                <dd>Search all revisions between rev1 and rev2 for text matching regular expression regexp.</dd>
+                            </dl>
+
+                            <h4>Searching Logs and Commit History</h4>
+
+                            <dl>
+                                <dt><code class="codeline">git log --grep regexp</code></dt>
+                                <dd>Search commit logs for lines of text matching regular expression regexp.</dd>
+
+                                <dt><code class="codeline">git log --grep regexp1 --grep regexp2</code></dt>
+                                <dd>Search commit logs for lines of text matching regular expression regexp1 or regexp2.</dd>
+
+                                <dt><code class="codeline">git log --grep regexp1 --and --grep regexp2</code></dt>
+                                <dd>Search commit logs for lines of text matching regular expression regexp1 and regexp2.</dd>
+
+                                <dt><code class="codeline">git reflog branchname</code></dt>
+                                <dd>What git operations you have done. Very useful! (branchname is optional)</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Branching</h3>
+
+                            <dl>
+                                <dt><code class="codeline">git branch -vvar</code></dt>
+                                <dd>List all local and remote branches.</dd>
+
+                                <dt><code class="codeline">git branch branchname</code></dt>
+                                <dd>Create a new branch named branchname, based on current branch.</dd>
+
+                                <dt><code class="codeline">git branch new-branch rev</code></dt>
+                                <dd>Create a new branch named new-branch, based on revision specified by tree-ish rev.</dd>
+
+                                <dt><code class="codeline">git branch --track new-branch remote/remote-branch</code></dt>
+                                <dd>Create a new tracking branch named new-branch, with tracking (upstream) info set up properly.</dd>
+
+                                <dt><code class="codeline">git branch --edit-description</code></dt>
+                                <dd>Description for a branch, but stored only locally in .git/config (can not share)</dd>
+                            </dl>
+
+                            <h4>Checking Out Branches/Revisions</h4>
+
+                            <dl>
+                                <dt><code class="codeline">git checkout branch</code></dt>
+                                <dd>Switch to branch named branch. This updates (soft update!) the working tree to
+                                reflect the state of the branch named branch, and sets HEAD to
+                                “.git/refs/heads/branch”.</dd>
+
+                                <dt><code class="codeline">git checkout rev</code></dt>
+                                <dd>Switch to revision specified by tree-ish rev, without
+                                explicitly branching. Running “git checkout -b new-branch” will
+                                create a branch from the checked out version.</dd>
+                            </dl>
+
+                            <h4>Simultaneous Creating and Switching Branches</h4>
+
+                            <dl>
+                                <dt><code class="codeline">git checkout -b new-branch</code></dt>
+                                <dd>Create a new branch named new-branch, referencing the current
+                                branch, and check it out.</dd>
+
+                                <dt><code class="codeline">git checkout -b new-branch rev</code></dt>
+                                <dd>Create a new branch named new-branch based on the tree-ish rev,
+                                update the working tree to reflect its state, and check it out
+                                (switch to it).</dd>
+                            </dl>
+
+                            <h4>Deleting Branches</h4>
+
+                            <dl>
+                                <dt><code class="codeline">git branch -d branchname</code></dt>
+                                <dd>Delete local branch.</dd>
+
+                                <dt><code class="codeline">git branch -d -r remote/branch</code></dt>
+                                <dd>Delete a “local remote” branch, i.e. a local tracking branch. Like 'origin/my-feature-branch'</dd>
+
+                                <dt><code class="codeline">git push origin localname:remotename</code></dt>
+                                <dd>If your local branch has a different name on the remote server. (because by default git will 
+                                try to push to a branch on the remote with same name)</dd>
+
+                                <dt><code class="codeline">git push origin :branchname</code></dt>
+                                <dd>Delete a branch named branch from a remote repository. The sysntax is as if you are pushing (void):branchname</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Merging</h3>
+
+                            <p>In all of the following, a merge strategy can be specified by the
+                            “-s strategy” argument, which can be one of: “resolve”, “recursive”,
+                            “octopus”, “ours”, or “subtree”. If you tried a merge which resulted in
+                            a complex conflicts and would want to start over, you can recover with
+                            “git reset –hard”. If you accidently merged and want to unmerge, you
+                            can “git reset –hard ORIG_HEAD”.</p>
+
+                            <dl>
+                                <dt><code class="codeline">grep -lr '&lt;&lt;&lt;&lt;&lt;&lt;' . | xargs git checkout --ours</code></dt>
+                                <dd>Simply resolve all conflics in in favour of "ours" branch</dd>
+
+                                <dt><code class="codeline">git merge branch</code></dt>
+                                <dd>Merge branch into current branch and commit the result.</dd>
+
+                                <dt><code class="codeline">git merge --no-ff --no-commit branchname</code></dt>
+                                <dd>If you dont want a commit to happen, this is the only way to make sure.</dd>
+
+                                <dt><code class="codeline">git merge --squash branch</code></dt>
+                                <dd>Merge a branch into the current branch as is it was a single commit.</dd>
+
+                                <dt><code class="codeline">git mergetool</code></dt>
+                                <dd>Typically run after a merge with conflicts to do interactive conflict resolution</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Undoing</h3>
+
+                            <p>Reverting is different from resetting in that reverts usually create
+                            new history while resets usually remove existing history. The changes
+                            of a revert are applied to the current state of the repository, and, if
+                            committed, results in a new repository state descending from the
+                            current one. Reverts are safe to publish even if they revert a
+                            previously published commit, and, in fact, are the correct way of
+                            dealing with the undoing of published commits. Resetting, on the other
+                            hand, represents (a possibly selective) “rewind” to a previous state in
+                            the history “starting again” from there. Resets should never be
+                            committed if they undo commits that have been published or pushed to
+                            remote repositories, as this would result in invalid object histories
+                            and commit ID’s in the remote repositories.</p>
+
+                            <h4>Reverting</h4>
+
+                            <dl>
+                                <dt><code class="codeline">git fsck</code></dt>
+                                <dd>inspect and verify git objects</dd>
+                                
+                                <dt><code class="codeline">git revert rev</code></dt>
+                                <dd>Use this instead of git reset if you have pushed your changes.
+                                Doing a reset will diverge your history, but revert will make a new commit on 
+                                branch tip with the _contents_ (read with the diff) of the old commit.</dd>
+
+                                <dt><code class="codeline">git checkout path(s)</code></dt>
+                                <dd>Re-checkout file or files specified by path(s), overwriting any
+                                local changes. This is most similar to “svn revert”.</dd>
+
+                                <dt><code class="codeline">git checkout rev path(s)</code></dt>
+                                <dd>Re-checkout file or files specified by path(s) to version
+                                specified by rev (which may be specified using a SHA1 commit ID,
+                                branch name, or tag), overwriting any local changes.</dd>
+
+                                <dt><code class="codeline">git checkout -f</code></dt>
+                                <dd>Throw away <strong>all</strong> local changes since last
+                                commit, restoring working tree to last committed state (plus
+                                untracked files) and clearing index. Unlike “git reset –hard”, does
+                                not move HEAD, and so will not, for example, cleanly forget about a
+                                failed merged: use “git reset –hard” for this.</dd>
+                            </dl>
+
+                            <h4>Resetting</h4>
+
+                            <dl>
+                                <dt><code class="codeline">git reset rev path(s)</code></dt>
+                                <dd>Restores file or files specified by path(s) to revision
+                                specified by rev, does NOT change HEAD.</dd>
+
+                                <dt><code class="codeline">git reset rev</code></dt>
+                                <dd>Moving pointers around! Sets the current HEAD to the commit specified by rev, and
+                                resets the index but NOT the working tree (current changes are preserved). 
+                                By default rev is assumed to be HEAD.</dd>
+
+                                <dt><code class="codeline">git reset --soft rev</code></dt>
+                                <dd>Sets the current HEAD to the commit specified by rev. Does NOT modify the working tree, 
+                                does NOT change the index.</dd>
+
+                                <dt><code class="codeline">git reset --hard rev</code></dt>
+                                <dd>Sets the current HEAD to the commit specified by rev, and changes the
+                                working tree to mirror the new HEAD, but does NOT change untracked files.
+                                Useful for forgetting about the merge just done. If there are conflicts (the
+                                merge was not successful), use “git reset –hard” to revert.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Stashing</h3>
+
+                            <p>The command saves your local modifications and reverts the working directory to match the
+                            HEAD commit. (Internally git uses two commit objects to track a stash)</p>
+
+                            <dl>
+                                <dt><code class="codeline">git stash save [msg]</code></dt>
+                                <dd>Save your local modifications to a new stash.</dd>
+
+                                <dt><code class="codeline">git stash list</code></dt>
+                                <dd>List all current stashes.</dd>
+
+                                <dt><code class="codeline">git stash apply [stash]</code></dt>
+                                <dd>Restore changes. By default, applies the latest stash@{0}. The working directory must be clean.</dd>
+
+                                <dt><code class="codeline">git stash branch new-branch [stash]</code></dt>
+                                <dd>Creates and checks out a new branch named new-branch starting
+                                from the commit at which the stash was originally created, applies
+                                the changes recorded in stash to the new working tree and index,
+                                then drops the stash if that completes successfully. When no stash
+                                is given, applies the latest one.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Cleaning</h3>
+
+                            <dl>
+                                <dt><code class="codeline">git gc</code></dt>
+                                <dd>garbage collection, removes dangling commits</dd>
+
+                                <dt><code class="codeline">git clean -f</code></dt>
+                                <dd>Remove all untracked files from working copy.</dd>
+
+                                <dt><code class="codeline">git clean -fd</code></dt>
+                                <dd>Remove all untracked files and directories from working copy.</dd>
+
+                                <dt><code class="codeline">git clean -fX</code></dt>
+                                <dd>Remove all ignored files from working copy.</dd>
+
+                                <dt><code class="codeline">git clean -fXd</code></dt>
+                                <dd>Remove all ignored files and directories from working copy.</dd>
+
+                                <dt><code class="codeline">git clean -fx</code></dt>
+                                <dd>Remove all untracked <strong>and</strong> ignored files from working copy.</dd>
+
+                                <dt><code class="codeline">git clean -fxd</code></dt>
+                                <dd>Remove all untracked <strong>and</strong> ignored files and directories from working copy.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Remotes</h3>
+
+                            <dl>
+                                <dt><code class="codeline">git remote add remotename url</code></dt>
+                                <dd>Adds a remote called remotename for the repository at url.</dd>
+
+                                <dt><code class="codeline">git rm remote url</code></dt>
+                                <dd>Remove reference to remote repository named remote: all
+                                tracking branches and configuration settings for remote are
+                                removed.</dd>
+
+                                <dt><code class="codeline">git remote prune remote</code></dt>
+                                <dd>Prune deleted remote branches from git branch listing. These
+                                branches have already been removed from the remote repository named
+                                remote, but are still locally available in “remotes/remote”.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Plumbing</h3>
+
+                            <dl>
+                                <dt><code class="codeline">test sha1-A = $(git merge-base sha1-B)</code></dt>
+                                <dd>Determine if merging sha1-B into sha1-A is achievable as a fast
+                                forward; non-zero exit status is false.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Configuration</h3>
+
+                            <p>You can add “ <code class="codeline">--global</code> ” after “
+                            <code class="codeline">git config</code> ” to any of these commands to
+                            make it apply to all git repositories (writes to ~/.gitconfig).</p>
+
+                            <dl>
+                                <dt><code class="codeline">git config user.email author@email.com</code></dt>
+                                <dd>Set email for commit messages.</dd>
+
+                                <dt><code class="codeline">git config user.name 'author name'</code></dt>
+                                <dd>Set name for commit messages.</dd>
+
+                                <dt><code class="codeline">git config branch.autosetupmerge true</code></dt>
+                                <dd>Tells git-branch and git-checkout to setup new branches so that
+                                <code class="codeline">git-pull(1)</code> will appropriately merge
+                                from that remote branch. Recommended. Without this, you will have
+                                to add “ <code>--track</code> ” to your branch command or manually
+                                merge remote tracking branches with “ <code class=
+                                "codeline">fetch</code> ” and then “ <code>merge</code> “.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Environment Variables</h3>
+
+                            <dl>
+                                <dt><code class="codeline">GIT_AUTHOR_NAME, GIT_COMMITTER_NAME</code></dt>
+                                <dd>Full name to be recorded in any newly created commits.
+                                Overrides user.name in .git/config.</dd>
+
+                                <dt><code class="codeline">GIT_AUTHOR_EMAIL, GIT_COMMITTER_EMAIL</code></dt>
+                                <dd>Email address to be recorded in any newly created commits.
+                                Overrides user.email in .git/config.</dd>
+                            </dl>
+                        </section>
+
+                        <section>
+                            <h3>Notes</h3>
+
+                            <ul type="circle">
+                                <li>
+                                    Use git fetch and merge instead of git pull
+                                </li>
+
+                                <li>
+                                    almost all commands take `--dry-run` and
+                                    `--interactive`. With interactive you can git commit in
+                                    multiple stages a couple of files at a time. This can make
+                                    commits more logical, and easier to revert.
+                                </li>
+
+                                <li>
+                                    Check you push strategy. (`simple` is the new default.
+                                    Do `git help config | less` and grep for "simple"). This
+                                    affects your interaction with the remote. (And why people
+                                    sometimes mistakenly use `git push --force`)
+                                </li>
+
+                                <li>
+                                    "git tag 1.0" will only create a "lightweight tag",
+                                    just a pointer. On the other hand "git tag -a 1.0" or "git
+                                    -s tag 1.0" will create an actual Tag Object (with
+                                    date/time stamp, author info and so on)
+                                </li>
+
+                                <li>
+                                    By default, git-push pushes all branches, and
+                                    `git-pull` only pulls the master. (But somehow creates the
+                                    remote branches like origin/foo and origin/bar ?)
+                                </li>
+
+                                <li>
+                                    When you merge you say `git merge takebranch
+                                    intobranch` if the intobranch is none git assumes the
+                                    current branch. So you merge __into__ the current
+                                    branch.
+                                </li>
+
+                                <li>
+                                    HEAD points at current state. ORIG_HEAD points at
+                                    previous state. HEAD~3 == HEAD~~~ and HEAD^2 == HEAD^^ and
+                                    weird stuff like HEAD~~^2~ also has meaning. The tilde "~"
+                                    is to go backwards. The caret "^" is to go across parents.
+                                    So ~ goes primarily left/right and ^ goes primarily
+                                    up/down.
+                                </li>
+
+                                <li>
+                                    a --bare repository is one with only read access. So to
+                                    do any work you must clone it.
+                                </li>
+
+                                <li>
+                                    "origin" and "master" are not special! See
+                                    http://git-scm.com/book/en/v2/Git-Branching-Remote-Branches.
+                                    "master" is the default branch created when you run `git
+                                    init` and "origin" is the default created when you run `git
+                                    clone`.
+                                </li>
+
+                                <li>
+                                    Use `git clone
+                                    ssh://username@some.server.com:12345/~/repository.git`
+                                    where "12345" is the port, note the "~" which means we can
+                                    use relative directory with absolute directory syntax. (Git
+                                    also has ssh syntax for specifiying relative paths, but its
+                                    better to use absolute syntax with "~" to get to home
+                                    dir)
+                                </li>
+
+                                <li>
+                                    Do `export GIT_CURL_VERBOSE=1` to set max verbosity
+                                    during git clone. Also in your ssh config you can set
+                                    "LogLevel DEBUG3" for particular git server host shich will
+                                    debug ssh connection as if you gave the ssh `-vvv` option.
+                                    Also consider `export GIT_TRACE=1` which is slightly less
+                                    verbose.
+                                </li>
+
+                                <li>
+                                    If you want to use git over ssh, its a Really good idea
+                                    to write something like this in your local ssh config
+                                    (instead of doing `git clone
+                                    ssh://user@long.server.name.com:22/myrepo/path` and not
+                                    seeing any debug, you use `git clone
+                                    ssh://shortname/myrepo/path` which does not even need a
+                                    "user" since its in your ssh config file) <code>Host
+                                    shortname LogLevel DEBUG3 # to trouble shoot connection
+                                    problems HostName long.server.name.com # of course the .com
+                                    can be any domain IdentityFile
+                                    /Users/username/.ssh/some_git_key_rsa # works like giving
+                                    "-i" option to ssh. IdentitiesOnly yes # prevent ssh from
+                                    trying other identities to connect. User git # user on
+                                    remote server as in git clone user@remote.server.com Port
+                                    22 # port to try</code>
+                                </li>
+
+                                <li>
+                                    SSH note: if you want to DIS-allow ssh to try all of
+                                    your keys for each connection add this to the bottom of
+                                    your config file for ssh. Now only specified files will be
+                                    tried. <code>Host * IdentitiesOnly yes</code>
+                                </li>
+
+                                <li>
+                                    After you have cloned a remote repo you might want to
+                                    track it. This is optional, but is helpful if you are
+                                    working on more than a quick fix: git remote add --track
+                                    master origin 'git://github.com/smthng/codename.git' This
+                                    means that configuration is set up for easier work with the
+                                    remote (e.g. git fetch and git push)
+                                </li>
+
+                                <li>
+                                    "Remotes" are like nicknames for the URLs of other
+                                    repositories - "origin" is one, for example.
+                                </li>
+
+                                <li>
+                                   git show takes same formatting arguments as git diff-tree.
+                                </li>
+
+                                <li>
+                                   The --, the double hyphen is special to the bash shell. It means "end 
+                                   of cmd line flags" and tells git to NOT parse the text following it.
+                                   Its useful when some freako creates a file called like 'master' or '-f'.
+                                   Use this syntax if you have a branch or tag with the same name as a path given in path(s).
+                                </li>
+                            </ul>
+                        </section>
+
+
+                        <section>
+                            <h3>Extra resources</h3>
+
+                            <ul type="disc">
+                                <li>
+                                    <dt><a href=
+                                    "http://www.ndpsoftware.com/git-cheatsheet.html">http://www.ndpsoftware.com/git-cheatsheet.html</a></dt>
+                                    Youtube: Git for ages 4 and up. Really good
+                                    explanation. Progit book by Scott Chacon is the deepest on
+                                    git.
+                                </li>
+
+                                <li>
+                                    <dt><a href=
+                                    "http://gitolite.com/gcs.html">http://gitolite.com/gcs.html</a></dt>
+                                    (great "git rebase" and "git cherry-pick" explanation
+                                    and nice graphs)
+                                </li>
+
+                                <li>
+                                    <dt><a href=
+                                    "http://2ndscale.com/rtomayko/2008/the-thing-about-git">
+                                    http://2ndscale.com/rtomayko/2008/the-thing-about-git</a></dt>
+                                    (great explanation of "git add --pach")
+                                </li>
+
+                                <li>
+                                    <dt><a href=
+                                    "http://www.mail-archive.com/dri-devel@lists.sourceforge.net/msg39091.html">
+                                    http://www.mail-archive.com/dri-devel@lists.sourceforge.net/msg39091.html</a></dt>
+                                    (interesting message from linus)
+                                </li>
+
+                                <li>
+                                    <dt><a href=
+                                    "http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged">
+                                    http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged</a></dt>
+                                    (nice git diff picture!)
+                                </li>
+
+                            </ul>
+                        </section>
+
+                    </div>
+                </article>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

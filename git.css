@@ -1,0 +1,40 @@
+
+#site_wrapper {
+    max-width: 730px;
+    width: 730px;
+    perspective-origin: 525px 0px;
+    transform-origin: 525px 0px;
+    font: normal normal normal normal 16px/normal 'Times New Roman';
+    padding: 0px 0px 0px 320px;
+    overflow:auto;
+}/*#cssid_DIV_1*/
+
+#scrollbox {
+    bottom: 0px;
+    /*height: 294px;*/
+    float:left;
+    left: 320px;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    width: 1520px;
+    z-index: 0;
+    perspective-origin: 767.5px 147px;
+    transform-origin: 767.5px 147px;
+    font: normal normal normal normal 16px/normal 'Times New Roman';
+    overflow: auto;
+}/*#cssid_DIV_2*/
+
+.codeline {
+    color: rgb(41, 163, 41);
+    background: rgb(229, 229, 229) none repeat scroll 0% 0% / auto padding-box border-box;
+    border: 1px solid rgb(225, 225, 225);
+    border-radius: 4px 4px 4px 4px;
+    font: normal normal normal normal 13px/26px monospace;
+    outline: rgb(255, 51, 51) none 0px;
+    padding: 3px 5px;
+}/* #CODE_109 */
+
+.explain {
+    font: normal normal normal normal 16px/26px 'Open Sans', Helvetica, Arial, sans-serif;
+}/* DD130 */
