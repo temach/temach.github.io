@@ -1,5 +1,7 @@
 xev     # Inspect keyboard input/modifiers and mouse events
 
+"sudo apt-get install build-essentials" on new ubuntu machine.
+
 .Xresources  
 File where programs can typically look for their settings. 
 For example rxvt and its clones look there and so do vim and emacs. Some progs look in .Xdefaults. A small number of progs look for files in "app-defaults" dir (that is `/usr/X11R6/lib/X11/app-defaults`)
