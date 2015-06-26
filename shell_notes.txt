@@ -36,3 +36,5 @@ You can use `dmesg --follow` to find name of a device (like: `/dev/ttyUSB0`) as 
 
 After you compile (make && sudo make install) remember to run ldconfig
 This can (and will) absolutely save you!!
+
+Postgres leaves around many, many pg_xxxxx files (in particular pg_config which can unintentionally prevent you from reinstalling postgres correctly) so when you delete postgres, delete them too!
