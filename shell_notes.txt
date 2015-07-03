@@ -3,8 +3,9 @@ xev     # Inspect keyboard input/modifiers and mouse events
 "sudo apt-get install build-essentials" on new ubuntu machine.
 
 On unubtu to restart JUST the window manager (the unity window manager):
-`unity` or `compiz --replace` commands (since unity is a compiz plugin)
+`DISPLAY=:0 unity --replace` or `compiz --replace` commands (since unity is a compiz plugin)
 this is just the gui restart so your applications will be unaffected.
+Also you can ALT+F2, type `unity`, hit ENTER, this should restart unity as well.
 Actually many window managers take the --replace option, which can 
 function as a window manager restart. So remember about it the next time
 your gui freezes!
