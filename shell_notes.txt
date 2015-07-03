@@ -2,6 +2,24 @@ xev     # Inspect keyboard input/modifiers and mouse events
 
 "sudo apt-get install build-essentials" on new ubuntu machine.
 
+On unubtu to restart JUST the window manager (the unity window manager):
+`unity` or `compiz --replace` commands (since unity is a compiz plugin)
+this is just the gui restart so your applications will be unaffected.
+Actually many window managers take the --replace option, which can 
+function as a window manager restart. So remember about it the next time
+your gui freezes!
+
+To restart the X server (display manager a.k.a. "dm") use 
+You should type: sudo service XXX restart
+The XXX should be (without quotes):
+    gdm if you use Ubuntu 11.04 or older
+    lightdm for Ubuntu 11.10
+    kdm for Kubuntu
+    xdm for Xubuntu
+
+
+
+
 .Xresources  
 File where programs can typically look for their settings. 
 For example rxvt and its clones look there and so do vim and emacs. Some progs look in .Xdefaults. A small number of progs look for files in "app-defaults" dir (that is `/usr/X11R6/lib/X11/app-defaults`)
