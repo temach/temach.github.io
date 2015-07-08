@@ -6,6 +6,9 @@ ERASE your filesystem when $foo and $bar are empty/uninitialised)
 
 Also for safer bash scripting see: https://sipb.mit.edu/doc/safe-shell/
 
+shopt options (note: shopt and set are very similar but different commands):
+http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
+
 
 map caps to escape:
 setxkbmap -option "caps:escape"
