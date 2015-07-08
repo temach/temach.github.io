@@ -1,5 +1,14 @@
 xev     # Inspect keyboard input/modifiers and mouse events
 
+in all your scripts: add "set -u" option. This will make sure that all your variables 
+are (initialised/not empty) before use. (Otherwise `rm -rf "$foo/$bar"` will 
+ERASE your filesystem when $foo and $bar are empty/uninitialised) 
+
+map caps to escape:
+setxkbmap -option "caps:escape"
+
+Know about ibus, used for interactive text entry in multilingual environment.
+
 "sudo apt-get install build-essentials" on new ubuntu machine.
 
 On unubtu to restart JUST the window manager (the unity window manager):
