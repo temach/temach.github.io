@@ -12,6 +12,8 @@ http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
 
 map caps to escape:
 setxkbmap -option "caps:escape"
+also: `xkbprint :0.0` to print map for zero display to postscript/ghostscript file and 
+then use `ps2pdf filename.ps` to make a pdf image.
 
 Know about ibus, used for interactive text entry in multilingual environment.
 
