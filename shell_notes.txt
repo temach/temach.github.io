@@ -4,6 +4,9 @@ in all your scripts: add "set -u" option. This will make sure that all your vari
 are (initialised/not empty) before use. (Otherwise `rm -rf "$foo/$bar"` will 
 ERASE your filesystem when $foo and $bar are empty/uninitialised) 
 
+Also for safer bash scripting see: https://sipb.mit.edu/doc/safe-shell/
+
+
 map caps to escape:
 setxkbmap -option "caps:escape"
 
