@@ -1,0 +1,21 @@
+
+
+
+When you install a new postgres version make sure to delete ALL the previous 
+pg_config files!! They WILL mess up your install. (use "whereis pg_config" and "which pg_config")
+
+
+Remember that the data/ dir has to be made by superuser.
+Just make a data/ dir in the /usr/local/pgsql/ folder and make sure to set owner to postgres user!
+(use "chown postgres:postgres data/ ")
+(actually the whole /usr/local/pgsql/ should be given off to the postgres user)
+
+
+And only after all of this you can switch to postgres user with: "sudo su postgres"
+and create the database cluster with "initdb -D data/ " and you can add options "-A trust -U postgres"
+
+
+Then logout from the postgres user account and now you can do "sudo /etc/init.d/postgres start"
+
+When using psql and you want to know where the config comes from do this sql query: "SHOW config_file;"
+
