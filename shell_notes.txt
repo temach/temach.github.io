@@ -61,6 +61,9 @@ Especially interesting line is `fullname: "Some font"` which tells you how the f
 for xargs:
 http://www.thegeekstuff.com/2013/12/xargs-examples/       (quite good)
 
+Use the comma ',' as the separator and sort by the 2nd field.
+`sort -t',' -k2`
+
 
 To monitor unintended system changes: Tripwire (tells you when checksums for packages change)
 also: rkhunter and chkrootkit
