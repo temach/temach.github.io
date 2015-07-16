@@ -67,6 +67,8 @@ Use the comma ',' as the separator and sort by the 2nd field.
 
 To monitor unintended system changes: Tripwire (tells you when checksums for packages change)
 also: rkhunter and chkrootkit
+Also fail2ban is a lightweight and simpler alternative.
+Also on CnetOs you can check root files system integrity (system files modification) with: `rpm -Va`
 
 check integrity of installed packages: debsums
 
