@@ -1,5 +1,9 @@
 xev     # Inspect keyboard input/modifiers and mouse events
 
+With X you get xclip and xsel utilities so you can manipulate the clipboard from the command line (or script)
+To paste use somethign like: `xclip -o -sel -c` OR `xsel -o -b`
+To copy use something like: `xclip -i -sel -c` OR `xsel -i -b`
+
 in all your scripts: add "set -u" option. This will make sure that all your variables 
 are (initialised/not empty) before use. (Otherwise `rm -rf "$foo/$bar"` will 
 ERASE your filesystem when $foo and $bar are empty/uninitialised) 
