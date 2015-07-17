@@ -9,3 +9,5 @@ Also know about ioreg command.
 
 This website!! Look at it!
 http://www.defaults-write.com/
+
+You can access the clipboard from the command line with `pbcopy` and `pbpaste` commands.
