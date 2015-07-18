@@ -192,6 +192,9 @@
                                 <dt><code class="codeline">git log --graph --decorate --all</code></dt>
                                 <dd>View commit history and branches (also --abbrev-commit OR --oneline for an overview)</dd></dt>
 
+                                <dt><code class="codeline"> git log --branches --not --remotes</code></dt>
+                                <dd>See all the commits that you have not pushed to remote.</dd></dt>
+
                                 <dt><code class="codeline">git log [paths]</code></dt>
                                 <dd>Show recent commits, most recent on top. If you give space-separated paths only they are shown.
                                 Can give directory paths as well.</dd>
@@ -583,6 +586,11 @@
                             <ul type="circle">
                                 <li>
                                     Use git fetch and merge instead of git pull
+                                </li>
+                                
+                                <li>
+                                    You can use "@{u}" to mean the upstream branch in any git command.
+                                    Handy when you want to diff current branch state and original state.
                                 </li>
 
                                 <li>
