@@ -4,6 +4,11 @@ With X you get xclip and xsel utilities so you can manipulate the clipboard from
 To paste use somethign like: `xclip -o -sel -c` OR `xsel -o -b`
 To copy use something like: `xclip -i -sel -c` OR `xsel -i -b`
 
+fc -l -300  # list last 300 history commands
+history | tail -n 300     # list last 300 history commands
+Conclusion: learn how to use fc! Especially since it provides history editing. And since
+you have already played around with it.
+
 in all your scripts: add "set -u" option. This will make sure that all your variables 
 are (initialised/not empty) before use. (Otherwise `rm -rf "$foo/$bar"` will 
 ERASE your filesystem when $foo and $bar are empty/uninitialised) 
