@@ -35,13 +35,19 @@ Know about ibus, used for interactive text entry in multilingual environment.
 
 "sudo apt-get install build-essentials" on new ubuntu machine.
 
-On unubtu to restart JUST the window manager (the unity window manager):
-`DISPLAY=:0 unity --replace` or `compiz --replace` commands (since unity is a compiz plugin)
-this is just the gui restart so your applications will be unaffected.
-Also you can ALT+F2, type `unity`, hit ENTER, this should restart unity as well.
-Actually many window managers take the --replace option, which can 
+On unubtu to restart JUST the window manager (the unity window manager)
+(this is just the gui restart so your applications will be unaffected):
+You can ALT+F2 (to open runtime GUI window, NOT a tty switch), type `unity`, hit ENTER.
+Otherwise you should change the tty and do:
+`DISPLAY=:0 unity --replace` OR `compiz --display :0 --replace` (since unity is a compiz plugin)
+Remember to either prepend a setsid like: `setsid DISPLAY=:0 unity --replace` 
+OR add a trailing & disown like: `DISPLAY=:0 unity --replace & disown` (Note just one & sign!)
+Otherwise unity process will be attached to your terminal, and unity will be killed when
+you close your terminal.
+
+Many window managers take the --replace option, which can 
 function as a window manager restart. So remember about it the next time
-your gui freezes!
+your gui freezes! 
 
 To restart the X server (display manager a.k.a. "dm") use 
 You should type: sudo service XXX restart
