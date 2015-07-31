@@ -100,3 +100,7 @@ This is only related to web development, but whatever! When you get stuff across
 it comes with a MIME type (when using http protocol), stuff like "applications/x-tar-compressed", 
 "text/html", "text/plain", "image/png". Browsers display content based on those mime types, 
 so when firefox displays PNG or HTML as text, its the MIME type that messed things up.
+
+
+Simplest GUI image browser oriented towards command line user: feh
+Website at: http://feh.finalrewind.org/
