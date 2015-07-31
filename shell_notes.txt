@@ -95,3 +95,8 @@ getconf LONG_BIT to get the bitness of the system.
 You want to do giagrams by typing? In something like vim or emacs? Man, check out "graphviz"!
 And use this link for a howto: http://melp.nl/2013/08/flow-charts-in-code-enter-graphviz-and-the-dot-language/
 
+
+This is only related to web development, but whatever! When you get stuff across the internet 
+it comes with a MIME type (when using http protocol), stuff like "applications/x-tar-compressed", 
+"text/html", "text/plain", "image/png". Browsers display content based on those mime types, 
+so when firefox displays PNG or HTML as text, its the MIME type that messed things up.
