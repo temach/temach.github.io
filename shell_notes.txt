@@ -104,3 +104,5 @@ so when firefox displays PNG or HTML as text, its the MIME type that messed thin
 
 Simplest GUI image browser oriented towards command line user: feh
 Website at: http://feh.finalrewind.org/
+
+Many cool bash tricks: http://stackoverflow.com/questions/211378/hidden-features-of-bash
