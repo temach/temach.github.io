@@ -4,9 +4,12 @@ With X you get xclip and xsel utilities so you can manipulate the clipboard from
 To paste use somethign like: `xclip -o -sel -c` OR `xsel -o -b`
 To copy use something like: `xclip -i -sel -c` OR `xsel -i -b`
 
-Info on terminals and ttys:
+Info on terminals and ttys and command line:
 http://catern.com/posts/terminal_quirks.html
 http://www.linusakesson.net/programming/tty/
+http://ss64.com/bash/syntax-keyboard.html
+http://stackoverflow.com/questions/211378/hidden-features-of-bash
+
 
 fc -l -300  # list last 300 history commands
 history | tail -n 300     # list last 300 history commands
@@ -108,5 +111,3 @@ so when firefox displays PNG or HTML as text, its the MIME type that messed thin
 
 Simplest GUI image browser oriented towards command line user: feh
 Website at: http://feh.finalrewind.org/
-
-Many cool bash tricks: http://stackoverflow.com/questions/211378/hidden-features-of-bash
