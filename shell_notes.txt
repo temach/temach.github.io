@@ -88,3 +88,6 @@ After you compile (make && sudo make install) remember to run ldconfig
 This can (and will) absolutely save you!!
 
 Postgres leaves around many, many pg_xxxxx files (in particular pg_config which can unintentionally prevent you from reinstalling postgres correctly) so when you delete postgres, delete them too!
+
+
+getconf LONG_BIT to get the bitness of the system.
