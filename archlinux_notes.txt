@@ -1,0 +1,14 @@
+To completely remove packages:
+pacman -Rns mypackagename
+
+Good commands:
+pacman
+
+# see how many you can update
+checkupdates    
+
+# read PKGBUILD file, download code and make a binary pkg. (now you can use pacman to install the binary)
+makepkg         
+
+# control services on the system
+systemctl
