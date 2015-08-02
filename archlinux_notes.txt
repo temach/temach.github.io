@@ -7,8 +7,9 @@ pacman
 # see how many you can update
 checkupdates    
 
-# read PKGBUILD file, download code and make a binary pkg. (now you can use pacman to install the binary)
-makepkg         
+# read PKGBUILD file, download code and make a so-called pkg (actually a .pkg.tar.gz with a special file)
+# Now you can use pacman to install this so-called pkg.
+makepkg
 
 # control services on the system
 systemctl
