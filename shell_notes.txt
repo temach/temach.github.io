@@ -117,3 +117,17 @@ so when firefox displays PNG or HTML as text, its the MIME type that messed thin
 
 Simplest GUI image browser oriented towards command line user: feh
 Website at: http://feh.finalrewind.org/
+
+
+Installing Arch-Linux dual boot on Mac:
+Note: The EFI directory is sometimes called the ESP (EFI System Partition) or one other crappy name.
+1) Need rEFInd
+2) To modify EFI partition later do:
+`$ mkdir /Volumes/EFI`  # name does not matter
+`$ sudo mount -t msdos /dev/disk0s1 /Volumes/EFI`
+3) If arch linux resides on a ext4 partition, rEFInd will need drivers to read ext4. To install them
+mount disk0s1 and copy the driver folder (either "drivers_x64" for 64 bit or "drivers_ia32" for 32 bit) to "refind" directory. So you should have the driver "*.efi" files in "/EFI/refind/drivers_x64/*.efi"
+Also remember to set "also_scan_dirs" to some value in "refind.conf" which is on the EFI partition.
+4) To get the EFI shell working in rEFInd you need to get the .efi file that contains shell efi from rEFInd author and move it on to the "refind" folder on the EFI partition.
+5) Don't follow the Beginners guide and don't use parted or cgdisk to create partitions. Use the Disk Utility in OS X to do that. Then use parted and cgdisk to just set the partition bootable. Use mkfs.ext4 to make the filesystem.
+6) Good fucking luck!
