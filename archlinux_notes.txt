@@ -9,6 +9,10 @@ checkupdates
 
 # read PKGBUILD file, download code and make a so-called pkg (actually a .pkg.tar.gz with a special file)
 # Now you can use pacman to install this so-called pkg.
+# So when you donwload some source code you should (if you are doing things properly)
+# first create a package (see https://wiki.archlinux.org/index.php/Creating_packages)
+# then use pacman to install it.
+# Doing make && make install is NOT the proper way. (but you are a lazy ass, no?)
 makepkg
 
 # control services on the system
