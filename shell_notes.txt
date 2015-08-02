@@ -132,4 +132,4 @@ Also remember to set "also_scan_dirs" to some value in "refind.conf" which is on
 5) Don't follow the Beginners guide and don't use parted or cgdisk to create partitions. Use the Disk Utility in OS X to do that. Then use parted and cgdisk to just set the partition bootable. Use mkfs.ext4 to make the filesystem.
 6) Good fucking luck!
 Good wesite on UEFI: https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/
-
+To do without rEFInd: http://heeris.id.au/2014/ubuntu-plus-mac-pure-efi-boot/
