@@ -131,3 +131,5 @@ Also remember to set "also_scan_dirs" to some value in "refind.conf" which is on
 4) To get the EFI shell working in rEFInd you need to get the .efi file that contains shell efi from rEFInd author and move it on to the "refind" folder on the EFI partition.
 5) Don't follow the Beginners guide and don't use parted or cgdisk to create partitions. Use the Disk Utility in OS X to do that. Then use parted and cgdisk to just set the partition bootable. Use mkfs.ext4 to make the filesystem.
 6) Good fucking luck!
+Good wesite on UEFI: https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/
+
