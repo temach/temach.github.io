@@ -17,3 +17,7 @@ makepkg
 
 # control services on the system
 systemctl
+
+# view all services 
+systemctl list-units
+
