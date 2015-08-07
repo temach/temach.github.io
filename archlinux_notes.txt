@@ -20,4 +20,5 @@ systemctl
 
 # view all services 
 systemctl list-units
+systemctl list-unit-files
 
