@@ -1,5 +1,10 @@
 xev     # Inspect keyboard input/modifiers and mouse events
 
+use xdotool (much better) or xte to simulate keyboard and mouse input:
+xdotool key --window 67109045 Shift+Tab Home Enter
+To find your target window:
+xdotool search --name "try_guess_name" | xargs -p -n 1 xdotool getwindowgeometry
+
 With X you get xclip and xsel utilities so you can manipulate the clipboard from the command line (or script)
 To paste use somethign like: `xclip -o -sel -c` OR `xsel -o -b`
 To copy use something like: `xclip -i -sel -c` OR `xsel -i -b`
