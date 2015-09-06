@@ -11,3 +11,6 @@ This website!! Look at it!
 http://www.defaults-write.com/
 
 You can access the clipboard from the command line with `pbcopy` and `pbpaste` commands.
+
+Damn! They have an extra place "/opt/local/" where some people put their libs and headers!
+I dont think that dir is used so mush in UNIX.
