@@ -22,3 +22,7 @@ systemctl
 systemctl list-units
 systemctl list-unit-files
 
+# cool linux has 'ulimit'. 
+# Run with 'ulimit -a' to check your settings. 
+# You can set stack size and max number of spawned processes (to stop fork bombs).
+# see here for more info 'http://www.linuxhowtos.org/Tips%20and%20Tricks/ulimit.htm'  (note: it is '.htm')
