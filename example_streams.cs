@@ -196,6 +196,8 @@ namespace EncodingsTemplate
             // see http://www.codeguru.com/csharp/csharp/cs_data/streaming/article.php/c4223/Streams-and-NET.htm
             // for good stream data including: [Serializable] [NonSerialized]
 
+            // best of all see appendix of chris seil's book
+            // ftp://210.212.172.242/Digital_Library/CSE/Programming/Dot%20Net/c%23/Windows%20Forms%20Programming%20in%20C%20Sharp%20by%20chris%20sells%202003.pdf
             Console.ReadKey();
         }
 
