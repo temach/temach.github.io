@@ -14,3 +14,7 @@ print keyboard layout to pdf:
 
 for server
 `http://adrianmejia.com/blog/2011/07/12/how-to-set-up-samba-in-ubuntu-linux-and-access-it-in-mac-os-and-windows/`
+
+
+I turned on -debug=bench, which produced impenetrable and seemingly useless results in the log.
+So I added a print with a sleep, so I could run perf.  Then I disabled optimization, so I’d get understandable backtraces with perf.  Then I rebuilt perf because Ubuntu’s perf doesn’t demangle C++ symbols, which is part of the kernel source package. (Are we having fun yet?)
