@@ -22,3 +22,10 @@ So I added a print with a sleep, so I could run perf.  Then I disabled optimizat
 Running text side-by-side in latex translation mode
 see latex packages: parcolumns and parallels 
 stack exchange: tex.stackexchange.com/questions/16603/putting-two-texts-side-by-side
+
+
+When you want to make more than one commit from your changes in the working tree:
+1)Add stuff with --patch
+2)git stash save -q --keep-index
+3)run your tests, if ok then commit
+4)repeat
