@@ -1,0 +1,36 @@
+[diff]
+	tool = vsdiffmerge
+[difftool]
+	prompt = true
+[difftool "vsdiffmerge"]
+	cmd = \"C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Common7\\IDE\\vsdiffmerge.exe\" \"$LOCAL\" \"$REMOTE\" //t
+[difftool "vsdiffmerge"]
+	keepbackup = false
+[merge]
+	tool = vsdiffmerge
+[mergetool]
+	prompt = true
+[mergetool "vsdiffmerge"]
+	cmd = \"C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Common7\\IDE\\vsdiffmerge.exe\" \"$REMOTE\" \"$LOCAL\" \"$BASE\" \"$MERGED\" //m
+	trustexitcode = true
+[mergetool "vsdiffmerge"]
+	keepbackup = false
+[user]
+	name = Artem Abramov
+[user]
+	email = tematibr@gmail.com
+[push]
+	default = simple
+[alias]
+	co = checkout
+	st = status
+	br = branch -vvaa
+	type = cat-file -t
+	dump = cat-file -p
+	hist = log --pretty=format:\"%h %ad | %s%d \" --graph --date=short
+	l = log --graph --decorate --all
+	line = log --graph --decorate --all --one-line
+	godirt = checkout dirt
+	edit = config --global --edit
+	df = diff --histogram
+	test = stash save --keep-index 
