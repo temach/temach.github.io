@@ -21,7 +21,8 @@ So I added a print with a sleep, so I could run perf.  Then I disabled optimizat
 
 Running text side-by-side in latex translation mode
 see latex packages: parcolumns and parallels 
-stack exchange: tex.stackexchange.com/questions/16603/putting-two-texts-side-by-side
+stack exchange > http://tex.stackexchange.com/questions/16603/putting-two-texts-side-by-side <
+also, the best solution with DFM: > http://tex.stackexchange.com/questions/254708/nicely-typesetting-verbatim-text <
 
 
 When you want to make more than one commit from your changes in the working tree:
