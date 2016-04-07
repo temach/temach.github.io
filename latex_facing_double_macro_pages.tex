@@ -1,0 +1,60 @@
+\documentclass[a4paper,twoside]{article}
+\usepackage{afterpage}
+% \usepackage{showframe} only for check block positions
+\usepackage[margin=3cm]{geometry}
+\usepackage{lipsum}
+\usepackage{xcolor}
+
+\usepackage{textpos} % use "showboxes" for check results
+\setlength{\TPHorizModule}{.1\textwidth} % = 10% width
+\setlength{\TPVertModule}{.01\textheight}% = 01% height
+
+% Facing Double Block Macro
+% Usage: 
+% \FDB{position}{section}{even text}{odd text}
+% position = a number between 0 to 100 (or some less)
+
+\newcommand\FDB[4]{
+\begin{textblock}{10}(0,#1)
+%\textblockcolour{cyan!10} % ugly, only for testing
+\section{#2\label{#2}} #3 \bigskip 
+\end{textblock}
+\afterpage{
+\begin{textblock}{10}(0,#1)
+% \textblockcolour{green!10} % ugly, only for testing
+\section*{Annonations about section \ref{#2}}
+ #4\bigskip
+\end{textblock}}}
+
+\newcommand\miniFDB[3]{
+\begin{textblock}{10}(0,#1)
+\textblockcolour{cyan!10} % ugly, only for testing
+#2 \smallskip 
+\end{textblock}
+\afterpage{
+\begin{textblock}{10}(0,#1)
+\textblockcolour{green!10} % ugly, only for testing
+#3 \smallskip
+\end{textblock}}}
+
+
+
+\begin{document}
+
+\miniFDB{0}{wwwwef adshf hsfkds}{asda sdiasdad uiduasuidas}
+\miniFDB{2}{awdsarwsrsw awrardwsreaswr aerw}{lhjpolp op,lj kljkljlkk,}
+\miniFDB{4}{awrtdstrdrasedsddrsted sertasdertad aertds rt}{ijinjibjnijnij jg ifj igjfh fgijh pnlk}
+
+
+\FDB{0}{A title}{\lipsum[1]}{\lipsum[2]}
+\FDB{25}{Another title}{\lipsum[3]}{\lipsum[4-5]}
+\FDB{56}{One more title}{\lipsum[5]}{\lipsum[6]}
+\FDB{78}{The last title of this page}{\lipsum[7]}{\lipsum[8]}
+
+\newpage
+% Annotations will be here 
+\newpage 
+
+\FDB{1}{The  title of a newpage}{\lipsum[9]}{\lipsum[10]}
+
+\end{document}
