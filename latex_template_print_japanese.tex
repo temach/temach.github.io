@@ -1,26 +1,40 @@
-\documentclass[a4paper,11pt]{report} % формат бумаги А4, шрифт по умолчанию - 12pt
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
 
-\usepackage[utf8]{inputenc} % включаю кодировку ютф8
-\usepackage[english,russian]{babel} % использую русский и английский языки с переносами
+\setlength\textwidth{20em}
 
 \usepackage{setspace}	 % контроль за размером между строками
 \setstretch{1} % ширина между строками 1.2
 
 \usepackage{geometry} % меняю поля страницы
 % из параметров ниже понятно, какие части полей страницы меняются:
-\geometry{left=1.5cm}
-\geometry{right=1.5cm}
-\geometry{top=1.6cm}
-\geometry{bottom=1.5cm}
+\geometry{left=0.2cm}
+\geometry{right=0.2cm}
+\geometry{top=1cm}
+\geometry{bottom=1cm}
 
-\usepackage{verbatim}
+\usepackage[utf8]{inputenc} % включаю кодировку ютф8
+\usepackage[english,russian]{babel} % использую русский и английский языки с переносами
+\usepackage{CJKutf8} % для отрисовки ироглифов
 
-\usepackage{CJKutf8}
+% макрос plaintext на всякий пожарный, полезная штука из интернета
+\begingroup
+\makeatletter
+\gdef\plaintext{\let\do\@makeother\dospecials\catcode32=10\relax\xplaintext}
+\catcode`\!=0
+!catcode`\\=12
+!catcode`{=12
+!catcode`}=12
+!catcode`(=1
+!catcode`)=2
+!long!gdef!xplaintext#1\end{plaintext}(%
+#1!end(plaintext))
+!endgroup
+
 
 \begin{document}
-
 \begin{CJK}{UTF8}{min}
-
+% \begin{plaintext}
 \begin{verbatim}
 
 1282_4707 A: ムーリエルは２０歳になりました。
@@ -31,6 +45,8 @@
 276471_4870 A: 誰にでも長所と短所がある。
 
 \end{verbatim}
-\end{CJK} 
-
+% \end{plaintext}
+\end{CJK}
 \end{document}
+
+
