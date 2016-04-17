@@ -138,3 +138,11 @@ Also remember to set "also_scan_dirs" to some value in "refind.conf" which is on
 6) Good fucking luck!
 Good wesite on UEFI: https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/
 To do without rEFInd: http://heeris.id.au/2014/ubuntu-plus-mac-pure-efi-boot/
+
+When you want to triple boot windows as well:
+1) Similar to dual boot mac with OS X and Arch.
+2) First make partitions in OS X. (mac can not handle more than 4 partitions, so: rEFInd, os x, arch, windows)
+3) First install windows then arch.
+4) After windows installation, you will NOT be able to boot mac os x. Because windows bootloader screws things up.
+So you must run "gptsync.efi" (see http://www.rodsbooks.com/efi-bootloaders/refind.html) utility from rEFInd.
+But to run it you must first enable it in "refind.conf". Then you will be able to boot into mac os x. 
