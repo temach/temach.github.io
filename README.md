@@ -37,10 +37,4 @@ When you want to make more than one commit from your changes in the working tree
 
 
 
-About deluge web server:
-When you enable the ssl certificaes in the web gui, 
-the web gui throws away the extension that you give it 
-and add its own ".pkey" and ".cert".
-Your files must match this exactly or will just never login to web gui again.
-So you should add files my-deluge-srv.cert and my-deluge-srv.pkey with these extensions exactly.
 
