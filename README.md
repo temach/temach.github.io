@@ -39,3 +39,6 @@ When you want to make more than one commit from your changes in the working tree
 How to get files from backups made with dd:
 https://major.io/2010/12/14/mounting-a-raw-partition-file-made-with-dd-or-dd_rescue-in-linux/
 
+
+Cool book:
+http://www.basicinputoutput.com/2014/08/a-book-every-bios-engineer-will-love.html
