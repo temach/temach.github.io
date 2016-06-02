@@ -42,3 +42,6 @@ https://major.io/2010/12/14/mounting-a-raw-partition-file-made-with-dd-or-dd_res
 
 Cool book:
 http://www.basicinputoutput.com/2014/08/a-book-every-bios-engineer-will-love.html
+
+Automatic code clean up:
+http://www.basicinputoutput.com/2014/08/uncrustify-your-bios.html
