@@ -1,0 +1,15 @@
+Info on ansible:
+
+So you have a control machine and slave nodes.
+
+To test your install add some servers that have a running ssh to your
+/ets/ansible/hosts file (create it if not present). You can add 127.0.0.1 to start with.
+
+Then ping them to check all is ok. If you just bought a VPS then it has only root user and
+you have not established ssh keys yet. So tell ansible to login as root and to ask you for
+password.
+
+$ ansible all -m ping -vvv --ask-pass --user=root
+
+
+
