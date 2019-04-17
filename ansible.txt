@@ -22,7 +22,12 @@ More about inventory and file syntax: https://docs.ansible.com/ansible/latest/us
 
 If changing default ssh port, you can set the valid port in the inventory file.
 
+When ansible sets up multiple machines the order of entries in inventory file determines which machine will be setup first. So if inventory has a group 'webserver' with machines foo and bar ansible will take the first task and run it on foo then on bar, then will take second task and run it on foo then on bar.
+
+
 Modules
+
+Modules should be idempotent, that is, running a module multiple times in a sequence should have the same effect as running it just once. One way to achieve idempotency is to have a module check whether its desired final state has already been achieved, and if that state has been achieved, to exit without performing any actions.
 
 Documentation for each module in the ansible-doc tool:
 $ ansible-doc yum
@@ -38,7 +43,7 @@ $ ansible webservers -m command -a "/sbin/reboot -t now"
 
 Same rules for module arguments apply in playbooks.
 
-From playbooks, Ansible modules are executed in a very similar way:
+From playbooks, Ansible modules are executed in a very similar way (this is legacy syntax, better use the next example):
 - name: reboot the servers
   action: command /sbin/reboot -t now
 
@@ -51,4 +56,162 @@ Another way to pass arguments to a module is using yaml syntax also called ‘co
   service:
     name: httpd
     state: restarted
+
+There is a 'command' module, and a 'shell' module, the shell module actually supports piping and redirects, unlike the command module. So always use shell module.
+
+Use the user module to create/manipulate user accounts.
+USe file modules to create/remove directories.
+Use copy module to copy files.
+Use service module for systemd access, like with systemctl.
+
+
+
+For a long running command or software upgrade ansible can run it in background. Backgrounding the copy module does NOT do a background transfer.
+
+
+Gathering Facts
+Get facts about slave node.
+
+Facts are described in the playbooks section and represent discovered variables about a system. These can be used to implement conditional execution of tasks but also just to get ad-hoc information about your system. You can see all facts via:
+
+$ ansible all -m setup
+
+It’s also possible to filter this output to just export certain facts.
+
+To see what facts are available on a particular system, you can also do the following in a playbook:
+
+- debug: var=ansible_facts
+
+
+
+
+When to use variables?
+Example In some instances, the observed behavior or state of one system might influence how you configure other systems. For example, you might need to find out the IP address of a system and use it as a configuration value on another system.
+
+Tasks:
+
+Some tasks need to be run as root/sudo. For that use a 'become: yes' at task level.
+
+In ansible I guess all commands return values. This values can bee seen here: https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values
+Individual modules can return extra values on top of these.
+To assign the return value of module to variable FOO you do "register: FOO" in the task namespace, like:
+
+  tasks:
+    - name: finding files
+      find:
+        paths:            "{{ find_where }}"
+        patterns:         "{{ find_what }}"
+        recurse:          "yes"
+        file_type:        "file"
+      register: find_result
+
+    - name: remove files
+      file:
+          path: /home/artem/custom.txt
+          state: absent
+      with_items: "{{ find_result.files }}"
+
+
+In the above example we use FILE ansible module. We get its return value into 'find_result' variable, then in another task we use part of the result by referencing 'find_results.files'.
+'.files' is one of the return fields of the FILE ansible module.
+
+
+
+Playbooks
+
+The format is YAML. See better details here: https://symfony.com/doc/current/components/yaml/yaml_format.html
+Its very picky about whitespace! You MUST align things perfectly, because whitespace is  nesting.
+
+Each playbook is composed of one or more ‘plays’ in a list.
+
+The goal of a play is to map a group of hosts to some well defined roles, represented by things ansible calls tasks. A play contains a list of tasks. At a basic level, a task is nothing more than a call to an ansible module
+
+Example official ansible playbooks: https://github.com/ansible/ansible-examples
+
+By composing a playbook of multiple ‘plays’, it is possible to orchestrate multi-machine deployments, running certain steps on all machines in the webservers group, then certain steps on the database server group, then more commands back on the webservers group, etc.
+
+Plays, like tasks, run in the order specified in the playbook: top to bottom.
+
+When running the playbook, which runs top to bottom, hosts with failed tasks are taken out of the rotation for the entire playbook. If things fail, simply correct the playbook file and rerun.
+
+For each play in a playbook, you can choose which machines in your infrastructure to target.
+For each task (or play) you can choose what remote user to complete the steps (called tasks) as.
+
+Tasks are executed in order, one at a time against all machines matched by host pattern.
+Machines are choosen in the order they are listed in inventory file.
+
+Modules should be idempotent, that is, running a module multiple times in a sequence should have the same effect as running it just once. One way to achieve idempotency is to have a module check whether its desired final state has already been achieved, and if that state has been achieved, to exit without performing any actions.
+
+Ansible plays should be idempotent. You should think of them not as a sequence of actions in imperative style, but like a desired state, declarative style. As a result you should be able to run it multiple times and get the same result, the same server state.
+
+
+Details of running a task:
+
+The command and shell modules are the only modules that just take a list of arguments and don’t use the key=value form.
+
+Ansible needs all success commands to return 0 exit code. If a command returns non-zero exit code for success:
+tasks:
+  - name: run this command and ignore the result
+    shell: /usr/bin/somecommand
+    ignore_errors: True
+
+
+Variables that are defined in a 'play' can be used in task action lines. Suppose you defined a variable called 'vhost' in the vars section of a play, then you can do this:
+
+tasks:
+  - name: create a virtual host file for {{ vhost }}
+    template:
+      src: somefile.j2
+      dest: /etc/httpd/conf.d/{{ vhost }}
+
+Those same variables are usable in templates,
+
+
+Running operationg when machine changes state (as a result of some task):
+See https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html#handlers-running-operations-on-change
+
+Now that you’ve learned playbook syntax, how do you run a playbook?
+$ ansible-playbook -i <path-to-hosts> playbook.yml
+
+To check the syntax of a playbook, use ansible-playbook with the --syntax-check flag. This will run the playbook file through the parser to ensure its included files, roles, etc. have no syntax problems.
+
+
+To see what hosts would be affected by a playbook before you run it, you can do this:
+$ ansible-playbook playbook.yml --list-hosts
+
+
+Ansible vault allows to keep encrypted files under version control. You just supply a password when running the playbook.
+
+
+
+
+
+Practical
+
+Plan for personal server:
+        - Add non root user artem
+        - Block root ssh login
+        - Remap ssh port to 22222
+        - Install docker
+        - Install container with telegram proxy
+        - Remap telegram port to 1010
+        - Install container with git gogs
+        - Add container to store git gogs data (includes git repositories)
+        - Install container haproxy as reverse proxy via docker
+        - Add container to store haproxy config
+
+The setup consists of two phases. Initial phase where connection parameters are altered: non-root user is created, root login is blocked, ssh daemon port is modified. The second phase is
+where the particular setup is configured.
+
+To remap ssh port see: https://stackoverflow.com/questions/34333058/ansible-change-ssh-port-in-playbook
+
+In the role that setup ssh. After the task that changes ssh port, add a task to change the ansible_port host variable. As below:
+- name: Update ssh port to 8888
+  set_fact:
+    ansible_port: 8888
+
+
+Currently I run playbooks with this line:
+$ ansible-playbook -i hosts --ask-pass --ask-become-pass --extra-vars "machine_ip=ansible.rinserepeat.site" personal.yml
+
 
