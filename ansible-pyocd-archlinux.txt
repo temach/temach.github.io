@@ -1,0 +1,5 @@
+Ansible installs python-yaml via pacman. (remove PyYAML with pip beforehand)
+PyOCD requiers PyYAML via pip. (remove python-yaml with pacman beforehand)
+
+They are in conflict, only one can be installed at a time.
+
