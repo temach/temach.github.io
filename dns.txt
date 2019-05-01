@@ -1,0 +1,17 @@
+So after you have bought a rinserepeat.site domain on reg.ru
+You want to host your own DNS server. Cause you want to do it for free :)
+zonomi.com is great for starting out, but to continue you need to own the
+infrastructure.
+
+So you roll a docker container with bind in it onto your shiny VPS.
+Then you login to Webmin :) And check out the options.
+First step it to edit the zone config SOA record.
+Make sure that its "autorative name server" aka "root server" points
+to ns1.rinserepeat.site
+Then make sure to add an IP Address (A) record such that ns1.rinserepeat.site points to the ip address on which you run bind.
+Now here can you see the problem? You have a random machine on the internet that runs bind with a SOA record that says: to get any info about rinserepeat.site ask ns1.rinserepeat.site. Well you dont know the IP of ns1.rinserepeat.site do you??
+For this reson glue records exist. See https://forums.he.net/index.php?topic=629.0
+Then you investigate the interface of reg.ru and find the bottom of this page: https://www.reg.ru/support/dns/DNS-servery/kak-propisat-DNS-dlya-domena-v-lichnom-kabinete
+Then you edit your DNS records for your domain and right there you also add the glue record by specifying the IP address of ns1.rinserepeat.site server.
+
+Now you can edit the zones file and stuff should work!
