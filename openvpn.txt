@@ -1,0 +1,23 @@
+When installing openvpn on arch linux there is a conflict.
+
+sudo pacman -S openvpn
+resolving dependencies...
+looking for conflicting packages...
+:: systemd-libs and libsystemd are in conflict. Remove libsystemd? [y/N] y
+
+Packages (3) libsystemd-239.0-2 [removal]  systemd-libs-241.93-1  openvpn-2.4.7-1
+
+Total Download Size:   0.79 MiB
+Total Installed Size:  2.67 MiB
+Net Upgrade Size:      0.19 MiB
+
+:: Proceed with installation? [Y/n] y
+
+
+So I just said yes :)
+Lets see what happens.
+
+The result was fine, nothing broke as far as I can tell.
+
+To run the client just run:
+sudo openvpn --config /path/to/config.ovpn
