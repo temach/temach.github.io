@@ -215,3 +215,5 @@ Currently I run playbooks with this line:
 $ ansible-playbook -i hosts --ask-pass --ask-become-pass --extra-vars "machine_ip=ansible.rinserepeat.site" personal.yml
 
 
+If you want to just generate the client certificate you should run ansible with --tags "openvpn_client_cert" which
+will execute oly the steps with such a tag on them.
