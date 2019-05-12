@@ -1,0 +1,14 @@
+The proper way to write english/russian latex in linux?
+1) Online :(
+2) Install latex distibution
+3) With a docker image of course!
+
+If you dont want ot fight dependencies endlessly,
+go with docker: https://github.com/senior-sigan/docker-latex
+The repository has instructions. What worked best was to add docker-latex/bin directory to
+PATH and thus always run the pdflatex from docker container.
+The best part is that it has PSCyr and latex-cyrillic already installed.
+
+The only downside is that pdflatex must be run from top-most folder. Because
+the folder gets mounted inside docker so only files that are lower in the hierarchy
+can be found.
