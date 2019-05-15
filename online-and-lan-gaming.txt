@@ -1,0 +1,79 @@
+How to play lan game over the internet with openVPN?
+
+How does the whole thing work anyway?
+
+          +-----------------------------------------------------------------------+
+          |Your HOME LAN                                                          |
+          |                                                                       |
+          |    +----------------+                                                 |
+          |    |  Your computer |                            +-----------+        |
+          |    |  game SERVER   |  +---------------------->  |Your router|        |
+          |    |  ovpn CLIENT   |                            +-----------+        |
+          |    |                |                                                 |
+          |    |  your ovpn ip  |                                  +              |
+          |    |  192.168.255.8 |                                  |              |
+          |    +----------------+                                  v              |
+          |                                                                       |
+          +-----------------------------------------------------------------------+
+
++---------------------------------------------------------------------------------------------+
+|The Internet                                                                                 |
+|                                                                                             |
+|  +------------------------------+                            +-----------------------+      |
+|  |Domain name registrar         |                            |VPS at 123.123.123.2   |      |
+|  |                              |                            |                       |      |
+|  |                              |                            |             +-------+ |      |
+|  |        +------------------+  |                            |             |OpenVPN| |      |
+|  |        |DNS SERVER        |  |                            |             |SERVER | |      |
+|  |        |    my_domain.tk  |  |                            |             +-------+ |      |
+|  |        |      +           |  |                            |                       |      |
+|  |        |      |           |  |                            |                       |      |
+|  |        |      v           |  |                            |                       |      |
+|  |        |   123.123.123.2  |  |                            |                       |      |
+|  |        +------------------+  |                            +-----------------------+      |
+|  +------------------------------+                                                           |
+|                                                                                             |
+|                                                                                             |
++---------------------------------------------------------------------------------------------+
+
+
+      +-----------------------------------------------------------------------+
+      | Friend HOME LAN                                                       |
+      |                                                              ^        |
+      |                                                              |        |
+      | +-------------------+                                        |        |
+      | |  Friend computer  |                                        |        |
+      | |  game SERVER      |                                        |        |
+      | |  ovpn CLIENT      |                                        +        |
+      | |                   |                                                 |
+      | |  his ovpn ip      |  +-------------------------->  +-----------+    |
+      | |  192.168.255.14   |                                |His  router|    |
+      | +-------------------+                                +-----------+    |
+      +-----------------------------------------------------------------------+
+
+
+
+
+
+One way to have it:
+- Buy vps server from hosting company.
+- Buy a domain name from domain name registrar.
+- Set the DNS records to point to the vps server.
+- Install OpenVPN onto the server in a docker image. https://github.com/kylemanna/docker-openvpn
+- Do the setup work by following the readme (create authority, etc.). Here your need your domain name. There is no need for any special openvpn configs.
+- Generate client certificate for you and your friend. Here you need your domain name. Use separate certificates to get separate IP address on OpenVPN LAN.
+- Distribute certificates to your friend and your computers.
+- Install openvpn client.
+- Use the client to connect to openvpn server. The client will tell you your LAN address, typically like 192.168.255.10
+- Run your game server.
+- Tell your friend to run game client and tell him your openvpn LAN ip address.
+
+Alternatives:
+- Get your domain for free, dont buy it.
+- Dont buy a VPS, run the VPS server on your computer, same computer where the game server will run.
+  BUT
+  your router must have an IP address that is visible on the internet aka white IP address (make sure its not a subnet/grey ip)
+  and you must allow router to send incoming packet to your machine. Change router options to forward TCP/UDP packets
+  incoming to port 1194 to the ip address of your computer on your HOME LAN.
+
+
