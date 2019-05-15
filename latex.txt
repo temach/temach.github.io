@@ -12,3 +12,7 @@ The best part is that it has PSCyr and latex-cyrillic already installed.
 The only downside is that pdflatex must be run from top-most folder. Because
 the folder gets mounted inside docker so only files that are lower in the hierarchy
 can be found.
+
+To run pdflatex from docker container remember that you need "sudo".
+Here is a sample command:
+$ sudo pdflatex tech_spec.tex && evince tech_spec.tex
