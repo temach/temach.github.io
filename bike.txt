@@ -3,7 +3,7 @@ So you need a bike thats ready for adventure?
 A couple of things!
 
 If you are ever planning to cross water with your bike,
-I advise getting 3 or even 4 hermetic bags (гермомешок).
+I advise getting 3 or even 4 waterproof bags (гермомешок).
 Strap one to each wheel, one under the pedal and one under the bike handle.
 Just remember that if and when water gets into the bike tubes, the
 tubes will need to be repaired soon. So water is really not for bikes :(
@@ -43,6 +43,8 @@ A tyre is made up of three parts, see https://www.schwalbe.com/en/reifenaufbau.h
 
 Tyres from Schwalbe also have:
 2.5) Protection belt (rubber layer)
+This layer is what actually prevents the sharp objects from piercing the protector and reaching the
+air tube.
 
 The bead core can be made flaxible or inflexible. If its flexible the tyre is labeled
 as "Folding" and costs more, because of bendable kevlar beads instead of harder aluminium.
@@ -68,7 +70,10 @@ Well apparently the most common mountain bike diameters are 26 inches, 27.5 inch
 Furthermore the difference between them appears to be marketing FUD and superficial.
 See http://велосипед.bikeway.ru/какой-велосипед-выбрать-29-27-5-или-26-дюймов/
 
-Also on the black bike the tyre is 26" x 1.75"
+Also on my bike the tyre is 26" x 1.75"
+
+If you are really going long distance, to defend agains figure-8 wheels which are common, put a double
+woven wheel (двойные обода под 36 спиц). This really enhancec wheel durability.
 
 The next part to choose is the back rack//carrige/багажник.
 The first thing to consider is whether your bike has modern disk brakes or classic V-type brakes on the wheel.
@@ -76,15 +81,34 @@ In case of disk brakes only special racks can be mounted. They need to have a be
 around the braking mechanism. This bend can be done in one of two ways:
 1) the rack leg is curved
 2) the rack leg is straight but its further away from the bike and a bolt at 90-degrees is used to attach it.
-
 I think the first way is better, especially if you are not loading the full 25-30kg. Because a 90-degree angle
 will break on a hard bump and just looks super insecure on affordable racks.
 
 If there is an option steel racks are more sturdy than aluminium and they cost less. Becasue they
 degrade faster and are heavier, but that does not seem like a big problem to me to be honest.
 
-Finally choose a rack that fits your wheel size or is adjustable. And make sure your bike has holes
+Choose a rack that fits your wheel size or is adjustable. And make sure your bike has holes
 so the thin bars at the top of the rack can attach to the triangular bars just below the bike seat.
+
+Finally try to choose a rack that does not have its end turned upwards. This will create problems
+for big bags and bicycle baby-seat.
 
 Choosing a rack is not simple when you want to find the balance between price and quality.
 Basically quality racks are way too expensive. And cheap racks are just shit and you risk them braking on you.
+
+In the end my choice is one of:
+1) Rack Ostand CD-47 http://www.xlinenn.ru/Pannier_racks_bicycle/Ostand_cd_47/
+2) Rack Horst H041 http://www.xlinenn.ru/Pannier_racks_bicycle/Horst_h041/
+
+A small note about the bike-rack-bags (велоштаны), its best to choose them bright, waterproof and with some
+space on top where you can attach the rolled up sleeping mat and possible a rolled up sleeping bag.
+I choose this Сумка на багажник BACKSIDE 30 http://www.xlinenn.ru/Carrier_bag/Backside_30/
+
+Next is the question of the bicycle repairment kit. Probably for long distances you should take a full kit with
+you, however I want a small and compact one, just for emergency situations.
+A good list of things to include is here: http://velomarshrut.ru/remkomplect
+And here: http://kotovski.net/nabor-instrumenta-dlya-velosipeda/
+This is the one I chose: Компактный набор инструментов в боксе TOPEAK Survival Gear Box.
+It states that it has 23 tools, becasue different ends of one metal thing count as a tool each :)
+Actually there are 16 pieces total. The toolbox is super compact, has clip-on onto the bike frame.
+
