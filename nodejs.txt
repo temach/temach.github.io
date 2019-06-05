@@ -1,0 +1,42 @@
+A function that is marked as async is such that it can pause inside. But its calles are never paused. They are always promises.
+
+Await tells us: wait for this to resolve.
+
+When await is used inside an async function, the function returns immediately because it is async. In other words async overrides await.
+
+
+function resolveAfter2Seconds(x) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(x);
+    }, 5000);
+  });
+}
+
+async function f2(prom) {
+    return await prom;
+}
+
+let x = 0;
+let y = 0;
+
+async function f1() {
+  console.log("four");
+  x = await resolveAfter2Seconds(10);
+  console.log(x);
+  console.log("three");
+  y = f2(x);
+  console.log(y);
+  console.log("five");
+}
+
+(async function main() {
+    console.log("one");
+    await f1();
+    console.log(x);
+    console.log(y);
+    console.log("two");
+})();
+
+
+So because I wanted to make the code above completely sequential I had to put await before the call to f1(); Now just in order to put await there I must put plain code into an async function. Because await can onlhy be used from inside an async. In this case I created a main() function.
