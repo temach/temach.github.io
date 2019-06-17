@@ -72,8 +72,32 @@ Trying to firewall IPv4 to force all traffic through IPv4 tunnel seems short-sig
 But! Not all hosting companies allow ipv6. And on some companies you have to edit /etc/network/interfaces to bring up the <global> ipv6 portion of the interface.. The ipv6 <link> interface is ususally there for most ihardware nterfaces.
 How to edit /etc/network/interfaces to bring it up see: https://www.cyberciti.biz/faq/ubuntu-ipv6-networking-configuration/
 
+Here is an example stanza:
+# IPv6 interface
+iface ens18 inet6 static
+	address 2a00:b700:a::6:221
+	netmask 64
+	gateway 2a00:b700:a::1
+	dns-nameservers 2a00:b700:a::220 2a00:b700:a:1::220
+
 More about IPv6!
 So by default every client in IPv6 network gets a /64 bits subnet. In case of configuring OpenVPN docker container we should split this
 subnet in two to allow some for docker containers and some for what ever other uses.
 see: https://docs.docker.com/v17.09/engine/userguide/networking/default_network/ipv6/
 
+When you buy a vps the provider gives you a specific ipv6 address. However to comply with RFC they actually give you the whole subnet /64.
+see: https://www.lowendtalk.com/discussion/27455/yes-you-can-use-the-whole-64-of-ipv6-on-ovhs-kimsufi
+So you can actually ping the next address in the subnetwork that you were given out and reach it from the outside.
+
+To understand how ipv6 allocation works see this IBM article:
+https://www.ibm.com/support/knowledgecenter/en/STCMML8/com.ibm.storage.ts3500.doc/opg_3584_IPv4_IPv6_prefix_subnet_mask.html
+
+When running openvpn docker container you must allocate a subnet of IPv6 to docker. Also know that docker documentation is currently wrong and just
+enabling "ipv6":true in daemon.json will not work. See: https://github.com/moby/moby/issues/36954
+
+So how to subnet then? Well docker needs at least /80 so give it to him. Lets say the ip address give to us by the vps provider is 2a00:b700:a::6:221 that means we actually have addresses:
+from 2a00:b700:000a:0000:0000:0000:0000:0000
+upto 2a00:b700:000a:0000:FFFF:FFFF:FFFF:FFFF
+We will give docker a /80 subnet but prefix it with a 1 like this 2a00:b700:a:0:1::0/80 which means addresses:
+from 2a00:b700:000a:0000:0001:0000:0000:0000
+upto 2a00:b700:000a:0000:0001:FFFF:FFFF:FFFF
