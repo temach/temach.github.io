@@ -1,0 +1,19 @@
+About setting up git annex and where is the media stored.
+
+So everything is under /storage/emulated/0
+
+The main folder is the DCIM folder for "Digital Camera IMages" which is standard across android devices. This should be synced.
+
+There is an Edited folder with results from the standard EditPhoto program on sony xperia XZ. Should also be synced.
+
+There is Android/data/com.github.axet.audiorecorder/files/recordings/ with audio story. This should be synced.
+
+There is a Pictures folder, under which there is a Screenshots folder and PhotoshopExpress folder. They should be synced.
+
+There is an XperiaTransfer folder with old photos that should be incorporated.
+
+There is a CallRecorder folder with all the voice calls, that should also be synced.
+There is a ScreenRecorder folder this is app specific. For screen recordings.
+There is WatsApp/Media with WhatsAppImages and WhatsAppVideo that should be synced.
+
+

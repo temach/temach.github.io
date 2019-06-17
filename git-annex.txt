@@ -1,0 +1,34 @@
+Great piece of software!
+
+Some things to be aware of:
+Special remotes do not store "git" repos. They only store files. So you can
+not use say Rsync.net or Amazon S3 to transfer the LIST of files. The special remotes are only a dumping ground. If you add a file to a special remote, git annex will NOT notice it.
+
+And if you just put stuff into a special remote, and on another computer just sync to the special remote, then on the other computer you would not be able to get the LIST of files. The LIST of files is kept in git. git is never put into special remotes.
+
+So we need an itermediate server with proper git-annex setup which will have a git repo. With this server we can transfer the LIST of files. Then the other computer, after having got that LIST of files, can go to the special remote and retrieve the actual files. Note that this intermediate server will have to be setup as UNENCRYPTED. When setting up with Partial encryption or Total encryption the git repo will not be there, only the files.
+
+Very interesting!
+
+I guess this is probably described in the architecture section.
+
+see comments to: https://git-annex.branchable.com/special_remotes/rsync/
+
+
+It gets annoying to manage android phone from Termux on the device.
+To get access to Termux cli from your laptop see: https://wiki.termux.com/wiki/Remote_Access
+It describes how termux can start openssh daemon. Before connecting make sure to set some password with "passwd".
+
+
+"git annex info" will provide information about all repositories. Repositories can be dead, semitrusted, untrusted and trusted.
+
+The UUID of repository can be reused. So there is no need normally to delete unused repos for keeping "clean history". They are just small pointers. But to actually fully delete a repo:
+1) drop it from git remotes (git remote remove REPO_NAME or edit .git/config)
+2) git annex dead REPO_UUID
+3) git annex forget --drop-dead --force
+4) check with git annex info
+see: http://git-annex.branchable.com/forum/How_to_delete_a_remote__63__/
+
+Actually its a bad idea to have dead repositories. Because once you mark a repo as dead, it does not show up in "git annex info". The problem is that dead repositories still have their name attached to them. So a name is quietly reserved. If you ask for the same name via git-annex-webapp it will append a number to it. But some bugs will creep up. So better instead of deleting a repo, mark it as untrusted!
+
+So! For git to work properly all repos must have the root (the seed) commit in common. This commit now lives on github in an archived repository. Its archived because git-annex will try to push to it during sync. With this structure there is a publicly accessiable read-only root to the git-annex storage. So the plan is that devices clone from the seed, then get a more knowledgeable remote added from which they get list of files and actual files. Without a publicly accessiable seed I would have a hard time getting a clone of the repo on my laptop to my server. Now I just clone on the server, and add the server to my laptop via webapp. Then sync works.

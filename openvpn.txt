@@ -21,3 +21,59 @@ The result was fine, nothing broke as far as I can tell.
 
 To run the client just run:
 sudo openvpn --config /path/to/config.ovpn
+
+
+
+
+What is a tun interface?
+Packets sent by an operating system via a tun/tap device are delivered to a user-space program which attaches itself to the device. A user-space program may also pass packets into a tun/tap device. In this case the tun/tap device delivers (or “injects”) these packets to the operating-system network stack thus emulating their reception from an external source. tun/tap interfaces are software-only interfaces, meaning that they exist only in the kernel and, unlike regular network interfaces, they have no physical hardware component (and so there’s no physical wire connected to them).
+
+You can think of a tun/tap interface as a regular network interface that, when the kernel decides that the moment has come to send data “on the wire”, instead sends data to some userspace program that is attached to the interface.
+
+
+General overview of linux kernel networking. It uses netfilter architecture. Firewalls, routing and the like are implemented via hooks at various points in the protocol stack. The
+protocol stack being the stack from OSI model layer 1 to layer 7. Where layer 1 is implemented in hardware, layers 2-4 in kernel and layer 5-7 in userspace.
+https://netfilter.org/documentation/HOWTO/netfilter-hacking-HOWTO-3.html
+
+
+Well lots of interesting info!
+
+First of all openvpn dies in "fail open" mode. So one needs to implement a kill switch mechanism.
+Otherwise the traffic will be exposed over the network! Why? Well if openvpn dies, then tun0 fails to send
+then kernel will route trafic through another interface.
+
+So what mechanisms are there?
+Basically its the firewall. Block all LAN -> WAN traffic. Allow only LAN -> VPN traffic. Consider installing this firewall on the router together with openvpn client.
+But if no router is availiable you can add failsafe mechanism anyway. Use local firewall.
+
+For example install UFW on linux. Then deny all in/out traffic. Then allow only traffic on tun0 interface.
+Then allow for all physical interface outgoing traffic on port 1194, to allow openvpn client to actually send out data on physical interface.
+
+Then DNS is an issue. If you are connected by wifi, network manager will manage your /etc/resolv.conf. The nameserver in /etc/resolv.conf will typically be your
+wifi access point (i.e. router) which has a local ip (like 192.168.1.1). This is a problem because when DNS traffic emerges from the other end of tun0 tunnel it of course
+can not find the specified DNS server at 192.168.1.1. So either push a DNS setting via openvpn client config OR open up port 53 on physical interface. 
+If pushing a setting consider googles DNS of 8.8.8.8 which has the disadvantage of being slow because its far away from you, or if OpenVPN server is also a
+Bind9 server push its own ip address. Allowing outbound traffic on port 53, in my opinion ruins the point of routing everything over vpn.
+
+
+Keep in mind that by default only IPv4 is tunneled. IPv6 needs special config on both client and server. The problem is that some ISP
+(like russian mobile carrier MTS) provide IPv6, so when you are connected to such an ISP some applications will prefer IPv6.
+This is a problem because IPv6 leaks into the open internet! In particular Firefox prefers to use IPv6 when it can! (see https://serverfault.com/questions/948051/openvpn-leaks-ipv6-in-ubuntu-but-not-in-android)
+
+See this page for details of your IP and VPN functionallity: https://ipleak.net/
+
+Also remember that DNS leaks might not sound like much, but if someone collects them thay can see the names of all the websites you visited. Because DNS stores address in plain text.
+
+The decision whether to use IPv4 or 6 lies largely with the OS and the RFC for IPv6 specifies that IPv6 should be prefered.
+see: https://askubuntu.com/questions/9181/how-to-let-the-browser-prefer-ipv6-over-ipv4
+So there will be more and more ipv6 around soon. Better make OpenVPN server support the ipv6 tunnel.
+Trying to firewall IPv4 to force all traffic through IPv4 tunnel seems short-sighted.
+
+But! Not all hosting companies allow ipv6. And on some companies you have to edit /etc/network/interfaces to bring up the <global> ipv6 portion of the interface.. The ipv6 <link> interface is ususally there for most ihardware nterfaces.
+How to edit /etc/network/interfaces to bring it up see: https://www.cyberciti.biz/faq/ubuntu-ipv6-networking-configuration/
+
+More about IPv6!
+So by default every client in IPv6 network gets a /64 bits subnet. In case of configuring OpenVPN docker container we should split this
+subnet in two to allow some for docker containers and some for what ever other uses.
+see: https://docs.docker.com/v17.09/engine/userguide/networking/default_network/ipv6/
+
