@@ -182,6 +182,14 @@ $ ansible-playbook playbook.yml --list-hosts
 
 Ansible vault allows to keep encrypted files under version control. You just supply a password when running the playbook.
 
+Sometimes you want to manipulate a value in Ansible and it would be so simple to do if you could just run some Python code on it.
+Well Ansible provides this functionnality in terms of filters. And its super easy to get started.
+See this blog post: http://www.dasblinkenlichten.com/creating-ansible-filter-plugins/
+And a more condensed SO answer: https://stackoverflow.com/a/55930982
+
+To get a list of all facts that Ansible knows add this task:
+    - name: Print all facts gathered by Ansible
+      debug: var=ansible_facts
 
 
 
