@@ -140,24 +140,22 @@ Some questions were raised as to how docker gets involved into the whole ipv6 th
 a subnet to assign ipv6 addresses to containers.
 
 Here is how it looks like when ISP supports ipv6 and everything is ipv6:
-Sun Jun 23 02:53:28 2019 library versions: OpenSSL 1.1.1b  26 Feb 2019, LZO 2.10
-Sun Jun 23 02:53:28 2019 TCP/UDP: Preserving recently used remote address: [AF_INET6]2a00:b700::6:220:1194
-Sun Jun 23 02:53:28 2019 UDPv6 link local: (not bound)
-Sun Jun 23 02:53:28 2019 UDPv6 link remote: [AF_INET6]2a00:b700::6:220:1194
-Sun Jun 23 02:53:29 2019 [ansible.rinserepeat.site] Peer Connection Initiated with [AF_INET6]2a00:b700::6:220:1194
-Sun Jun 23 02:53:30 2019 Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:1: block-outside-dns (2.4.7)
-Sun Jun 23 02:53:30 2019 TUN/TAP device tun0 opened
-Sun Jun 23 02:53:30 2019 /usr/bin/ip link set dev tun0 up mtu 1500
-Sun Jun 23 02:53:30 2019 /usr/bin/ip addr add dev tun0 local 192.168.255.10 peer 192.168.255.9
-Sun Jun 23 02:53:30 2019 /usr/bin/ip -6 addr add 2a00:b700:0:feed::1001/64 dev tun0
-Sun Jun 23 02:53:30 2019 add_route_ipv6(2a00:b700::6:220/128 -> fe80::9e5c:f9ff:fed4:8d2d metric 1) dev wlo1
-Sun Jun 23 02:53:30 2019 add_route_ipv6(2000::/3 -> 2a00:b700:0:feed::1 metric -1) dev tun0
-Sun Jun 23 02:53:30 2019 add_route_ipv6(::/3 -> 2a00:b700:0:feed::1 metric -1) dev tun0
-Sun Jun 23 02:53:30 2019 add_route_ipv6(2000::/4 -> 2a00:b700:0:feed::1 metric -1) dev tun0
-Sun Jun 23 02:53:30 2019 add_route_ipv6(3000::/4 -> 2a00:b700:0:feed::1 metric -1) dev tun0
-Sun Jun 23 02:53:30 2019 add_route_ipv6(fc00::/7 -> 2a00:b700:0:feed::1 metric -1) dev tun0
-Sun Jun 23 03:01:02 2019 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
-Sun Jun 23 03:01:02 2019 Initialization Sequence Completed
+Sun Jun 23 13:14:20 2019 TCP/UDP: Preserving recently used remote address: [AF_INET6]2a00:b700::6:220:1194
+Sun Jun 23 13:14:20 2019 UDPv6 link local: (not bound)
+Sun Jun 23 13:14:20 2019 UDPv6 link remote: [AF_INET6]2a00:b700::6:220:1194
+Sun Jun 23 13:14:20 2019 [ansible.mysite.site] Peer Connection Initiated with [AF_INET6]2a00:b700::6:220:1194
+Sun Jun 23 13:14:21 2019 TUN/TAP device tun0 opened
+Sun Jun 23 13:14:21 2019 /usr/bin/ip link set dev tun0 up mtu 1500
+Sun Jun 23 13:14:21 2019 /usr/bin/ip addr add dev tun0 local 192.168.255.6 peer 192.168.255.5
+Sun Jun 23 13:14:21 2019 /usr/bin/ip -6 addr add 2a00:b700:0:feed::1000/64 dev tun0
+Sun Jun 23 13:14:21 2019 add_route_ipv6(2a00:b700::6:220/128 -> fe80::9e5c:f9ff:fed4:8d2d metric 1) dev wlo1
+Sun Jun 23 13:14:21 2019 add_route_ipv6(2000::/3 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 13:14:21 2019 add_route_ipv6(::/3 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 13:14:21 2019 add_route_ipv6(2000::/4 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 13:14:21 2019 add_route_ipv6(3000::/4 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 13:14:21 2019 add_route_ipv6(fc00::/7 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 13:14:21 2019 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
+Sun Jun 23 13:14:21 2019 Initialization Sequence Completed
 
 Here is how it looks like when your ISP does not support ipv6 (it falls back to ipv4):
 Sun Jun 23 03:00:56 2019 TCP/UDP: Preserving recently used remote address: [AF_INET6]2a00:b700::6:220:1194
@@ -169,7 +167,7 @@ Sun Jun 23 03:00:56 2019 SIGUSR1[soft,network-unreachable] received, process res
 Sun Jun 23 03:01:01 2019 TCP/UDP: Preserving recently used remote address: [AF_INET]185.22.153.49:1194
 Sun Jun 23 03:01:01 2019 UDP link local: (not bound)
 Sun Jun 23 03:01:01 2019 UDP link remote: [AF_INET]185.22.153.49:1194
-Sun Jun 23 03:01:01 2019 [ansible.rinserepeat.site] Peer Connection Initiated with [AF_INET]185.22.153.49:1194
+Sun Jun 23 03:01:01 2019 [ansible.mysite.site] Peer Connection Initiated with [AF_INET]185.22.153.49:1194
 Sun Jun 23 03:01:02 2019 Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:1: block-outside-dns (2.4.7)
 Sun Jun 23 03:01:02 2019 TUN/TAP device tun0 opened
 Sun Jun 23 03:01:02 2019 /usr/bin/ip link set dev tun0 up mtu 1500
@@ -185,11 +183,12 @@ Sun Jun 23 03:01:02 2019 Initialization Sequence Completed
 
 
 For completeness here is the server openvpn config:
+"""
 server 192.168.255.0 255.255.255.0
 verb 3
-key /etc/openvpn/pki/private/mysite.key
+key /etc/openvpn/pki/private/ansible.mysite.site.key
 ca /etc/openvpn/pki/ca.crt
-cert /etc/openvpn/pki/issued/mysite.crt
+cert /etc/openvpn/pki/issued/ansible.mysite.site.crt
 dh /etc/openvpn/pki/dh.pem
 tls-auth /etc/openvpn/pki/ta.key
 key-direction 0
@@ -208,22 +207,105 @@ group nogroup
 client-to-client
 comp-lzo
 
-### Route Configurations Below
-
 ### Push Configurations Below
-push "block-outside-dns"
 push "dhcp-option DNS 8.8.8.8"
 push "dhcp-option DNS 8.8.4.4"
 
 ### Extra Configurations Below
-server-ipv6 2a00:b700:a:feed::/64
+server-ipv6 2a00:b700:0:feed::/64
 push "route-ipv6 2000::/3"
 duplicate-cn
+"""
 
 When the server is starting it has the following lines which describe its ip address pools:
 Sat Jun 22 23:16:18 2019 IFCONFIG POOL IPv6: (IPv4) size=62, size_ipv6=65536, netbits=64, base_ipv6=2a00:b700:a:feed::1000
 Sat Jun 22 23:16:18 2019 IFCONFIG POOL: base=192.168.255.4 size=62, ipv6=1
 
+After your connection with openvpn server is established you can check it in various ways:
+$ ip address show dev tun0
+27: tun0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 100
+    link/none
+    inet 192.168.255.6 peer 192.168.255.5/32 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 2a00:b700:0:feed::1000/64 scope global
+       valid_lft forever preferred_lft forever
+    inet6 fe80::31d4:af94:b35b:f967/64 scope link stable-privacy
+       valid_lft forever preferred_lft forever
+
+$ ip route
+0.0.0.0/1 via 192.168.255.5 dev tun0
+default via 192.168.43.1 dev wlo1 proto dhcp src 192.168.43.248 metric 303
+128.0.0.0/1 via 192.168.255.5 dev tun0
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
+192.168.43.0/24 dev wlo1 proto dhcp scope link src 192.168.43.248 metric 303
+192.168.255.0/24 via 192.168.255.5 dev tun0
+192.168.255.5 dev tun0 proto kernel scope link src 192.168.255.6
+
+$ ip -6 route
+::1 dev lo proto kernel metric 256 pref medium
+::/3 dev tun0 metric 1024 pref medium
+2a00:1fa1:c6a0:77de::/64 dev wlo1 proto ra metric 303 mtu 1500 pref medium
+2a00:1fa1:c6a0:77de::/64 dev wlo1 proto ra metric 600 pref medium
+2a00:b700::6:220 via fe80::9e5c:f9ff:fed4:8d2d dev wlo1 metric 1 pref medium
+2a00:b700:0:feed::/64 dev tun0 proto kernel metric 256 pref medium
+2000::/4 dev tun0 metric 1024 pref medium
+3000::/4 dev tun0 metric 1024 pref medium
+2000::/3 dev tun0 metric 1024 pref medium
+fc00::/7 dev tun0 metric 1024 pref medium
+fe80::/64 dev wlo1 proto kernel metric 256 pref medium
+fe80::/64 dev tun0 proto kernel metric 256 pref medium
+fe80::/64 dev wlo1 proto kernel metric 600 pref medium
+default via fe80::9e5c:f9ff:fed4:8d2d dev wlo1 proto ra metric 303 mtu 1500 pref medium
+default via fe80::9e5c:f9ff:fed4:8d2d dev wlo1 proto ra metric 600 pref high
+
+So we can see that tun0 interface has an IPv6 and IPv4.
+We can see that there is a top route that sends all ipv4 to tun0
+We can see that there is a ipv6 route on wlo1 which is because I am connected to a hotspot with ipv6, so reaching
+device on the LAN I would just use wlo1 route. But for ipv6 internet 2000::/3 everything goes to tun0.
+
+Here is the client config:
+"""
+client
+nobind
+dev tun
+remote-cert-tls server
+
+remote ansible.mysite.site 1194 udp6
+remote ansible.mysite.site 1194 udp
+redirect-gateway def1 ipv6
+
+<key>
+-----BEGIN PRIVATE KEY-----
+
+-----END PRIVATE KEY-----
+</key>
+<cert>
+-----BEGIN CERTIFICATE-----
+
+-----END CERTIFICATE-----
+</cert>
+<ca>
+-----BEGIN CERTIFICATE-----
+
+-----END CERTIFICATE-----
+</ca>
+key-direction 1
+<tls-auth>
+#
+# 2048 bit OpenVPN static key
+#
+-----BEGIN OpenVPN Static key V1-----
+
+-----END OpenVPN Static key V1-----
+</tls-auth>
+
+comp-lzo
+"""
+
+Note that the client has a remote with udp6 and just udp. It will try ipv6 first and then fallback to ipv4.
+The "redirect-gateway ipv6" is necessary because there is a bug in iOS 9 and Android. So its not necessary for desktop, but will not hurt.
 
 So in the end I ran some tests.
-First I connected to an ipv6 enabled ISP and connected to my OpenVPN. All was ok.
+One: I connected to an ipv6 enabled ISP and connected to my OpenVPN. In wireshark I could see that DNS queries went normally, while all other traffic
+went over OpenVPN and used ipv6.
+Two: I connected to an ipv4 only ISP and connected to OpenVPN. In wireshark I could see that all traffic went over OpenVPN and used ipv4.
