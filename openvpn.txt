@@ -122,6 +122,13 @@ So in case of ipv6 I created a special subnet of ipv6 addresses (a /64 subnet, b
 to describe that subnet (ip and prefix length). Finally I added a 'push "route-ipv6 2000::/3"' so clients will route all internet traffic over tun0
 interface.
 
+So to be clear: an openvpn server gets a subnet (network A) from which it allocates ips for clients. Now some clients (client A) just use this subnet,
+but some clients (client B) are gateways (router) to another network (network B). So this network B uses a different subnet from what the OpenVPN
+server has. We can instruct the OpenVPN server that when it gets a packet destined to network B it will send it through tun0 interface (which means
+that client B will be able to pick it up).
+This is used if you have a network B which is ipv4 only and you want to access the internet via ipv6, so you tunnel to OpenVPN which has ipv6 enabled.
+See: https://openoffice.nl/2018/04/05/ipv6-openvpn-part2/
+
 Its really funny how there words like "route" sound so alien until you begin to understand it. Now this stuff is just so obvious.
 It feels like I spend the last week mulling over things that are so obvious, clear and simple :)
 
