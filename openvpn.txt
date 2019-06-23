@@ -101,3 +101,122 @@ upto 2a00:b700:000a:0000:FFFF:FFFF:FFFF:FFFF
 We will give docker a /80 subnet but prefix it with a 1 like this 2a00:b700:a:0:1::0/80 which means addresses:
 from 2a00:b700:000a:0000:0001:0000:0000:0000
 upto 2a00:b700:000a:0000:0001:FFFF:FFFF:FFFF
+
+Well it was a long journey!
+
+So I setup openvpn and all was well. Then I opened wireshark and noticed that if ipv6 was used the packets did not route through OpenVPN. They leaked!
+That means that when you are by chance connected to an ipv6 enabled network all your traffic would leak, because actually modern OS prefere to use ipv6.
+This had to be fixed! And the way to fix it was of course to enable ipv4 and ipv6 runneling in OpenVPN. Because ipv6 is on the rollout everywhere!
+
+First of all lets back up some claims I make. Modern OS try to evaluate which is faster ipv4 or ipv6 and use that. They keyhole is the getaddrinfo function which
+returns ipv6, ipv4 or both. The OS manipulates its return values to either provide the application with only ipv4, or only ipv6 or both (leaving up to the application to choose).
+The getaddrinfo function can also be manipulated by /etc/gai.conf By editing that file you can make the OS prefer ipv4 over ipv6. But the default is ipv6.
+
+So then I was off on a journey. To be honest most of the dance was around the ipv6 ISP and docker. The openvpn docker image was ready for ipv6.
+But some adjustments had to be made. So talking about server openvpn config file. This is created by ovpn_genconfig script. Its important to understand
+the difference between "route" and "push route" (a "route" directive takes a subnet (ip and netmask) upon an arrival of a package for this
+subnet the server will put it on the tun device). Also its important to see how ipv4 is done and just repeat the steps for ipv6. For ipv4 there is
+a "server" directive which specifies a subnet (ip and netmask).
+
+So in case of ipv6 I created a special subnet of ipv6 addresses (a /64 subnet, because my vps provider gave me a /48). I set the server-ipv6 directive
+to describe that subnet (ip and prefix length). Finally I added a 'push "route-ipv6 2000::/3"' so clients will route all internet traffic over tun0
+interface.
+
+Its really funny how there words like "route" sound so alien until you begin to understand it. Now this stuff is just so obvious.
+It feels like I spend the last week mulling over things that are so obvious, clear and simple :)
+
+Know that IPv6 are meant to be unique. So if your device is offline or online or its a local network in a random field that you have
+setup, it does not matter, but the ipv6 is unique! When that device which is now in a local network in some field finally goes online
+it will be the sole owner of that address, and I as the owner of the prefix have to guarantee that that device is the sole owner.
+
+Some questions were raised as to how docker gets involved into the whole ipv6 thing. Well docker needs to have ipv6 enabled and needs
+a subnet to assign ipv6 addresses to containers.
+
+Here is how it looks like when ISP supports ipv6 and everything is ipv6:
+Sun Jun 23 02:53:28 2019 library versions: OpenSSL 1.1.1b  26 Feb 2019, LZO 2.10
+Sun Jun 23 02:53:28 2019 TCP/UDP: Preserving recently used remote address: [AF_INET6]2a00:b700::6:220:1194
+Sun Jun 23 02:53:28 2019 UDPv6 link local: (not bound)
+Sun Jun 23 02:53:28 2019 UDPv6 link remote: [AF_INET6]2a00:b700::6:220:1194
+Sun Jun 23 02:53:29 2019 [ansible.rinserepeat.site] Peer Connection Initiated with [AF_INET6]2a00:b700::6:220:1194
+Sun Jun 23 02:53:30 2019 Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:1: block-outside-dns (2.4.7)
+Sun Jun 23 02:53:30 2019 TUN/TAP device tun0 opened
+Sun Jun 23 02:53:30 2019 /usr/bin/ip link set dev tun0 up mtu 1500
+Sun Jun 23 02:53:30 2019 /usr/bin/ip addr add dev tun0 local 192.168.255.10 peer 192.168.255.9
+Sun Jun 23 02:53:30 2019 /usr/bin/ip -6 addr add 2a00:b700:0:feed::1001/64 dev tun0
+Sun Jun 23 02:53:30 2019 add_route_ipv6(2a00:b700::6:220/128 -> fe80::9e5c:f9ff:fed4:8d2d metric 1) dev wlo1
+Sun Jun 23 02:53:30 2019 add_route_ipv6(2000::/3 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 02:53:30 2019 add_route_ipv6(::/3 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 02:53:30 2019 add_route_ipv6(2000::/4 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 02:53:30 2019 add_route_ipv6(3000::/4 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 02:53:30 2019 add_route_ipv6(fc00::/7 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 03:01:02 2019 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
+Sun Jun 23 03:01:02 2019 Initialization Sequence Completed
+
+Here is how it looks like when your ISP does not support ipv6 (it falls back to ipv4):
+Sun Jun 23 03:00:56 2019 TCP/UDP: Preserving recently used remote address: [AF_INET6]2a00:b700::6:220:1194
+Sun Jun 23 03:00:56 2019 UDPv6 link local: (not bound)
+Sun Jun 23 03:00:56 2019 UDPv6 link remote: [AF_INET6]2a00:b700::6:220:1194
+Sun Jun 23 03:00:56 2019 write UDPv6: Network is unreachable (code=101)
+Sun Jun 23 03:00:56 2019 Network unreachable, restarting
+Sun Jun 23 03:00:56 2019 SIGUSR1[soft,network-unreachable] received, process restarting
+Sun Jun 23 03:01:01 2019 TCP/UDP: Preserving recently used remote address: [AF_INET]185.22.153.49:1194
+Sun Jun 23 03:01:01 2019 UDP link local: (not bound)
+Sun Jun 23 03:01:01 2019 UDP link remote: [AF_INET]185.22.153.49:1194
+Sun Jun 23 03:01:01 2019 [ansible.rinserepeat.site] Peer Connection Initiated with [AF_INET]185.22.153.49:1194
+Sun Jun 23 03:01:02 2019 Options error: Unrecognized option or missing or extra parameter(s) in [PUSH-OPTIONS]:1: block-outside-dns (2.4.7)
+Sun Jun 23 03:01:02 2019 TUN/TAP device tun0 opened
+Sun Jun 23 03:01:02 2019 /usr/bin/ip link set dev tun0 up mtu 1500
+Sun Jun 23 03:01:02 2019 /usr/bin/ip addr add dev tun0 local 192.168.255.6 peer 192.168.255.5
+Sun Jun 23 03:01:02 2019 /usr/bin/ip -6 addr add 2a00:b700:0:feed::1000/64 dev tun0
+Sun Jun 23 03:01:02 2019 add_route_ipv6(2000::/3 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 03:01:02 2019 add_route_ipv6(::/3 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 03:01:02 2019 add_route_ipv6(2000::/4 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 03:01:02 2019 add_route_ipv6(3000::/4 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 03:01:02 2019 add_route_ipv6(fc00::/7 -> 2a00:b700:0:feed::1 metric -1) dev tun0
+Sun Jun 23 03:01:02 2019 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
+Sun Jun 23 03:01:02 2019 Initialization Sequence Completed
+
+
+For completeness here is the server openvpn config:
+server 192.168.255.0 255.255.255.0
+verb 3
+key /etc/openvpn/pki/private/mysite.key
+ca /etc/openvpn/pki/ca.crt
+cert /etc/openvpn/pki/issued/mysite.crt
+dh /etc/openvpn/pki/dh.pem
+tls-auth /etc/openvpn/pki/ta.key
+key-direction 0
+keepalive 10 60
+persist-key
+persist-tun
+
+proto udp6
+# Rely on Docker to do port mapping, internally always 1194
+port 1194
+dev tun0
+status /tmp/openvpn-status.log
+
+user nobody
+group nogroup
+client-to-client
+comp-lzo
+
+### Route Configurations Below
+
+### Push Configurations Below
+push "block-outside-dns"
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
+
+### Extra Configurations Below
+server-ipv6 2a00:b700:a:feed::/64
+push "route-ipv6 2000::/3"
+duplicate-cn
+
+When the server is starting it has the following lines which describe its ip address pools:
+Sat Jun 22 23:16:18 2019 IFCONFIG POOL IPv6: (IPv4) size=62, size_ipv6=65536, netbits=64, base_ipv6=2a00:b700:a:feed::1000
+Sat Jun 22 23:16:18 2019 IFCONFIG POOL: base=192.168.255.4 size=62, ipv6=1
+
+
+So in the end I ran some tests.
+First I connected to an ipv6 enabled ISP and connected to my OpenVPN. All was ok.
