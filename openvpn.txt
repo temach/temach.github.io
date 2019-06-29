@@ -22,6 +22,7 @@ The result was fine, nothing broke as far as I can tell.
 To run the client just run:
 sudo openvpn --config /path/to/config.ovpn
 
+Network fundamentals: http://www.policyrouting.org/PolicyRoutingBook/ONLINE/TOC.html
 
 
 
@@ -51,10 +52,15 @@ Then allow for all physical interface outgoing traffic on port 1194, to allow op
 
 Then DNS is an issue. If you are connected by wifi, network manager will manage your /etc/resolv.conf. The nameserver in /etc/resolv.conf will typically be your
 wifi access point (i.e. router) which has a local ip (like 192.168.1.1). This is a problem because when DNS traffic emerges from the other end of tun0 tunnel it of course
-can not find the specified DNS server at 192.168.1.1. So either push a DNS setting via openvpn client config OR open up port 53 on physical interface. 
+can not find the specified DNS server at 192.168.1.1. So either push a DNS setting via openvpn client config OR open up port 53 on physical interface.
 If pushing a setting consider googles DNS of 8.8.8.8 which has the disadvantage of being slow because its far away from you, or if OpenVPN server is also a
 Bind9 server push its own ip address. Allowing outbound traffic on port 53, in my opinion ruins the point of routing everything over vpn.
 
+A note about the push directive.
+This only gets into the client if the client config has a pull directive. Pull option must be used on a client which is connecting to a multi-client server.
+It indicates to OpenVPN that it should accept options pushed by the server, (note that the -pull option is implied by -client ).In particular, -pull allows the
+server to push routes to the client, so you should not use -pull or -client in situations where you don’t trust the server to have control over the client’s routing table.
+In general its best to push as much as possible vs writing directly into a client config. Then the trusted server is the single point of truth (SPOT).
 
 Keep in mind that by default only IPv4 is tunneled. IPv6 needs special config on both client and server. The problem is that some ISP
 (like russian mobile carrier MTS) provide IPv6, so when you are connected to such an ISP some applications will prefer IPv6.
@@ -309,3 +315,292 @@ So in the end I ran some tests.
 One: I connected to an ipv6 enabled ISP and connected to my OpenVPN. In wireshark I could see that DNS queries went normally, while all other traffic
 went over OpenVPN and used ipv6.
 Two: I connected to an ipv4 only ISP and connected to OpenVPN. In wireshark I could see that all traffic went over OpenVPN and used ipv4.
+
+By default OpenVPN uses p2p topology. This is bad in many ways, see: https://community.openvpn.net/openvpn/wiki/Topology
+You can read informally about p2p topology here: https://stackoverflow.com/questions/36375530/what-is-the-destination-address-for-a-tap-tun-device
+The main thing is that Windows clients are not supported in p2p topology.
+So we switch to subnet topology. After defining topology in the server config, this option is often pushed to
+clients, see: https://community.openvpn.net/openvpn/wiki/Concepts-Addressing#Examples
+
+If you can connect to your VPN and get "Initialisation sequence success" then you should be able to ping the server
+and server should be able to ping you without setting up any routes, read the second message in forum
+https://forums.openvpn.net/viewtopic.php?t=9202 for this claim. You will have a client <-> server working ok.
+But you might have trouble with "client -> server -> Internet".
+Because this step requiers extra configuration on the server side that is not provided by OpenVPN package. It is
+provided by the docker openvpn image.
+The real problem is this: traffic originates at your machine with VPN ip of 192.168.255.4, goes to VPN server, exists to
+the internet, finds the target, then the target replies and sends the responce back to ip 192.168.255.4, which of course
+will never return to your actual server (at ansible.mysite.site). So if you want it to return you must masquarade the outgoing
+traffic, you rewrite the 192.168.255.4 ip with the ip of the ansible.mysite.site vps (where VPN server is hosted). Then traffic
+will return back to VPN server and iptable rules will de-masquarade it and it will go down the vpn pipe back to 192.168.255.4.
+You must get iptables NAT POSTROUTING MASQUERADE set up. Here is info from official OpenVPN docs:
+https://openvpn.net/community-resources/how-to/#routing-all-client-traffic-including-web-traffic-through-the-vpn
+Here is what other people who have not read the official doc and also have trouble with Internet connection are saying:
+https://unix.stackexchange.com/questions/136211/routing-public-ipv6-traffic-through-openvpn-tunnel
+https://forums.openvpn.net/viewtopic.php?t=21051
+https://ubuntuforums.org/showthread.php?t=2378684
+The docker openvpn image sets up iptables NAT POSTROUTING MASQUERADE with "setupIptablesAndRouting" function in "ovpn_run"
+script. After the iptables nat rules are altered packet flow client -> server -> Internet and back works.
+Specifically the POSTROUTING chain is altered. This chain is not shown with "iptables --list", to see it use
+"iptables -t nat --list". To understand in more depth the whole NAT thing, first check out what is iptables NAT and
+iptables MASQUERADE, see https://askubuntu.com/questions/466445/what-is-masquerade-in-the-context-of-iptables
+and http://gsp.com/cgi-bin/man.cgi?section=3&topic=libalias just read the Introduction paragraph.
+
+
+Here is a diagram (without any arrows) of my current setup:
+                                                                              client tun0                        client tun0
+                                                                              ip4: 192.168.255.2/24              ip4: 192.168.255.3/24
+                                                                              ip6: 2a00:b700:0:feed::1000/64     ip6: 2a00:b700:0:feed::1001/64
+
+
+
+                                                                                                 Gateway tun0
+                                                                                                 ip4: 192.168.255.1/24
+                                                                                                 ip6: 2a00:b700:0:feed::1/64
+
+mtproto-proxy eth0                               bind9-dns eth0                                  openvpn-server eth0
+ip4: 172.17.0.3/16                               ip4: 172.17.0.2/16                              ip4: 172.17.0.4/16
+ip6: 2a00:b700:0:cafe:0:242:ac11:3/64            ip6: 2a00:b700:0:cafe:0:242:ac11:2/64           ip6: 2a00:b700:0:cafe:0:242:ac11:4/64
+
+
+
+                                                     Gateway docker0
+                                                     ip4: 172.17.0.1
+                                                     ip6: 2a00:b700:0:cafe::1
+
+                                                     VPS eth0
+                                                     ip4: 185.22.153.49/23
+                                                     ip6: 2a00:b700::6:220/48
+
+
+
+                                                        Gateway
+                                                        ip4: 185.22.152.1
+                                                        ip6: 2a00:b700::1
+
+
+The VPN itself is working. But there is another issue: doker does not let ipv6 out/in from 172.17.0.1 network.
+This is outlined in more details here: https://serverfault.com/questions/943123/ping-public-ipv6-dns-from-docker-container
+And slightly less similar issue here: https://serverfault.com/questions/782920/no-ipv6-connectivity-from-docker-container
+
+First of all I changed the subnet for ipv6 VPN, now its fc00:0:0:feed::1/64. This change should not really affect routing
+but has the benefit that if traffic escapes it will not be routed properly and will just die. Also this covers a
+possible hole: if this traffic gets out of openvpn-server eth0 then before going out to the internet its ULA ip6 address
+will trigger it to pass through ipv6nat container, which is what we want.
+After also installing ipv6nat docker image the situation looks as follows:
+
+                                                                              client tun0                        client tun0
+                                                                              ip4: 192.168.255.2/24              ip4: 192.168.255.3/24
+                                                                              ip6: fc00:0:0:feed::1000/64        ip6: fc00:0:0:feed::1001/64
+
+
+
+                                                                                                 Gateway tun0
+                                                                                                 ip4: 192.168.255.1/24
+                                                                                                 ip6: fc00:0:0:feed::1/64
+
+mtproto-proxy eth0                               bind9-dns eth0                                  openvpn-server eth0                        ipv6nat
+ip4: 172.17.0.3/16                               ip4: 172.17.0.2/16                              ip4: 172.17.0.4/16                         ip4: NaN
+ip6: fc00:cafe::0:242:ac11:3/32                  ip6: fc00:cafe::0:242:ac11:2/32                 ip6: fc00:cafe::0:242:ac11:4/32            ip6: NaN
+
+
+                                                     Gateway docker0
+                                                     ip4: 172.17.0.1
+                                                     ip6: fc00:cafe::1
+
+                                                     VPS eth0
+                                                     ip4: 185.22.153.49/23
+                                                     ip6: 2a00:b700::6:220/48
+
+
+
+                                                        Gateway
+                                                        ip4: 185.22.152.1
+                                                        ip6: 2a00:b700::1
+
+With this setup its possible to "ping -6 ipv6.google.com" while in "openvpn-server".
+However we still do not get ipv6 to the internet from the client. The problem is that returning
+packets are trying to return to the VPN only ip, so the vps must know to route them to openvpn-server?
+Packets that originate on openvpn-server can do a round trip ok, because the vps knows to route
+the :cafe: network to docker0 bridge.
+
+
+Better tools are needed to diagnose this problem! Well we have them!
+First of all must check at shich points the packets are dying. I suspect that they leave the VPN ok, but can not return.
+
+The simplest tool to check connectivity comes to the rescue: socat and nmap (ncat)
+Now I will establish connection from my laptop via the OpenVPN server to another vps that I control and that has ipv6 enabled.
+
+First check with ipv4:
+Client, on the VPN:
+$ ncat -4 -u --send-only vps.rinserepeat.site 5000
+Server, outside the VPN:
+$ sudo socat - udp4-listen:5000,reuseaddr,fork
+
+Then with ipv6:
+See https://superuser.com/questions/879498/make-socat-listen-on-both-ipv4-and-ipv6-stacks
+Client, on the VPN:
+$ ncat -6 -u --send-only vps.rinserepeat.site 5000
+Server, outside the VPN:
+$ sudo socat - udp6-listen:5000,reuseaddr,fork
+
+Of course to run the server commands you need to ssh to the vps.rinserepeat.site.
+
+Ok, so this will probably break somewhere with ipv6. For me ipv4 worked fine though. Then more details are needed! We need wireshark!
+Follow the instructions to stream data for wireshark from the VPN server. Then we can see all traffic going outside and returning.
+This will help find the reason.
+Unfortunately you must have root login enabled on the remote server for this to work. But its ok, its a test server anyway.
+See first answer https://serverfault.com/questions/362529/how-can-i-sniff-the-traffic-of-remote-machine-with-wireshark
+In short:
+
+    Create a named pipe:
+    $ mkfifo /tmp/remote
+
+    Start wireshark from the command line
+    $ wireshark -k -i /tmp/remote
+
+    Run tcpdump over ssh on your remote machine and redirect the packets to the named pipe:
+    $ ssh root@firewall "tcpdump -s 0 -U -n -w - -i eth0 not port 22" > /tmp/remote
+
+
+You will probably need to change the name of the eth0 interface to whatever you have.
+And what did I see there in wireshark? Well I saw that traffic was going out to my remote vps.rinserepeat.site everytime
+that I typed at the ncat command. But the source address for the traffic was fc00:0:0:feed::1000 so of course the traffic
+could never return!
+
+I have installed docker-ipv6nat image back again on my server. But outgoing traffic still had the VPN local address. Then
+I looked at the rules for iptables and ip6tables on my vps server.
+
+====================================================
+artem@v74891:~$ sudo iptables -t nat --list
+[sudo] password for artem:
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination
+DOCKER     all  --  anywhere             anywhere             ADDRTYPE match dst-type LOCAL
+
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+DOCKER     all  --  anywhere            !loopback/8           ADDRTYPE match dst-type LOCAL
+
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination
+MASQUERADE  all  --  172.17.0.0/16        anywhere
+MASQUERADE  tcp  --  172.17.0.3           172.17.0.3           tcp dpt:webmin
+MASQUERADE  tcp  --  172.17.0.3           172.17.0.3           tcp dpt:domain
+MASQUERADE  udp  --  172.17.0.3           172.17.0.3           udp dpt:domain
+MASQUERADE  tcp  --  172.17.0.4           172.17.0.4           tcp dpt:openvpn
+MASQUERADE  udp  --  172.17.0.4           172.17.0.4           udp dpt:openvpn
+MASQUERADE  tcp  --  172.17.0.2           172.17.0.2           tcp dpt:https
+
+Chain DOCKER (2 references)
+target     prot opt source               destination
+RETURN     all  --  anywhere             anywhere
+DNAT       tcp  --  anywhere             anywhere             tcp dpt:webmin to:172.17.0.3:10000
+DNAT       tcp  --  anywhere             anywhere             tcp dpt:domain to:172.17.0.3:53
+DNAT       udp  --  anywhere             anywhere             udp dpt:domain to:172.17.0.3:53
+DNAT       tcp  --  anywhere             anywhere             tcp dpt:openvpn to:172.17.0.4:1194
+DNAT       udp  --  anywhere             anywhere             udp dpt:openvpn to:172.17.0.4:1194
+DNAT       tcp  --  anywhere             anywhere             tcp dpt:1010 to:172.17.0.2:443
+
+
+====================================================
+artem@v74891:~$ sudo ip6tables -t nat --list
+[sudo] password for artem:
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination
+DOCKER     all      anywhere             anywhere             ADDRTYPE match dst-type LOCAL
+
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+DOCKER     all      anywhere            !localhost            ADDRTYPE match dst-type LOCAL
+
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination
+MASQUERADE  all      fc00:0:0:cafe::/64   anywhere
+MASQUERADE  udp      fc00::cafe:0:242:ac11:3  fc00::cafe:0:242:ac11:3  udp dpt:domain
+MASQUERADE  tcp      fc00::cafe:0:242:ac11:3  fc00::cafe:0:242:ac11:3  tcp dpt:webmin
+MASQUERADE  tcp      fc00::cafe:0:242:ac11:3  fc00::cafe:0:242:ac11:3  tcp dpt:domain
+MASQUERADE  tcp      fc00::cafe:0:242:ac11:2  fc00::cafe:0:242:ac11:2  tcp dpt:webmin
+MASQUERADE  tcp      fc00::cafe:0:242:ac11:4  fc00::cafe:0:242:ac11:4  tcp dpt:openvpn
+MASQUERADE  tcp      fc00::cafe:0:242:ac11:2  fc00::cafe:0:242:ac11:2  tcp dpt:https
+MASQUERADE  udp      fc00::cafe:0:242:ac11:4  fc00::cafe:0:242:ac11:4  udp dpt:openvpn
+MASQUERADE  tcp      fc00::cafe:0:242:ac11:2  fc00::cafe:0:242:ac11:2  tcp dpt:domain
+MASQUERADE  udp      fc00::cafe:0:242:ac11:2  fc00::cafe:0:242:ac11:2  udp dpt:domain
+MASQUERADE  tcp      fc00::cafe:0:242:ac11:3  fc00::cafe:0:242:ac11:3  tcp dpt:https
+
+Chain DOCKER (2 references)
+target     prot opt source               destination
+RETURN     all      anywhere             anywhere
+DNAT       tcp      anywhere             anywhere             tcp dpt:webmin to:[fc00::cafe:0:242:ac11:3]:10000
+DNAT       tcp      anywhere             anywhere             tcp dpt:domain to:[fc00::cafe:0:242:ac11:3]:53
+DNAT       udp      anywhere             anywhere             udp dpt:domain to:[fc00::cafe:0:242:ac11:3]:53
+DNAT       tcp      anywhere             anywhere             tcp dpt:openvpn to:[fc00::cafe:0:242:ac11:4]:1194
+DNAT       udp      anywhere             anywhere             udp dpt:openvpn to:[fc00::cafe:0:242:ac11:4]:1194
+DNAT       tcp      anywhere             anywhere             tcp dpt:1010 to:[fc00::cafe:0:242:ac11:2]:443
+
+So docker ipv6nat was providing NAT for addresses in fc00:0:0:cafe::/64 and so :feed: was not NATed.
+Of course the openvpn docker container had rules to NAT ipv4 as shown below:
+To get into the container I used: "sudo docker exec -i -t openvpn-server /bin/bash"
+
+====================================================
+bash-4.4# iptables -t nat --list
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination
+
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination
+MASQUERADE  all  --  192.168.255.0/24     anywhere
+
+====================================================
+bash-4.4# ip6tables -t nat --list
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination
+
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination
+
+
+So the simplest solution is to NAT ipv6 in the container just like ipv4. Then ipv6nat container
+will take care of NATting it again and all should work fine.
+
+So I added a rule from inside the docker openvpn container:
+Taken from here and docker-openvpn sources: https://serverfault.com/questions/470169/snat-in-ip6tables
+
+$ ip6tables -t nat -A POSTROUTING -s "fc00:0:0:feed::/64" -o eth0 -j MASQUERADE
+
+Then the output became as below:
+
+====================================================
+bash-4.4# ip6tables -t nat --list
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination
+
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination
+MASQUERADE  all      fc00:0:0:feed::/64   anywhere
+
+Looks good!
