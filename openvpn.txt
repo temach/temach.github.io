@@ -471,7 +471,7 @@ And what did I see there in wireshark? Well I saw that traffic was going out to 
 everytime that I typed at the ncat command. But the source address for the traffic was fc00:0:0:feed::1000 so of course the traffic
 could never return!
 
-I think that NAT is the best strategy for openvpn tunneling, so I have I have re-installed docker-ipv6nat image back on my server. 
+I think that NAT is the best strategy for openvpn tunneling, so I have I have re-installed docker-ipv6nat image back on my server.
 But outgoing traffic still had the VPN local address. Then I looked at the rules for iptables and ip6tables on my vps server.
 
 ====================================================
@@ -551,8 +551,12 @@ So docker ipv6nat was providing NAT for addresses in fc00:0:0:cafe::/64, but the
 which means that packets went out, they went out with source address in fc00:0:0:feed::/64 and dest address=SOME_IPV6_ADDRESS,
 but when the other party wanted to answer it responds by sending the payload to the address in fc00:0:0:feed::/64, because
 that was the source address in the . Since this is a Unique Local Address the packets never make it back.
+
 The openvpn docker container had rules to NAT IPv4 as shown below. To get into the container and examine it I
-used: "sudo docker exec -i -t openvpn-server /bin/bash"
+used: "sudo docker exec -i -t openvpn-server /bin/bash".  If you are using the docker openvpn image then keep in mind that
+currently it comes without ip6tabels installed. They can be installed by issuing "$ apk add ip6tables" inside openvpn-server.
+For ip6tables to work properly some kernel modules are requiered, these are also not part of the container and have to be
+mounted from the vps host by docker run command "--volume /lib/modules:/lib/modules:ro"
 
 ====================================================
 bash-4.4# iptables -t nat --list
