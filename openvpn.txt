@@ -616,3 +616,16 @@ MASQUERADE  all      fc00:0:0:feed::/64   anywhere
 
 Looks good!
 And indeed after testing, it works!
+
+As a post-mortem note another solution can be considered. That is if you have an /64 IPv6 address then you can allocate /80
+to docker and subnetwork of your desired size to OpenVPN. The consequences are as follows:
+1) You must instruct the vps to pass your docker subnetwork to docker and further instruct the vps to pass the OpenVPN
+subnetwork to the docker container that runs the OpenVPN server. So this requiers editing ip6tables twice. To be honest
+the current setup also edits ip6tables twice, but one of the edits is handles by the ip6nat container.
+2) This will expose your OpenVPN lan to the internet.
+3) When you switch providers and get a new IPv6 you will have to remember to change the tables. If you are using NAT
+then you can keep the same addresses for docker and OpenVPN networks. This also means that the setup will work
+with greedy vps providers that do not give you an /64 IPv6, but a much smaller range. DigitalOcean for example
+gives only /124, so you have only 16 IPv6 addresses in total.
+
+Overall I think NAT with IPv6 for an OpenVPN network makes more sense.
