@@ -1,0 +1,56 @@
+How to get SSL for your domain?
+
+General Into
+Well you could get individual certificates foe each FQDN or you could
+get a wildcard certificate. Moreover I want it to be automated.
+
+The request for wildcard domains rules out all the clumsy setups based
+on docker + certbot + nginx + some other crap.
+
+We are looking for something that has docker + dns + certbot.
+
+Chapter 1
+When getting a wildcard certificate you should always get at least two. So for
+"example.com" its best to get two: "*.example.com" and just "example.com".
+
+Now the certificates issued by Lets Encrypt are valid for 90 days.
+Then they must be renewed. You can read more about the general process
+here: 
+
+DNS validation works by checking that a special TXT record is served by the
+master DNS server that is responsible for the zone. So your domain name
+registrar points to some ns1.example.com and ns2.example.com. Lets Encrypts
+certbot gives you a special string that you must put into the zone config file
+on the ns1.example.com server. In other words TXT record must be served by
+the DNS server that is running on ns1.example.com.
+
+Currently I am hosting my own DNS server. BIND 9 does not have a clean way to
+add a record and remove a record. And the problem is that this cycle of add
+TXT and remove TXT record must happen once every 30-60 days. And it must be
+somehow triggered when certbot starts its challange.
+
+Well the answer is in this thread:
+https://community.letsencrypt.org/t/easy-wildcard-one-command-to-rule-them-all/58428/13
+
+The idea is as follows:
+1) Host certbot in docker container.
+2) Host DNS server in same container.
+3) Keep the config out of the container
+4) Stop your normal BIND 9 server
+5) Run this container
+6) The certbot has hooks installed that edit the zone file
+    They add the TXT record after challenge start and remove TXT
+    record after challenge ends successfully.
+7) You have SSL certificates saved outside of the container
+8) Stop this container
+9) Run normal BIND 9 DNS server
+10) Repeat this process once every 30/60 days by stopping BIND 9 container
+    and restarting this special container.
+
+
+The question: why even keep a DNS server in there? Can not we just use certbot hooks?
+1) First the hooks are run inside the container, they can edit the zone file, but they
+    dont have privilege to restart the container with BIND 9 DNS server. And the
+    container must be restarted, in order to reload the modified zone file.
+2) I want this to be a self contained solution. Its not good to rely on the presence
+    of some external container that will host the DNS server.
