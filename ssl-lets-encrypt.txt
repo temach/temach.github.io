@@ -9,6 +9,23 @@ on docker + certbot + nginx + some other crap.
 
 We are looking for something that has docker + dns + certbot.
 
+Also we are only going to run this solution on the master DNS server,
+where we have access to BIND 9 DNS config without having to access the
+network.
+
+As an alternative you can consider using ansible acme_certificate module.
+It also installs a cron script for automating certificate check and renewal.
+But this means actually installing certbot and other crap on your actual vps.
+On the other hand this is relatively easy to set up. See links below for ansible:
+instructions see https://dickingwithdocker.com/2018/08/wildcard-letsencrypt-renewal-with-ansible-and-memset/
+older instructions see https://serverfault.com/questions/750902/how-to-use-lets-encrypt-dns-challenge-validation
+acme_certificate module see https://docs.ansible.com/ansible/latest/modules/acme_certificate_module.html#acme-certificate-module
+
+But there is a reasone to dockerize it. Most importantly with a docker
+container you can always keep on the latest build of Certbot and
+other software. So you dont have to worry about updating it.
+
+
 Chapter 1
 When getting a wildcard certificate you should always get at least two. So for
 "example.com" its best to get two: "*.example.com" and just "example.com".
@@ -22,7 +39,11 @@ master DNS server that is responsible for the zone. So your domain name
 registrar points to some ns1.example.com and ns2.example.com. Lets Encrypts
 certbot gives you a special string that you must put into the zone config file
 on the ns1.example.com server. In other words TXT record must be served by
-the DNS server that is running on ns1.example.com.
+the master DNS server that is running on ns1.example.com.
+
+By the way if ever choosing DNS providers, choose from this list https://github.com/AnalogJ/lexicon
+First of all its a big list, second they support API to automate
+getting SSL certificates.
 
 Currently I am hosting my own DNS server. BIND 9 does not have a clean way to
 add a record and remove a record. And the problem is that this cycle of add
@@ -31,6 +52,8 @@ somehow triggered when certbot starts its challange.
 
 Well the answer is in this thread:
 https://community.letsencrypt.org/t/easy-wildcard-one-command-to-rule-them-all/58428/13
+Which leads to this github repo: https://github.com/Fmstrat/easywildcard
+Of which I have made a clone for safety: https://github.com/temach/easywildcard
 
 The idea is as follows:
 1) Host certbot in docker container.
@@ -47,10 +70,16 @@ The idea is as follows:
 10) Repeat this process once every 30/60 days by stopping BIND 9 container
     and restarting this special container.
 
-
 The question: why even keep a DNS server in there? Can not we just use certbot hooks?
 1) First the hooks are run inside the container, they can edit the zone file, but they
     dont have privilege to restart the container with BIND 9 DNS server. And the
     container must be restarted, in order to reload the modified zone file.
 2) I want this to be a self contained solution. Its not good to rely on the presence
     of some external container that will host the DNS server.
+
+The DNS server that will be used in the docker dontainer does not have to be BIND 9.
+Most of the DNS servers use BIND 9 syntax for zone files see: https://en.wikipedia.org/wiki/Zone_file
+So we can use a simpler DNS server and just give it the same zone config file.
+
+After cloning https://github.com/temach/easywildcard I created a docker image according to these
+instructions
