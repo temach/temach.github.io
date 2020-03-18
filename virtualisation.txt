@@ -1,0 +1,12 @@
+Creating VM images: https://people.linaro.org/~riku.voipio/debian-images/
+
+Or look into VMDK (GNS3 uses that) or AMI with Packer
+https://packer.io/intro/getting-started/vagrant.html
+https://github.com/libyal/libvmdk/blob/master/documentation/VMWare%20Virtual%20Disk%20Format%20(VMDK).asciidoc
+
+
+Also look into "unattended install" and preseed
+https://github.com/core-process/linux-unattended-installation
+
+
+Another idea is skipping the install step (using someone-else's OS Template) and just customising on top.
