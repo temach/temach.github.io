@@ -12,3 +12,7 @@ https://github.com/core-process/linux-unattended-installation
 Another idea is skipping the install step (using someone-else's OS Template) and just customising on top.
 
 GNS3 template for Ubuntu Server: https://raw.githubusercontent.com/GNS3/gns3-registry/master/appliances/ubuntu-server.gns3a
+
+Similar to debootstrap but relying on modifying the contents of the ubuntu's ISO image:
+https://askubuntu.com/questions/122505/how-do-i-create-a-completely-unattended-install-of-ubuntu
+The ISO image when booted will install without human attendance.
