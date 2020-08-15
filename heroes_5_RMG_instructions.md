@@ -14,4 +14,4 @@ C:\GOG Games\Heroes of Might and Magic V - Tribes of the East\data\RMG\Templates
 
 Есть несколько шаблонов из интернета: https://github.com/temach/temach.github.io/blob/master/RMG-templates.zip?raw=true
 
-Тот шаблон на котором мы играли: https://github.com/temach/temach.github.io/blob/master/artem.xdb
+Тот шаблон на котором мы играли: https://raw.githubusercontent.com/temach/temach.github.io/master/artem.xdb
