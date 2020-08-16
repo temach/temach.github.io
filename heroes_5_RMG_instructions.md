@@ -14,4 +14,7 @@ C:\GOG Games\Heroes of Might and Magic V - Tribes of the East\data\RMG\Templates
 
 Есть несколько шаблонов из интернета: https://github.com/temach/temach.github.io/blob/master/RMG-templates.zip?raw=true
 
-Тот шаблон на котором мы играли: https://raw.githubusercontent.com/temach/temach.github.io/master/artem.xdb
+Тот шаблон на котором играть: https://raw.githubusercontent.com/temach/temach.github.io/master/artem.xdb
+
+Шаблон чтобы посмотреть как работают разные параметры: https://raw.githubusercontent.com/temach/temach.github.io/master/S6-11P2-8Z9K2XL.xdb
+При выборе этого шаблона он будет в "Громадных" картах с названием: 3P-Team-H/Lu-(All) 
