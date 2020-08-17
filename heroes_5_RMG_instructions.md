@@ -120,3 +120,98 @@ $ fgrep Name S* | grep -v FileRef | awk '{print $2}' | sort -u
 <Name>8P-Team-XLu-(All)</Name>
 ```
 
+Возможные значения для других параметров (взяты из шаблонов):
+
+```
+<UpgBuildingsDensity>([0-9]+)</UpgBuildingsDensity>
+         4 -         72
+
+<TreasureDensity>([0-9]+)</TreasureDensity>
+         4 -         60
+
+<TreasureChestDensity>([0-9]+)</TreasureChestDensity>
+         4 -         60
+
+<Prisons>([0-9]+)</Prisons>
+         0 -          1
+
+<LandCartographer>([0-9]+)</LandCartographer>
+         0 -          0
+
+<ShopPoints>([0-9]+)</ShopPoints>
+         0 -         16
+
+<ShrinePoints>([0-9]+)</ShrinePoints>
+         0 -         40
+
+<LuckMoralBuildingsDensity>([0-9]+)</LuckMoralBuildingsDensity>
+        16 -         24
+
+<ResourceBuildingsDensity>([0-9]+)</ResourceBuildingsDensity>
+         0 -         32
+
+<TreasureBuildingPoints>([0-9]+)</TreasureBuildingPoints>
+         6 -        108
+
+<TreasureBlocksTotalValue>([0-9]+)</TreasureBlocksTotalValue>
+     18000 -     400000
+
+<DenOfThieves>([0-9]+)</DenOfThieves>
+         0 -          0
+
+<RedwoodObservatoryDensity>([0-9]+)</RedwoodObservatoryDensity>
+         0 -          0
+
+<BuffPoints>([0-9]+)</BuffPoints>
+         0 -          0
+```
+
+
+Код для агрегирования данных:
+
+```python
+#!/usr/bin/env python
+
+import argparse
+import re
+
+parser = argparse.ArgumentParser()
+parser.add_argument('files', nargs='+')
+args = parser.parse_args()
+
+patterns = [
+      r"""<UpgBuildingsDensity>([0-9]+)</UpgBuildingsDensity>""",
+      r"""<TreasureDensity>([0-9]+)</TreasureDensity>""",
+      r"""<TreasureChestDensity>([0-9]+)</TreasureChestDensity>""",
+      r"""<Prisons>([0-9]+)</Prisons>""",
+      r"""<LandCartographer>([0-9]+)</LandCartographer>""",
+      r"""<ShopPoints>([0-9]+)</ShopPoints>""",
+      r"""<ShrinePoints>([0-9]+)</ShrinePoints>""",
+      r"""<LuckMoralBuildingsDensity>([0-9]+)</LuckMoralBuildingsDensity>""",
+      r"""<ResourceBuildingsDensity>([0-9]+)</ResourceBuildingsDensity>""",
+      r"""<TreasureBuildingPoints>([0-9]+)</TreasureBuildingPoints>""",
+      r"""<TreasureBlocksTotalValue>([0-9]+)</TreasureBlocksTotalValue>""",
+      r"""<DenOfThieves>([0-9]+)</DenOfThieves>""",
+      r"""<RedwoodObservatoryDensity>([0-9]+)</RedwoodObservatoryDensity>""",
+      r"""<BuffPoints>([0-9]+)</BuffPoints>""",
+]
+
+res = {p : [] for p in patterns}
+
+for path in args.files:
+    with open(path, "r") as f:
+        lines = f.readlines()
+        for l in lines:
+            for p in patterns:
+                match = re.findall(p, l)
+                if match:
+                    assert len(match) == 1
+                    res[p].append(int(match[0]))
+
+for pattern in res.keys():
+    print(pattern)
+    small =  min(res[pattern])
+    big =  max(res[pattern])
+    print("{:10} - {:10}\n".format(small, big))
+
+```
