@@ -21,72 +21,28 @@ C:\GOG Games\Heroes of Might and Magic V - Tribes of the East\data\RMG\Templates
 
 
 ## Параметры для генератора
-Возможные значения для размеров карт и зон:
+Возможные значения для размеров карт:
 
 ```
 $ fgrep Size  S1*  | awk '{print $0} /MaxMapSize/ {print "\n"}'
-S1-2P2-4Z4K1S.xdb:      <Size>10</Size>
-S1-2P2-4Z4K1S.xdb:      <Size>10</Size>
-S1-2P2-4Z4K1S.xdb:      <Size>10</Size>
-S1-2P2-4Z4K1S.xdb:      <Size>10</Size>
-S1-2P2-4Z4K1S.xdb:      <Size>10</Size>
 S1-2P2-4Z4K1S.xdb:  <MinMapSize>30</MinMapSize>
 S1-2P2-4Z4K1S.xdb:  <MaxMapSize>35</MaxMapSize>
 
-
-S1-2P2-8Z8K2S.xdb:      <Size>10</Size>
-S1-2P2-8Z8K2S.xdb:      <Size>10</Size>
-S1-2P2-8Z8K2S.xdb:      <Size>10</Size>
-S1-2P2-8Z8K2S.xdb:      <Size>10</Size>
-S1-2P2-8Z8K2S.xdb:      <Size>10</Size>
-S1-2P2-8Z8K2S.xdb:      <Size>10</Size>
-S1-2P2-8Z8K2S.xdb:      <Size>10</Size>
-S1-2P2-8Z8K2S.xdb:      <Size>10</Size>
-S1-2P2-8Z8K2S.xdb:      <Size>20</Size>
 S1-2P2-8Z8K2S.xdb:  <MinMapSize>60</MinMapSize>
 S1-2P2-8Z8K2S.xdb:  <MaxMapSize>70</MaxMapSize>
 
-
-S1-2P2Z7V2.xdb:      <Size>10</Size>
-S1-2P2Z7V2.xdb:      <Size>10</Size>
-S1-2P2Z7V2.xdb:      <Size>10</Size>
-S1-2P2Z7V2.xdb:      <Size>10</Size>
-S1-2P2Z7V2.xdb:      <Size>10</Size>
-S1-2P2Z7V2.xdb:      <Size>10</Size>
-S1-2P2Z7V2.xdb:      <Size>20</Size>
 S1-2P2Z7V2.xdb:  <MinMapSize>45</MinMapSize>
 S1-2P2Z7V2.xdb:  <MaxMapSize>50</MaxMapSize>
 
-
-S1-3P2-4Z5V.xdb:      <Size>10</Size>
-S1-3P2-4Z5V.xdb:      <Size>10</Size>
-S1-3P2-4Z5V.xdb:      <Size>10</Size>
-S1-3P2-4Z5V.xdb:      <Size>10</Size>
 S1-3P2-4Z5V.xdb:  <MinMapSize>15</MinMapSize>
 S1-3P2-4Z5V.xdb:  <MaxMapSize>20</MaxMapSize>
 
-
-S1-3P2Z7V3.xdb:      <Size>10</Size>
-S1-3P2Z7V3.xdb:      <Size>10</Size>
-S1-3P2Z7V3.xdb:      <Size>10</Size>
-S1-3P2Z7V3.xdb:      <Size>20</Size>
 S1-3P2Z7V3.xdb:  <MinMapSize>30</MinMapSize>
 S1-3P2Z7V3.xdb:  <MaxMapSize>35</MaxMapSize>
 
-
-S1P2Z2M1.xdb:      <Size>10</Size>
-S1P2Z2M1.xdb:      <Size>10</Size>
-S1P2Z2M1.xdb:      <Size>10</Size>
 S1P2Z2M1.xdb:  <MinMapSize>15</MinMapSize>
 S1P2Z2M1.xdb:  <MaxMapSize>20</MaxMapSize>
 
-
-S1P2Z3K5.1.xdb:      <Size>10</Size>
-S1P2Z3K5.1.xdb:      <Size>10</Size>
-S1P2Z3K5.1.xdb:      <Size>10</Size>
-S1P2Z3K5.1.xdb:      <Size>10</Size>
-S1P2Z3K5.1.xdb:      <Size>10</Size>
-S1P2Z3K5.1.xdb:      <Size>20</Size>
 S1P2Z3K5.1.xdb:  <MinMapSize>45</MinMapSize>
 S1P2Z3K5.1.xdb:  <MaxMapSize>50</MaxMapSize>
 ```
@@ -164,6 +120,18 @@ $ fgrep Name S* | grep -v FileRef | awk '{print $2}' | sort -u
 
 <BuffPoints>([0-9]+)</BuffPoints>
          0 -          0
+
+<GuardStrenght>([0-9]+)</GuardStrenght>
+         1 -         14
+
+<MinMapSize>([0-9]+)</MinMapSize>
+         5 -         90
+
+<MaxMapSize>([0-9]+)</MaxMapSize>
+         5 -        100
+
+<Size>([0-9]+)</Size>
+        10 -         20
 ```
 
 
@@ -180,6 +148,7 @@ parser.add_argument('files', nargs='+')
 args = parser.parse_args()
 
 patterns = [
+      r"""<Size>([0-9]+)</Size>""",
       r"""<UpgBuildingsDensity>([0-9]+)</UpgBuildingsDensity>""",
       r"""<TreasureDensity>([0-9]+)</TreasureDensity>""",
       r"""<TreasureChestDensity>([0-9]+)</TreasureChestDensity>""",
@@ -194,6 +163,9 @@ patterns = [
       r"""<DenOfThieves>([0-9]+)</DenOfThieves>""",
       r"""<RedwoodObservatoryDensity>([0-9]+)</RedwoodObservatoryDensity>""",
       r"""<BuffPoints>([0-9]+)</BuffPoints>""",
+      r"""<GuardStrenght>([0-9]+)</GuardStrenght>""",
+      r"""<MinMapSize>([0-9]+)</MinMapSize>""",
+      r"""<MaxMapSize>([0-9]+)</MaxMapSize>""",
 ]
 
 res = {p : [] for p in patterns}
@@ -206,12 +178,12 @@ for path in args.files:
                 match = re.findall(p, l)
                 if match:
                     assert len(match) == 1
-                    res[p].append(int(match[0]))
+                    value = int(match[0])
+                    res[p].append(value)
 
 for pattern in res.keys():
     print(pattern)
     small =  min(res[pattern])
     big =  max(res[pattern])
     print("{:10} - {:10}\n".format(small, big))
-
 ```
