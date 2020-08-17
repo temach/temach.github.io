@@ -21,6 +21,20 @@ C:\GOG Games\Heroes of Might and Magic V - Tribes of the East\data\RMG\Templates
 
 
 ## Параметры для генератора
+
+Возможные расы/почва для зон:
+```
+$ fgrep RACE_ * | grep -v RANDOM | awk '{print $2}' | sort -u
+<Setting>RACE_ACADEMY</Setting>
+<Setting>RACE_DUNGEON</Setting>
+<Setting>RACE_DWARF</Setting>
+<Setting>RACE_HEAVEN</Setting>
+<Setting>RACE_INFERNO</Setting>
+<Setting>RACE_NECROMANCY</Setting>
+<Setting>RACE_PRESERVE</Setting>
+<Setting>RACE_STRONGHOLD</Setting>
+```
+
 Возможные значения для размеров карт:
 
 ```
