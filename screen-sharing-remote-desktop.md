@@ -13,7 +13,7 @@ Instructions for Mac: https://blog.scottlowe.org/2021/04/01/using-wireguard-on-m
 
 Manual steps summary: https://www.systems.dance/2021/01/apache-guacamole-and-docker-compose/
 
-Automated steps: https://pypi.org/project/guacamole-compose/
+Automated steps: https://github.com/boschkundendienst/guacamole-docker-compose/blob/master/docker-compose.yml
 
 Useful links:
 - https://bbs.archlinux.org/viewtopic.php?id=243806
