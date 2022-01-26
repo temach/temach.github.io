@@ -14,7 +14,7 @@ Instructions for Mac: https://blog.scottlowe.org/2021/04/01/using-wireguard-on-m
 Install:
 https://wiki.archlinux.org/title/TigerVNC#Installation
 
-Add user (:
+Add user (mandatory):
 ```
 $ cat /etc/tigervnc/vncserver.users
 # TigerVNC User assignment
@@ -24,7 +24,7 @@ $ cat /etc/tigervnc/vncserver.users
 #
 # :2=andrew
 # :3=lisa
-:0=artem
+:1=artem
 ```
 
 Configure and disable security: https://bbs.archlinux.org/viewtopic.php?id=243806
@@ -32,18 +32,15 @@ Configure and disable security: https://bbs.archlinux.org/viewtopic.php?id=24380
 $ cat ~/.vnc/config
 session=fluxbox
 geometry=1920x1080
-localhost
 alwaysshared
 SecurityTypes=None
 ```
 
-Run:
+Run (can not run on the same display that is occupied by $DISPLAY):
 ```
-echo $DISPLAY
-systemctl start vncserver@:0.service
-sudo journalctl -xeu vncserver@:0.service
+systemctl start vncserver@:1.service
+sudo journalctl -xeu vncserver@:1.service
 ```
-
 
 #### Guacamole (a pain to setup the first time)
 
@@ -51,8 +48,11 @@ Manual steps summary: https://www.systems.dance/2021/01/apache-guacamole-and-doc
 
 Automated steps: https://github.com/boschkundendienst/guacamole-docker-compose/blob/master/docker-compose.yml
 
+#### Connect remote users
+
+Connect from remote: https://ip-of-wireguard-machine:8443/
+
 Useful links:
-- https://bbs.archlinux.org/viewtopic.php?id=243806
 - https://www.reddit.com/r/archlinux/comments/jzdskx/guacamole/
 - https://hub.docker.com/r/guacamole/guacamole
 
