@@ -1,12 +1,48 @@
-#Multiple solutions
+# Multiple solutions
+
+noVNC vs Guacamole: https://news.ycombinator.com/item?id=8168264
 
 ## P2P solution (no hosting needed)
-wireguard tunnel + local X server + apache guacamole (web access to your X server)
+wireguard tunnel + local X server + VNC server + apache guacamole (web access to VNC) 
 
 #### Wireguard
 Simple for linux + linux: https://www.wireguard.com/quickstart/
 
 Instructions for Mac: https://blog.scottlowe.org/2021/04/01/using-wireguard-on-macos/
+
+#### TigerVNC
+Install:
+https://wiki.archlinux.org/title/TigerVNC#Installation
+
+Add user (:
+```
+$ cat /etc/tigervnc/vncserver.users
+# TigerVNC User assignment
+#
+# This file assigns users to specific VNC display numbers.
+# The syntax is <display>=<username>. E.g.:
+#
+# :2=andrew
+# :3=lisa
+:0=artem
+```
+
+Configure and disable security: https://bbs.archlinux.org/viewtopic.php?id=243806
+```
+$ cat ~/.vnc/config
+session=fluxbox
+geometry=1920x1080
+localhost
+alwaysshared
+SecurityTypes=None
+```
+
+Run:
+```
+echo $DISPLAY
+systemctl start vncserver@:0.service
+sudo journalctl -xeu vncserver@:0.service
+```
 
 
 #### Guacamole (a pain to setup the first time)
