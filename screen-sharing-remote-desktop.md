@@ -72,3 +72,4 @@ Different x server stub implementations:
 - ThinLinc server and client: https://www.cendio.com/thinlinc/download (also: https://www.reddit.com/r/linux_gaming/comments/qkiwza/headless_remote_gaming_machine_tutorial/)
 - Windows only? https://store.steampowered.com/remoteplay
 - Not sure what is this: https://gaminganywhere.org/perf.html
+- Not sure is this is paid? https://www.realvnc.com/en/connect/download/vnc/
