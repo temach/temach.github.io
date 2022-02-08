@@ -64,3 +64,11 @@ Different x server stub implementations:
 - https://unix.stackexchange.com/questions/129432/vnc-server-without-x-window-system
 - https://www.reddit.com/r/linuxquestions/comments/5s645w/need_to_install_x_and_vnc_on_a_headless_linux/
 
+
+
+## RDV / VNC alternatives
+
+- NoMachine based on NX protocol: https://www.nomachine.com/download/download&id=1 (also: https://en.wikipedia.org/wiki/NX_technology)
+- ThinLinc server and client: https://www.cendio.com/thinlinc/download (also: https://www.reddit.com/r/linux_gaming/comments/qkiwza/headless_remote_gaming_machine_tutorial/)
+- Windows only? https://store.steampowered.com/remoteplay
+- Not sure what is this: https://gaminganywhere.org/perf.html
